@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fórmula da Confiança | Workshop com Vitor Santos | Metaforando</title>
+  <meta name="description" content="Workshop ao vivo de 2 dias com Vitor Santos. Domine as 3 Armas da Comunicação de Alto Impacto: Leitura Comportamental, Persuasão Ética e Controle Emocional.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Fórmula da Confiança | Workshop com Vitor Santos">
+  <meta property="og:description" content="Um perito forense descobriu por que você trava sob pressão. E criou um método de 2 dias para isso nunca mais acontecer.">
+  <meta property="og:image" content="../shared/images/og-image.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fca1.metaforando.com.br">
+  <link rel="canonical" href="https://fca1.metaforando.com.br">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="../shared/images/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../shared/images/favicon.png">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Hero image preload -->
+  <link rel="preload" as="image" href="assets/hero-expert.webp" type="image/webp">
+
+  <!-- Google Fonts (non-blocking) -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@400;500;600;700&display=swap"></noscript>
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       RESET & VARIABLES
+       ═══════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #0D0D09;
+      --bg-secondary: #2E2A1B;
+      --bg-card: #1C1A17;
+      --cta: #2DB547;
+      --cta-hover: #33C950;
+      --cta-active: #28A340;
+      --text-primary: #E3DDCA;
+      --text-secondary: #A39E8F;
+      --highlight: #B3A430;
+      --urgency: #FF5500;
+      --border: #2A2724;
+
+      --font-heading: 'IM Fell English', serif;
+      --font-body: 'Inter', sans-serif;
+
+      --section-padding: clamp(3rem, 8vw, 6rem);
+      --content-padding: clamp(1.25rem, 4vw, 2rem);
+      --max-width: 1120px;
+      --max-text: 680px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      background-color: var(--bg-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ═══════════════════════════════════════════════════════════
+       BACKGROUND TEXTURE
+       ═══════════════════════════════════════════════════════════ */
+    .texture-grid { position: relative; }
+    .texture-grid::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(179,164,48,0.03) 79px, rgba(179,164,48,0.03) 80px),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(179,164,48,0.03) 79px, rgba(179,164,48,0.03) 80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .texture-grid > * { position: relative; z-index: 1; }
+
+    /* ═══════════════════════════════════════════════════════════
+       LAYOUT
+       ═══════════════════════════════════════════════════════════ */
+    .section { padding: var(--section-padding) var(--content-padding); }
+    .container { max-width: var(--max-width); margin: 0 auto; }
+    .text-block { max-width: var(--max-text); }
+
+    /* ═══════════════════════════════════════════════════════════
+       TYPOGRAPHY
+       ═══════════════════════════════════════════════════════════ */
+    h1 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: clamp(1.625rem, 3.5vw, 2.625rem);
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+    }
+    h3 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(1.25rem, 2vw, 1.75rem);
+      line-height: 1.3;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+    p { margin-bottom: 1.25rem; max-width: var(--max-text); }
+    .highlight { color: var(--highlight); }
+    .bold { font-weight: 700; }
+    .muted { color: var(--text-secondary); }
+    .italic { font-style: italic; }
+
+    /* ═══════════════════════════════════════════════════════════
+       CTA BUTTON
+       ═══════════════════════════════════════════════════════════ */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--cta);
+      color: #fff;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      padding: 1.125rem 2.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 48px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(45, 181, 71, 0.25);
+      width: 100%;
+      max-width: 480px;
+    }
+    .cta-button:hover {
+      background-color: var(--cta-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(45, 181, 71, 0.4);
+    }
+    .cta-button:active {
+      background-color: var(--cta-active);
+      transform: translateY(0);
+    }
+    .cta-micro {
+      display: block;
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      margin-top: 0.625rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TOP NAV BAR (slim info bar - logo + date)
+       ═══════════════════════════════════════════════════════════ */
+    .top-nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem var(--content-padding);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(13,13,9,0.7) 0%, transparent 100%);
+    }
+    .top-nav__logo img { height: 48px; width: auto; }
+    .top-nav__info {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .top-nav__date {
+      color: var(--highlight);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SCARCITY BAR
+       ═══════════════════════════════════════════════════════════ */
+    .scarcity-bar { width: 100%; max-width: 480px; margin: 1rem 0; }
+    .scarcity-bar__track {
+      width: 100%;
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+    .scarcity-bar__fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--highlight), #D4C444);
+      border-radius: 4px;
+      transition: width 0.6s ease;
+      width: 20%;
+    }
+    .scarcity-bar__text { font-size: 0.8125rem; color: var(--text-secondary); }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 1: HERO
+       ═══════════════════════════════════════════════════════════ */
+    .hero {
+      background: var(--bg-primary);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: -10%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(ellipse, rgba(179,164,48,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Image */
+    .hero__image-wrap {
+      width: 100%;
+      max-height: 55vh;
+      overflow: hidden;
+      position: relative;
+      order: 1;
+    }
+    .hero__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .hero__image-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(to top, var(--bg-primary), transparent);
+      pointer-events: none;
+    }
+
+    /* Content */
+    .hero__content {
+      padding: 1.5rem var(--content-padding) 2.5rem;
+      order: 2;
+    }
+    .hero__lastro {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+      max-width: var(--max-text);
+    }
+    @media (max-width: 639px) {
+      .hero__lastro { font-size: 0.8125rem; }
+    }
+    .hero__quote {
+      font-style: italic;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-top: 1.5rem;
+      padding-left: 1rem;
+      border-left: 2px solid var(--border);
+      line-height: 1.6;
+      max-width: var(--max-text);
+    }
+
+    /* Mobile: CTA button text in one line */
+    @media (max-width: 639px) {
+      .cta-button {
+        font-size: 0.9375rem;
+        padding: 1rem 1.25rem;
+        white-space: nowrap;
+      }
+    }
+
+    /* Desktop: two columns */
+    @media (min-width: 1024px) {
+      .hero { min-height: 100vh; }
+      .hero__grid {
+        grid-template-columns: 1fr 0.85fr;
+        gap: 3rem;
+        align-items: center;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 6rem var(--content-padding) 4rem;
+      }
+      .hero__content { order: 1; padding: 0; }
+      .hero__image-wrap {
+        order: 2;
+        max-height: none;
+        border-radius: 16px;
+        aspect-ratio: 3/4;
+      }
+      .hero__image-wrap::after { display: none; }
+      .hero__image { aspect-ratio: 3/4; }
+      .cta-button { width: auto; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TICKER / MARQUEE (between hero and section 2)
+       ═══════════════════════════════════════════════════════════ */
+    .ticker {
+      background: #1A1710;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 0.875rem 0;
+    }
+    .ticker__inner {
+      display: inline-flex;
+      animation: ticker-scroll 20s linear infinite;
+    }
+    .ticker__item {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      padding: 0 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .ticker__item::after {
+      content: '•';
+      color: var(--highlight);
+    }
+    @keyframes ticker-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 2: CAMINHO
+       ═══════════════════════════════════════════════════════════ */
+    .bar-chart { margin: 2rem 0; max-width: 560px; }
+    .bar-chart__item { margin-bottom: 1rem; }
+    .bar-chart__label { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.375rem; }
+    .bar-chart__track {
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+    .bar-chart__track--high { background: var(--highlight); color: var(--bg-primary); width: 93%; }
+    .bar-chart__track--low { background: var(--text-secondary); color: var(--bg-primary); width: 53%; }
+    .bar-chart__gap { text-align: center; font-size: 0.875rem; color: var(--highlight); font-weight: 700; margin-top: 0.5rem; }
+    .bar-chart__source { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem; }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 3: IDENTIFICAÇÃO
+       ═══════════════════════════════════════════════════════════ */
+    .spotlight { position: relative; }
+    .spotlight::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 50%;
+      background: radial-gradient(ellipse at center top, rgba(179,164,48,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .spotlight > * { position: relative; z-index: 1; }
+    .punch-line {
+      font-weight: 700;
+      font-size: clamp(1.0625rem, 2vw, 1.25rem);
+      line-height: 1.6;
+      margin-top: 0.5rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 4: CONTEÚDO — Cards
+       ═══════════════════════════════════════════════════════════ */
+    .cards-scroll {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 1rem;
+      scrollbar-width: none;
+    }
+    .cards-scroll::-webkit-scrollbar { display: none; }
+    .card {
+      flex: 0 0 85%;
+      scroll-snap-align: start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+    }
+    .card__subtitle { color: var(--highlight); font-size: 0.9375rem; font-weight: 500; margin-bottom: 0.75rem; line-height: 1.5; }
+    .card p { color: var(--text-secondary); font-size: 0.9375rem; }
+
+    @media (min-width: 1024px) {
+      .cards-scroll { overflow-x: visible; display: grid; grid-template-columns: repeat(3, 1fr); }
+      .card { flex: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 5: CRONOGRAMA (simplified, no circles)
+       ═══════════════════════════════════════════════════════════ */
+    .schedule-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .schedule-item:last-of-type { border-bottom: none; }
+    .schedule__title {
+      font-weight: 700;
+      color: var(--highlight);
+      font-size: 1.0625rem;
+      margin-bottom: 0.5rem;
+    }
+    .schedule__desc {
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      max-width: var(--max-text);
+    }
+    .schedule__note {
+      margin-top: 2rem;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 6: CASES — WhatsApp grid (not polaroid)
+       ═══════════════════════════════════════════════════════════ */
+    /* Mobile: horizontal scroll */
+    .testimonials-grid {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 1rem;
+      scrollbar-width: none;
+      margin-top: 2rem;
+    }
+    .testimonials-grid::-webkit-scrollbar { display: none; }
+    .testimonial-card {
+      flex: 0 0 75%;
+      scroll-snap-align: start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .testimonial-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Desktop: grid 2x2, smaller */
+    @media (min-width: 640px) {
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+        overflow: visible;
+        max-width: 700px;
+        margin: 2rem auto 0;
+      }
+      .testimonial-card { flex: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 7a: PROPOSTA DE VALOR
+       ═══════════════════════════════════════════════════════════ */
+    .outcomes { list-style: none; margin: 1.5rem 0; }
+    .outcomes li {
+      display: flex;
+      gap: 0.875rem;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .outcomes li::before {
+      content: '✓';
+      color: var(--highlight);
+      font-weight: 700;
+      font-size: 1.125rem;
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 7b: PREÇO — Card
+       ═══════════════════════════════════════════════════════════ */
+    .price-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: clamp(2rem, 5vw, 3rem);
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .anchor-list { list-style: none; text-align: left; margin-bottom: 1.5rem; }
+    .anchor-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+    }
+    .anchor-list li span { text-decoration: line-through; }
+    .anchor-total {
+      text-align: right;
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      text-decoration: line-through;
+      margin: 0.75rem 0 1.5rem;
+    }
+    .price-divider { width: 60px; height: 2px; background: var(--border); margin: 1.5rem auto; }
+    .price-big {
+      font-family: var(--font-heading);
+      font-size: clamp(3.5rem, 8vw, 5rem);
+      color: var(--highlight);
+      line-height: 1;
+      margin: 0.5rem 0;
+    }
+    .price-label { font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
+    .price-urgency { font-size: 0.875rem; color: var(--urgency); font-weight: 600; margin: 1rem 0; }
+    .price-card .cta-button {
+      margin: 1.5rem auto 0;
+      font-size: clamp(1.0625rem, 2.5vw, 1.25rem);
+      padding: 1.25rem 2.5rem;
+    }
+    .price-card .scarcity-bar { margin: 1.5rem auto; }
+    .price-quote { font-style: italic; font-size: 0.875rem; color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; }
+
+    @media (min-width: 1024px) {
+      .price-card { padding: 3rem 4rem; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 9: BIO
+       ═══════════════════════════════════════════════════════════ */
+    .bio-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start; }
+    .bio-image {
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+      border-radius: 12px;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+    }
+    .bio__subtitle { color: var(--text-secondary); font-size: 1rem; margin-bottom: 1.25rem; }
+    .credentials { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .credential {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.375rem 0.875rem;
+      border-radius: 100px;
+    }
+
+    @media (min-width: 1024px) {
+      .bio-grid { grid-template-columns: 0.8fr 1fr; }
+      .bio-image { max-width: 100%; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 10: GARANTIA
+       ═══════════════════════════════════════════════════════════ */
+    .guarantee-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--highlight);
+      border-radius: 0 12px 12px 0;
+      padding: clamp(2rem, 5vw, 3rem);
+      max-width: 720px;
+    }
+    .guarantee-icon { width: 48px; height: 48px; margin-bottom: 1.25rem; }
+    .guarantee-quote {
+      font-style: italic;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 12: FAQ
+       ═══════════════════════════════════════════════════════════ */
+    .faq-list { max-width: 760px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-primary);
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-body);
+      gap: 1rem;
+      min-height: 48px;
+    }
+    .faq-question:hover { color: var(--highlight); }
+    .faq-arrow {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-answer__inner {
+      padding: 0 0 1.25rem;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FINAL CTA
+       ═══════════════════════════════════════════════════════════ */
+    .final-cta { text-align: center; padding: var(--section-padding) var(--content-padding); }
+    .final-cta h2 { margin-bottom: 2rem; }
+    .final-cta .cta-button { margin: 0 auto; }
+
+    /* ═══════════════════════════════════════════════════════════
+       STICKY CTA
+       ═══════════════════════════════════════════════════════════ */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(13,13,9,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      padding: 0.75rem var(--content-padding);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    .sticky-cta.visible { transform: translateY(0); }
+    .sticky-cta__text { font-size: 0.8125rem; color: var(--text-secondary); display: none; }
+    .sticky-cta .cta-button {
+      font-size: 0.9375rem;
+      padding: 0.875rem 1.5rem;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 2px 16px rgba(45, 181, 71, 0.3);
+    }
+
+    @media (min-width: 640px) {
+      .sticky-cta__text { display: block; }
+      .sticky-cta .cta-button { width: auto; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       POPUP / MODAL
+       ═══════════════════════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--highlight);
+      border-radius: 16px;
+      max-width: 480px;
+      width: 100%;
+      padding: clamp(2rem, 5vw, 2.5rem);
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    .modal-overlay.open .modal {
+      transform: translateY(0);
+    }
+    .modal__close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--border);
+      border: none;
+      color: var(--text-primary);
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      font-size: 1.125rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal__close:hover { background: var(--text-secondary); }
+    .modal__logo {
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+    .modal__logo img { height: auto; width: 220px; max-width: 80%; margin: 0 auto; }
+    .modal__title {
+      text-align: center;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .modal__form { display: flex; flex-direction: column; gap: 1rem; }
+    .modal__input {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .modal__input::placeholder { color: var(--text-secondary); }
+    .modal__input:focus { border-color: var(--highlight); }
+    .modal__form .cta-button {
+      width: 100%;
+      max-width: none;
+      margin-top: 0.5rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════ */
+    .footer {
+      text-align: center;
+      padding: 2rem var(--content-padding);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border);
+    }
+    .footer img { height: 20px; margin: 0 auto 0.5rem; }
+
+    /* ═══════════════════════════════════════════════════════════
+       UTILITY
+       ═══════════════════════════════════════════════════════════ */
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .mt-2 { margin-top: 2rem; }
+    .mb-1 { margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 1: HERO
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="hero texture-grid" id="hero">
+
+    <!-- Top nav: logo left + event info right -->
+    <nav class="top-nav">
+      <div class="top-nav__logo">
+        <img src="../shared/images/logo-afc.png" alt="A Fórmula da Confiança" width="200" height="40">
+      </div>
+      <div class="top-nav__info">
+        <span class="top-nav__date">25-26 de abril</span> | 10h às 18h
+      </div>
+    </nav>
+
+    <div class="hero__grid">
+      <!-- Content -->
+      <div class="hero__content">
+        <h1>Um perito forense descobriu por que você <span class="highlight">trava sob pressão.</span> E criou um método de 2 dias para isso nunca mais acontecer.</h1>
+
+        <p class="hero__lastro">Vitor Santos, certificado em FACS por Paul Ekman, treinado em interrogatórios reais, 37 mil alunos formados, revela as <span class="bold">3 Armas da Comunicação de Alto Impacto.</span></p>
+
+        <a href="#preco" class="cta-button cta-scroll">
+          <span data-config="cta.texto">Quero parar de travar — R$19</span>
+        </a>
+
+        <div class="scarcity-bar">
+          <div class="scarcity-bar__track">
+            <div class="scarcity-bar__fill" data-config="barra_vendas.percentual" data-type="progress"></div>
+          </div>
+          <span class="scarcity-bar__text" data-config="barra_vendas.texto">20% das vagas preenchidas</span>
+        </div>
+
+        <p class="hero__quote">"Perdi inúmeras oportunidades por causa do medo, ansiedade e insegurança ao lidar com pessoas." Se você se identificou com o Thiago, essa é a sua chance de mudar isso.</p>
+      </div>
+
+      <!-- Photo -->
+      <div class="hero__image-wrap">
+        <img class="hero__image" src="assets/hero-expert.webp" alt="Vitor Santos, Perito Forense e Analista Comportamental" width="600" height="750" loading="eager">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TICKER — Transition bar between hero and section 2
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="ticker">
+    <div class="ticker__inner">
+      <span class="ticker__item">Para profissionais que dominam o assunto, mas travam quando chega a hora de falar</span>
+      <span class="ticker__item">+37 mil alunos formados</span>
+      <span class="ticker__item">Ao vivo no Zoom, 25 e 26 de abril</span>
+      <span class="ticker__item">Certificação FACS por Paul Ekman</span>
+      <span class="ticker__item">Para profissionais que dominam o assunto, mas travam quando chega a hora de falar</span>
+      <span class="ticker__item">+37 mil alunos formados</span>
+      <span class="ticker__item">Ao vivo no Zoom, 25 e 26 de abril</span>
+      <span class="ticker__item">Certificação FACS por Paul Ekman</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 2: CAMINHO
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" style="background: var(--bg-secondary);" id="caminho">
+    <div class="container">
+      <h2>O problema não é você. É que ninguém te mostrou <span class="highlight">ONDE</span> a sua comunicação falha.</h2>
+
+      <div class="text-block">
+        <p>Uma pesquisa da Amcham Brasil com executivos C-Level revelou: <span class="highlight bold">93%</span> consideram comunicação a habilidade mais importante para liderar, mas apenas <span class="highlight bold">53%</span> acham que comunicam bem. Esse <span class="highlight bold">gap de 40 pontos</span> é o que separa profissionais competentes de profissionais percebidos como competentes.</p>
+
+        <div class="bar-chart">
+          <div class="bar-chart__item">
+            <div class="bar-chart__label">Consideram comunicação a habilidade #1</div>
+            <div class="bar-chart__track bar-chart__track--high">93%</div>
+          </div>
+          <div class="bar-chart__item">
+            <div class="bar-chart__label">Acham que comunicam bem</div>
+            <div class="bar-chart__track bar-chart__track--low">53%</div>
+          </div>
+          <div class="bar-chart__gap">↕ Gap de 40 pontos percentuais</div>
+          <div class="bar-chart__source">Fonte: Amcham Brasil</div>
+        </div>
+
+        <p>Dos 9.124 profissionais que responderam à nossa pesquisa, 1.617 (17,7%) descreveram exatamente o mesmo padrão: sabem o assunto, dominam a técnica, mas na hora que importa (reunião, negociação, apresentação) a mente vai a branco. Não é falta de conhecimento. É uma <span class="highlight">falha de protocolo</span> na entrega sob pressão.</p>
+
+        <p>Mas existe um momento específico que mudou tudo pra mim. Aconteceu ao vivo, na TV Record, com milhões de pessoas assistindo. E foi exatamente ali que eu entendi a diferença entre quem sabe se comunicar... e quem sabe se comunicar <span class="bold">sob pressão.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 3: IDENTIFICAÇÃO
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section spotlight texture-grid" style="background: var(--bg-primary);" id="identificacao">
+    <div class="container">
+      <div class="text-block">
+        <h2>Aconteceu ao vivo. TV Record. Milhões assistindo.</h2>
+
+        <p>Me chamaram pra analisar linguagem corporal em um caso criminal. Câmeras ligadas, holofotes, apresentador esperando minha resposta. E eu sabia que uma palavra errada não significava "ficar com vergonha", significava prejudicar uma investigação real.</p>
+
+        <p>Naquele momento eu não usei oratória. Não usei técnica de palco. Usei exatamente o que vou te ensinar neste workshop: leitura comportamental para entender o que está acontecendo, controle emocional para não travar, e persuasão ética para levar meu ponto adiante. As <span class="highlight">3 Armas da Comunicação de Alto Impacto.</span></p>
+
+        <p class="punch-line">E se funciona com milhões de pessoas assistindo e uma investigação criminal em jogo... imagina o que faz numa reunião de quinta-feira.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 4: CONTEÚDO DO EVENTO
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" style="background: var(--bg-secondary);" id="conteudo">
+    <div class="container">
+      <h2 class="text-center">As <span class="highlight">3 Armas</span> da Comunicação de Alto Impacto</h2>
+      <p class="text-center muted mx-auto mb-1">O que você vai dominar em 2 dias:</p>
+
+      <div class="cards-scroll">
+        <div class="card">
+          <h3>ARMA 1: Leitura Comportamental</h3>
+          <p class="card__subtitle">Saiba o que o outro pensa antes de ele abrir a boca.</p>
+          <p>Implemente o protocolo que peritos forenses usam para ler microexpressões, postura e tom de voz, e aplique em reuniões, negociações e conversas de alto impacto.</p>
+        </div>
+
+        <div class="card">
+          <h3>ARMA 2: Persuasão Ética</h3>
+          <p class="card__subtitle">Fale de forma que as pessoas escutem, confiem e ajam.</p>
+          <p>Construa argumentos que convencem sem manipular, usando estrutura forense de apresentação de evidências adaptada para contextos profissionais.</p>
+        </div>
+
+        <div class="card">
+          <h3>ARMA 3: Controle Emocional</h3>
+          <p class="card__subtitle">Elimine a trava, o nervosismo e a mente em branco sob pressão.</p>
+          <p>Domine o sistema que reprograma sua resposta física ao estresse comunicacional, para manter calma, clareza e convicção mesmo com interlocutor hostil.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 5: CRONOGRAMA (simplified)
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section texture-grid" style="background: var(--bg-primary);" id="cronograma">
+    <div class="container">
+      <h2>Em 2 dias, você sai com as 3 Armas montadas. <span class="highlight">Esse é o plano.</span></h2>
+
+      <div class="text-block">
+        <div class="schedule-item">
+          <div class="schedule__title">Dia 1 — Sexta, 25 de abril (10h–18h)</div>
+          <p class="schedule__desc">Você vai aprender a LER o que a outra pessoa está sentindo antes dela abrir a boca. E vai treinar o controle emocional que impede seu corpo de travar quando a pressão sobe. No final do Dia 1, você já vai entender por que travava, e isso, por si só, já muda tudo.</p>
+        </div>
+        <div class="schedule-item">
+          <div class="schedule__title">Dia 2 — Sábado, 26 de abril (10h–18h)</div>
+          <p class="schedule__desc">Você vai montar seu arsenal de persuasão ética: como levar seu ponto adiante sem precisar levantar a voz, sem engolir sapo, sem sair da conversa pensando "eu deveria ter dito aquilo". No final do Dia 2, você sai com um plano prático. Não teoria. Prática aplicável na segunda-feira.</p>
+        </div>
+        <p class="schedule__note">Ao vivo pelo Zoom. Gravação disponível para quem garantir o acesso.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 6: CASES DE IMAGEM (WhatsApp grid)
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" style="background: var(--bg-secondary);" id="cases">
+    <div class="container">
+      <h2 class="text-center"><span class="highlight">37 mil</span> pessoas já aplicaram isso. Veja o que aconteceu com elas.</h2>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <img src="assets/depoimento-nayara.webp" alt="Depoimento Nayara" width="400" height="710" loading="lazy">
+        </div>
+        <div class="testimonial-card">
+          <img src="assets/depoimento-allan.webp" alt="Depoimento Allan" width="400" height="710" loading="lazy">
+        </div>
+        <div class="testimonial-card">
+          <img src="assets/depoimento-andreia.webp" alt="Depoimento Andreia Ribas" width="400" height="710" loading="lazy">
+        </div>
+        <div class="testimonial-card">
+          <img src="assets/depoimento-paulo.webp" alt="Depoimento Paulo" width="400" height="710" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 7a: PREÇO — PROPOSTA DE VALOR
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" style="background: var(--bg-primary);" id="valor">
+    <div class="container">
+      <div class="text-block">
+        <h2>Quanto custa <span class="highlight">parar de travar?</span></h2>
+
+        <p>O problema nunca foi falta de informação. O problema é que ninguém te ensinou as 3 coisas que um perito forense usa pra funcionar sob pressão: ler o outro, controlar a si mesmo e persuadir sem manipular.</p>
+
+        <p>É exatamente isso que você leva em 2 dias. Por <span class="highlight bold">R$19.</span></p>
+
+        <p class="bold">Quando você entrar no workshop, você vai sair com:</p>
+
+        <ul class="outcomes">
+          <li>A habilidade de ler sinais comportamentais ANTES da outra pessoa terminar de falar (e saber exatamente como reagir)</li>
+          <li>Um sistema de controle emocional pra quando sentir "aquele aperto no peito" e a respiração começar a falhar, em vez de travar, você vai saber o que fazer nos próximos 3 segundos</li>
+          <li>Técnicas de persuasão ética pra levar seus argumentos adiante sem levantar a voz, sem engolir sapo, sem sair arrependido</li>
+          <li>Prática ao vivo durante 2 dias inteiros com Vitor Santos corrigindo em tempo real. Não é gravação, não é PDF, é treino</li>
+          <li>Acesso à comunidade de +37 mil alunos que já passaram pelo método</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 7b: PREÇO — ANCORAGEM + CTA
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" style="background: var(--bg-primary);" id="preco">
+    <div class="container">
+      <div class="price-card">
+        <p class="muted" style="margin-bottom:1.5rem;">Para ter acesso ao mesmo tipo de conteúdo, precisaria investir separadamente em:</p>
+
+        <ul class="anchor-list">
+          <li>Curso de oratória presencial <span>R$ 800</span></li>
+          <li>Coach de comunicação (3 sessões) <span>R$ 1.500</span></li>
+          <li>Treinamento de leitura corporal <span>R$ 497</span></li>
+          <li>Workshop de controle emocional <span>R$ 350</span></li>
+        </ul>
+        <p class="anchor-total">Total separado: R$ 3.147</p>
+
+        <div class="price-divider"></div>
+
+        <p class="price-label"><span data-config="lote.nome">Lote 0</span></p>
+        <div class="price-big" data-config="lote.preco">R$ 19</div>
+        <p class="muted" style="font-size:1rem;">Dezenove reais. Menos que um almoço. Pra resolver algo que te custa oportunidades há anos.</p>
+
+        <p class="price-urgency"><span data-config="lote.nome">Lote 0</span> encerra quando as vagas acabarem. Depois disso, o preço sobe e não volta.</p>
+
+        <a href="#" class="cta-button cta-modal" onclick="event.preventDefault();">
+          <span data-config="cta.texto">Quero parar de travar — R$19</span>
+        </a>
+
+        <div class="scarcity-bar" style="margin: 1.5rem auto;">
+          <div class="scarcity-bar__track">
+            <div class="scarcity-bar__fill" data-config="barra_vendas.percentual" data-type="progress"></div>
+          </div>
+          <span class="scarcity-bar__text" data-config="barra_vendas.texto">20% das vagas preenchidas</span>
+        </div>
+
+        <p class="price-quote">"Eu sempre achei que confiança era algo que você nascia tendo ou não. Depois do método do Vitor, descobri que é uma habilidade. E habilidade se treina." — Juliana</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 9: SOBRE O ESPECIALISTA
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" style="background: var(--bg-secondary);" id="sobre">
+    <div class="container">
+      <div class="bio-grid">
+        <div>
+          <img class="bio-image" src="assets/bio-vitor.webp" alt="Vitor Santos, Criador do Metaforando" width="480" height="640" loading="lazy">
+        </div>
+        <div>
+          <h2>Vitor Santos</h2>
+          <p class="bio__subtitle">Perito forense. Analista comportamental. Criador do Metaforando.</p>
+
+          <p>Vitor Santos é perito em análise comportamental forense, com certificação FACS (Facial Action Coding System) por Paul Ekman, o maior especialista do mundo em microexpressões e a inspiração por trás da série Lie to Me. Atuou em perícia forense digital, investigação interrogatória e consultorias com Forças Armadas. Campeão brasileiro de esgrima medieval.</p>
+
+          <p>Em 2016, criou o Metaforando, hoje o maior canal de análise comportamental do Brasil, com 5,69 milhões de inscritos no YouTube e 1,35 milhão no Instagram. Mais de 37 mil alunos já passaram pelos seus treinamentos.</p>
+
+          <p>Hoje, além do Metaforando, Vitor conduz a Mentoria Conviction, um programa individualizado de <span class="highlight bold">R$18.000</span> com diagnóstico FACS personalizado. O workshop Fórmula da Confiança é a porta de entrada para o mesmo método.</p>
+
+          <div class="credentials">
+            <span class="credential">FACS Paul Ekman</span>
+            <span class="credential">Perícia Forense Judicial</span>
+            <span class="credential">Forças Armadas</span>
+            <span class="credential">5,69M YouTube</span>
+            <span class="credential">37k+ alunos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 10: GARANTIA
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" style="background: var(--bg-primary);" id="garantia">
+    <div class="container">
+      <div class="guarantee-card">
+        <svg class="guarantee-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 4L6 12v12c0 11.1 7.8 21.5 18 24 10.2-2.5 18-12.9 18-24V12L24 4z" stroke="#B3A430" stroke-width="2.5" fill="none"/>
+          <path d="M16 24l6 6 10-12" stroke="#B3A430" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+
+        <h2>Você não precisa decidir agora. Só precisa estar lá.</h2>
+
+        <p>Eu sei que você já investiu em coisas que prometiam resolver esse problema e não resolveram. Eu sei que existe um ceticismo justo. Por isso, eu quero tirar de você qualquer risco.</p>
+
+        <p>Entre no workshop. Assista ao Dia 1 inteiro. Se até o final do primeiro dia você sentir que não aprendeu nada que possa usar na sua próxima reunião, conversa difícil ou negociação, me manda uma mensagem e eu devolvo cada centavo. Sem perguntas. Sem formulários. Sem constrangimento.</p>
+
+        <p class="bold">Você não perde os R$19. Você perde se NÃO estiver lá.</p>
+
+        <a href="#preco" class="cta-button cta-scroll" style="margin-top:1.5rem;">Quero entrar sem risco — R$19</a>
+
+        <p class="guarantee-quote">"O valor que ele gerou na minha vida, eu pagaria até o dobro do preço desse curso, tanta diferença que fez." — Aluno da turma anterior</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 12: FAQ
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" style="background: var(--bg-secondary);" id="faq">
+    <div class="container">
+      <h2 class="text-center">Perguntas frequentes</h2>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">O evento será ao vivo ou gravado?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer__inner">Ao vivo, nos dias 25 e 26 de abril, via Zoom. Você participa em tempo real, faz perguntas e pratica junto com o Vitor e os outros participantes.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Vai ter gravação/replay?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer__inner">A gravação completa estará disponível como upgrade no momento da compra (R$197). Quem adquirir o ingresso simples participa ao vivo, mas não recebe a gravação. A gravação só é vendida junto com o ingresso, não será disponibilizada separadamente depois.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Preciso ter experiência com comunicação ou análise comportamental?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer__inner">Não. O workshop foi desenhado para quem sente a dor mas não tem o método. Se você já tentou oratória, coaching ou PNL e não funcionou, este evento é exatamente para você.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Como funciona a garantia?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer__inner">Você tem 7 dias após o evento para pedir reembolso. Se não aprender nada que possa aplicar na sua próxima reunião ou conversa importante, devolvemos 100% sem perguntas. Basta enviar um e-mail.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Quais as formas de pagamento?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer__inner">Cartão de crédito, PIX ou boleto bancário via Hotmart. O acesso é liberado imediatamente após a confirmação do pagamento.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">E se eu não puder participar nos dois dias?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer__inner">O conteúdo dos dois dias é complementar. Se você só puder participar de um dia, ainda vai sair com ferramentas aplicáveis. Mas recomendamos estar nos dois dias para implementar as 3 Armas completas.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Tem certificado?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer__inner">Esta edição não inclui certificado. O foco é resultado prático, não documentação.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Este evento é para iniciantes ou avançados?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer__inner">Para profissionais que sentem a trava na prática. Não importa se você nunca estudou comunicação ou se já fez 10 cursos. O diferencial não é mais conteúdo, é diagnóstico e treino sob pressão.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Ainda tenho dúvidas. Como faço?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer__inner">Fale com nosso time de suporte pelo WhatsApp. O ingresso custa R$19 e tem garantia de 7 dias. Se não fizer sentido pra você, devolvemos sem perguntas.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FINAL CTA
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="final-cta" style="background: var(--bg-primary);">
+    <div class="container">
+      <h2>Sua próxima reunião pode ser <span class="highlight">diferente.</span></h2>
+      <a href="#preco" class="cta-button cta-scroll">
+        <span data-config="cta.texto">Quero parar de travar — R$19</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       POPUP MODAL — Formulário de captura
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <button class="modal__close" id="modalClose" aria-label="Fechar">&times;</button>
+      <div class="modal__logo">
+        <img src="../shared/images/logo-afc.png" alt="A Fórmula da Confiança" width="180" height="36">
+      </div>
+      <p class="modal__title">Preencha seus dados abaixo para garantir sua vaga no workshop:</p>
+      <form class="modal__form" id="leadForm">
+        <input class="modal__input" type="text" name="name" placeholder="Nome Completo" required autocomplete="name">
+        <input class="modal__input" type="email" name="email" placeholder="Email" required autocomplete="email">
+        <input class="modal__input" type="tel" name="phone" placeholder="Telefone com DDD" required autocomplete="tel">
+        <button type="submit" class="cta-button">Garantir minha vaga →</button>
+      </form>
+      <!-- PLACEHOLDER: Webhook + ActiveCampaign + UTM capture scripts aqui -->
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <img src="../shared/images/logo-metaforando.svg" alt="Metaforando" width="120" height="20">
+    <p>Todos os direitos reservados © Meta Studios LTDA 2026</p>
+  </footer>
+
+  <!-- STICKY CTA -->
+  <div class="sticky-cta" id="stickyCta">
+    <span class="sticky-cta__text" data-config="barra_vendas.texto">Lote 0 com vagas limitadas</span>
+    <a href="#preco" class="cta-button cta-scroll">
+      Meu lugar por&nbsp;<span data-config="lote.preco">R$19</span>
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SCRIPTS
+       ═══════════════════════════════════════════════════════════ -->
+  <script>
+    (function(){
+      fetch('./config.json')
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          document.querySelectorAll('[data-config]').forEach(function(el){
+            var key = el.getAttribute('data-config');
+            var type = el.getAttribute('data-type');
+            var value = key.split('.').reduce(function(o,k){ return o && o[k]; }, data);
+            if(value === undefined) return;
+            if(type === 'href') el.setAttribute('href', value);
+            else if(type === 'progress') el.style.width = value + '%';
+            else el.textContent = value;
+          });
+        })
+        .catch(function(){ console.warn('config.json nao carregou'); });
+    })();
+  </script>
+
+  <script>
+    (function(){
+      var sticky = document.getElementById('stickyCta');
+      var hero = document.getElementById('hero');
+      var valor = document.getElementById('valor');
+      var preco = document.getElementById('preco');
+      if(!sticky || !hero) return;
+      function isInView(el){
+        if(!el) return false;
+        var r = el.getBoundingClientRect();
+        return r.top < window.innerHeight && r.bottom > 0;
+      }
+      function update(){
+        var pastHero = hero.getBoundingClientRect().bottom < 0;
+        var inPricing = isInView(valor) || isInView(preco);
+        sticky.classList.toggle('visible', pastHero && !inPricing);
+      }
+      window.addEventListener('scroll', update, {passive:true});
+      update();
+    })();
+  </script>
+
+  <script>
+    (function(){
+      var items = document.querySelectorAll('.faq-item');
+      items.forEach(function(item){
+        var btn = item.querySelector('.faq-question');
+        var answer = item.querySelector('.faq-answer');
+        btn.addEventListener('click', function(){
+          var isOpen = item.classList.contains('open');
+          items.forEach(function(i){
+            i.classList.remove('open');
+            i.querySelector('.faq-answer').style.maxHeight = null;
+          });
+          if(!isOpen){
+            item.classList.add('open');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+          }
+        });
+      });
+    })();
+  </script>
+
+  <!-- Modal Controller -->
+  <script>
+    (function(){
+      var modal = document.getElementById('modal');
+      var closeBtn = document.getElementById('modalClose');
+      if(!modal) return;
+
+      // Open modal from .cta-modal buttons
+      document.querySelectorAll('.cta-modal').forEach(function(btn){
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          modal.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      // Close modal
+      function closeModal(){
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', function(e){
+        if(e.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape') closeModal();
+      });
+
+      // Form submit placeholder
+      var form = document.getElementById('leadForm');
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        var data = {
+          name: form.elements.name.value,
+          email: form.elements.email.value,
+          phone: form.elements.phone.value,
+          // Captura UTMs da URL
+          utm_source: new URLSearchParams(window.location.search).get('utm_source') || '',
+          utm_medium: new URLSearchParams(window.location.search).get('utm_medium') || '',
+          utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
+          utm_content: new URLSearchParams(window.location.search).get('utm_content') || '',
+          utm_term: new URLSearchParams(window.location.search).get('utm_term') || ''
+        };
+        console.log('[Lead Form] Dados capturados:', data);
+        // PLACEHOLDER: Enviar para webhook/ActiveCampaign aqui
+        // fetch('WEBHOOK_URL', { method:'POST', body:JSON.stringify(data), headers:{'Content-Type':'application/json'} })
+        //   .then(function(){ window.location.href = 'CHECKOUT_URL_COM_DADOS'; });
+        alert('Formulário capturado! Integre o webhook + ActiveCampaign aqui.');
+      });
+    })();
+  </script>
+
+  <script src="../shared/tracking.js" async></script>
+</body>
+</html>
