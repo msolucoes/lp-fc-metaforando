@@ -9,14 +9,14 @@
   <!-- Open Graph -->
   <meta property="og:title" content="Fórmula da Confiança | Workshop com Vitor Santos">
   <meta property="og:description" content="Um perito forense descobriu por que você trava sob pressão. E criou um método de 2 dias para isso nunca mais acontecer.">
-  <meta property="og:image" content="../shared/images/og-image.jpg">
+  <meta property="og:image" content="/shared/images/og-image.jpg">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fca1.metaforando.com.br">
   <link rel="canonical" href="https://fca1.metaforando.com.br">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="../shared/images/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="../shared/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/shared/images/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/shared/images/favicon.png">
 
   <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -822,7 +822,7 @@
     <!-- Top nav: logo left + event info right -->
     <nav class="top-nav">
       <div class="top-nav__logo">
-        <img src="../shared/images/logo-afc.png" alt="A Fórmula da Confiança" width="200" height="40">
+        <img src="/shared/images/logo-afc.png" alt="A Fórmula da Confiança" width="200" height="40">
       </div>
       <div class="top-nav__info">
         <span class="top-nav__date">25-26 de abril</span> | 10h às 18h
@@ -852,7 +852,7 @@
 
       <!-- Photo -->
       <div class="hero__image-wrap">
-        <img class="hero__image" src="assets/hero-expert.jpg" alt="Vitor Santos, Perito Forense e Analista Comportamental" width="600" height="750" loading="eager">
+        <img class="hero__image" src="/a1/assets/hero-expert.jpg" alt="Vitor Santos, Perito Forense e Analista Comportamental" width="600" height="750" loading="eager">
       </div>
     </div>
   </section>
@@ -980,16 +980,16 @@
 
       <div class="testimonials-grid">
         <div class="testimonial-card">
-          <img src="assets/depoimento-nayara.png" alt="Depoimento Nayara" width="400" height="710" loading="lazy">
+          <img src="/a1/assets/depoimento-nayara.png" alt="Depoimento Nayara" width="400" height="710" loading="lazy">
         </div>
         <div class="testimonial-card">
-          <img src="assets/depoimento-allan.png" alt="Depoimento Allan" width="400" height="710" loading="lazy">
+          <img src="/a1/assets/depoimento-allan.png" alt="Depoimento Allan" width="400" height="710" loading="lazy">
         </div>
         <div class="testimonial-card">
-          <img src="assets/depoimento-andreia.jpg" alt="Depoimento Andreia Ribas" width="400" height="710" loading="lazy">
+          <img src="/a1/assets/depoimento-andreia.jpg" alt="Depoimento Andreia Ribas" width="400" height="710" loading="lazy">
         </div>
         <div class="testimonial-card">
-          <img src="assets/depoimento-paulo.jpg" alt="Depoimento Paulo" width="400" height="710" loading="lazy">
+          <img src="/a1/assets/depoimento-paulo.jpg" alt="Depoimento Paulo" width="400" height="710" loading="lazy">
         </div>
       </div>
     </div>
@@ -1067,7 +1067,7 @@
     <div class="container">
       <div class="bio-grid">
         <div>
-          <img class="bio-image" src="assets/bio-vitor.jpg" alt="Vitor Santos, Criador do Metaforando" width="480" height="640" loading="lazy">
+          <img class="bio-image" src="/a1/assets/bio-vitor.jpg" alt="Vitor Santos, Criador do Metaforando" width="480" height="640" loading="lazy">
         </div>
         <div>
           <h2>Vitor Santos</h2>
@@ -1184,7 +1184,7 @@
     <div class="modal">
       <button class="modal__close" id="modalClose" aria-label="Fechar">&times;</button>
       <div class="modal__logo">
-        <img src="../shared/images/logo-afc.png" alt="A Fórmula da Confiança" width="180" height="36">
+        <img src="/shared/images/logo-afc.png" alt="A Fórmula da Confiança" width="180" height="36">
       </div>
       <p class="modal__title">Preencha seus dados abaixo para garantir sua vaga no workshop:</p>
       <form class="modal__form" id="leadForm">
@@ -1199,7 +1199,7 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <img src="../shared/images/logo-metaforando.svg" alt="Metaforando" width="120" height="20">
+    <img src="/shared/images/logo-metaforando.svg" alt="Metaforando" width="120" height="20">
     <p>Todos os direitos reservados © Meta Studios LTDA 2026</p>
   </footer>
 
@@ -1216,7 +1216,7 @@
        ═══════════════════════════════════════════════════════════ -->
   <script>
     (function(){
-      fetch('./config.json')
+      fetch('/a1/config.json')
         .then(function(r){ return r.json(); })
         .then(function(data){
           document.querySelectorAll('[data-config]').forEach(function(el){
@@ -1329,6 +1329,6 @@
     })();
   </script>
 
-  <script src="../shared/tracking.js" async></script>
+  <script src="/shared/tracking.js" async></script>
 </body>
 </html>
