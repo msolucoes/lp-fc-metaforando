@@ -223,7 +223,7 @@
       transition: width 0.6s ease;
       width: 20%;
     }
-    .scarcity-bar__text { font-size: 0.8125rem; color: var(--text-secondary); }
+    .scarcity-bar__text { font-size: 0.875rem; color: var(--highlight); font-weight: 700; }
 
     /* ═══════════════════════════════════════════════════════════
        SECTION 1: HERO
@@ -542,32 +542,37 @@
       margin: 0 auto;
       text-align: center;
     }
-    .anchor-list { list-style: none; text-align: left; margin-bottom: 1.5rem; }
+    .anchor-list { list-style: none; text-align: left; margin-bottom: 1.5rem; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
     .anchor-list li {
       display: flex;
       justify-content: space-between;
-      padding: 0.5rem 0;
+      padding: 0.875rem 1.25rem;
       border-bottom: 1px solid var(--border);
       font-size: 0.9375rem;
-      color: var(--text-secondary);
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.02);
     }
-    .anchor-list li span { text-decoration: line-through; }
+    .anchor-list li:nth-child(even) { background: rgba(255,255,255,0.05); }
+    .anchor-list li:last-child { border-bottom: none; }
+    .anchor-list li span { text-decoration: line-through; color: var(--text-secondary); font-weight: 600; }
     .anchor-total {
-      text-align: right;
-      font-size: 1.125rem;
+      text-align: center;
+      font-size: 1.25rem;
       color: var(--text-secondary);
       text-decoration: line-through;
-      margin: 0.75rem 0 1.5rem;
+      margin: 1rem 0 1.5rem;
+      font-weight: 600;
     }
     .price-divider { width: 60px; height: 2px; background: var(--border); margin: 1.5rem auto; }
     .price-big {
-      font-family: var(--font-heading);
-      font-size: clamp(3.5rem, 8vw, 5rem);
-      color: var(--highlight);
+      font-family: var(--font-body);
+      font-size: clamp(3.5rem, 10vw, 5.5rem);
+      color: var(--text-primary);
+      font-weight: 700;
       line-height: 1;
       margin: 0.5rem 0;
     }
-    .price-label { font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
+    .price-label { font-size: 1.125rem; color: var(--highlight); font-weight: 700; margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
     .price-urgency { font-size: 0.875rem; color: var(--urgency); font-weight: 600; margin: 1rem 0; }
     .price-card .cta-button {
       margin: 1.5rem auto 0;
@@ -838,7 +843,7 @@
         <img src="/shared/images/logo-afc.png" alt="A Fórmula da Confiança" width="200" height="40">
       </div>
       <div class="top-nav__info">
-        <span class="top-nav__date">25-26 de abril</span> | 10h às 18h
+        <span class="top-nav__date">26-27 de abril</span> | 10h às 18h
       </div>
     </nav>
 
@@ -860,7 +865,7 @@
           <span class="scarcity-bar__text" data-config="barra_vendas.texto">20% das vagas preenchidas</span>
         </div>
 
-        <p class="hero__quote">"Perdi inúmeras oportunidades por causa do medo, ansiedade e insegurança ao lidar com pessoas." Se você se identificou com o Thiago, essa é a sua chance de mudar isso.</p>
+        <p class="hero__quote"><em>"Perdi inúmeras oportunidades por causa do medo, ansiedade e insegurança ao lidar com pessoas."</em> <span style="font-style:normal;">Se você se identificou com o Thiago, essa é a sua chance de mudar isso.</span></p>
       </div>
 
       <!-- Photo -->
@@ -877,11 +882,11 @@
     <div class="ticker__inner">
       <span class="ticker__item">Para profissionais que dominam o assunto, mas travam quando chega a hora de falar</span>
       <span class="ticker__item">+37 mil alunos formados</span>
-      <span class="ticker__item">Ao vivo no Zoom, 25 e 26 de abril</span>
+      <span class="ticker__item">Ao vivo no Zoom, 26 e 27 de abril</span>
       <span class="ticker__item">Certificação FACS por Paul Ekman</span>
       <span class="ticker__item">Para profissionais que dominam o assunto, mas travam quando chega a hora de falar</span>
       <span class="ticker__item">+37 mil alunos formados</span>
-      <span class="ticker__item">Ao vivo no Zoom, 25 e 26 de abril</span>
+      <span class="ticker__item">Ao vivo no Zoom, 26 e 27 de abril</span>
       <span class="ticker__item">Certificação FACS por Paul Ekman</span>
     </div>
   </div>
@@ -972,11 +977,11 @@
 
       <div class="text-block">
         <div class="schedule-item">
-          <div class="schedule__title">Dia 1 — Sexta, 25 de abril (10h–18h)</div>
+          <div class="schedule__title">Dia 1 — Sábado, 26 de abril (10h–18h)</div>
           <p class="schedule__desc">Você vai aprender a LER o que a outra pessoa está sentindo antes dela abrir a boca. E vai treinar o controle emocional que impede seu corpo de travar quando a pressão sobe. No final do Dia 1, você já vai entender por que travava, e isso, por si só, já muda tudo.</p>
         </div>
         <div class="schedule-item">
-          <div class="schedule__title">Dia 2 — Sábado, 26 de abril (10h–18h)</div>
+          <div class="schedule__title">Dia 2 — Domingo, 27 de abril (10h–18h)</div>
           <p class="schedule__desc">Você vai montar seu arsenal de persuasão ética: como levar seu ponto adiante sem precisar levantar a voz, sem engolir sapo, sem sair da conversa pensando "eu deveria ter dito aquilo". No final do Dia 2, você sai com um plano prático. Não teoria. Prática aplicável na segunda-feira.</p>
         </div>
         <p class="schedule__note">Ao vivo pelo Zoom. Gravação disponível para quem garantir o acesso.</p>
@@ -1140,11 +1145,11 @@
       <div class="faq-list">
         <div class="faq-item">
           <button class="faq-question">O evento será ao vivo ou gravado?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
-          <div class="faq-answer"><div class="faq-answer__inner">Ao vivo, nos dias 25 e 26 de abril, via Zoom. Você participa em tempo real, faz perguntas e pratica junto com o Vitor e os outros participantes.</div></div>
+          <div class="faq-answer"><div class="faq-answer__inner">Ao vivo, nos dias 26 e 27 de abril, via Zoom. Você participa em tempo real, faz perguntas e pratica junto com o Vitor e os outros participantes.</div></div>
         </div>
         <div class="faq-item">
           <button class="faq-question">Vai ter gravação/replay?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
-          <div class="faq-answer"><div class="faq-answer__inner">A gravação completa estará disponível como upgrade no momento da compra (R$197). Quem adquirir o ingresso simples participa ao vivo, mas não recebe a gravação. A gravação só é vendida junto com o ingresso, não será disponibilizada separadamente depois.</div></div>
+          <div class="faq-answer"><div class="faq-answer__inner">A gravação completa estará disponível como upgrade no momento da compra. Quem adquirir o ingresso simples participa ao vivo, mas não recebe a gravação. A gravação só é vendida junto com o ingresso, não será disponibilizada separadamente depois.</div></div>
         </div>
         <div class="faq-item">
           <button class="faq-question">Preciso ter experiência com comunicação ou análise comportamental?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
@@ -1156,15 +1161,11 @@
         </div>
         <div class="faq-item">
           <button class="faq-question">Quais as formas de pagamento?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
-          <div class="faq-answer"><div class="faq-answer__inner">Cartão de crédito, PIX ou boleto bancário via Hotmart. O acesso é liberado imediatamente após a confirmação do pagamento.</div></div>
+          <div class="faq-answer"><div class="faq-answer__inner">Cartão de crédito ou PIX via Hotmart. O acesso é liberado imediatamente após a confirmação do pagamento.</div></div>
         </div>
         <div class="faq-item">
           <button class="faq-question">E se eu não puder participar nos dois dias?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
           <div class="faq-answer"><div class="faq-answer__inner">O conteúdo dos dois dias é complementar. Se você só puder participar de um dia, ainda vai sair com ferramentas aplicáveis. Mas recomendamos estar nos dois dias para implementar as 3 Armas completas.</div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">Tem certificado?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
-          <div class="faq-answer"><div class="faq-answer__inner">Esta edição não inclui certificado. O foco é resultado prático, não documentação.</div></div>
         </div>
         <div class="faq-item">
           <button class="faq-question">Este evento é para iniciantes ou avançados?<svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg></button>
