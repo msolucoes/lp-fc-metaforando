@@ -1,0 +1,103 @@
+{
+  "$schema": "../squads/landing-page-design/templates/pipeline-state-tmpl.json",
+  "schemaVersion": "1.0.0",
+  "produto": "FC Metaforando",
+  "repo": "lp-fc-metaforando",
+  "tipo": "lancamento_pago",
+  "guideline": "paginas/design/guia-design-pagina-vendas-lancamento-pago.md",
+  "status": "in_progress",
+  "startedAt": "2026-03-26T00:00:00Z",
+  "lastUpdated": "2026-03-28T00:00:00Z",
+  "currentPhase": "phase_6",
+  "angles": {
+    "a1": {
+      "status": "in_progress",
+      "currentPhase": "phase_6",
+      "copy": "paginas/copy/PAGINA-FC-A1-Metaforando.md",
+      "html": "a1/index.html",
+      "config": "a1/config.json",
+      "domain": "fca1.metaforando.com.br"
+    },
+    "a3": {
+      "status": "pending",
+      "currentPhase": null,
+      "copy": "paginas/copy/PAGINA-FC-A3-Metaforando.md",
+      "html": null,
+      "config": null,
+      "domain": "fca3.metaforando.com.br"
+    },
+    "a5": {
+      "status": "pending",
+      "currentPhase": null,
+      "copy": "paginas/copy/PAGINA-FC-A5-Metaforando.md",
+      "html": null,
+      "config": null,
+      "domain": "fca5.metaforando.com.br"
+    }
+  },
+  "phases": {
+    "phase_1_intake": {
+      "status": "completed",
+      "completedAt": "2026-03-26T00:00:00Z",
+      "notes": "Copy A1 recebida (12 dobras). Tipo: lancamento_pago. Guideline carregada automaticamente.",
+      "approvedBy": "user"
+    },
+    "phase_2_coleta": {
+      "status": "completed",
+      "completedAt": "2026-03-26T00:00:00Z",
+      "notes": "Assets coletados: hero, bio Vitor Santos, 4 depoimentos, logo. Sem checklist formal gerado na época.",
+      "approvedBy": "user",
+      "pendingItems": []
+    },
+    "phase_3_direcao_visual": {
+      "status": "completed",
+      "completedAt": "2026-03-26T00:00:00Z",
+      "notes": "Direção visual definida: dark mode, palette navy #0D0D09 + CTA green #2DB547 + gold #B3A430 + orange #FF5500. Tipografia: IM Fell English (headlines) + Inter (body).",
+      "approvedBy": "user"
+    },
+    "phase_4_build": {
+      "status": "completed",
+      "completedAt": "2026-03-27T00:00:00Z",
+      "notes": "HTML gerado (1.334 linhas). Config.json com Lote 0 / R$19 / 20%. Deploy de TESTE feito na Vercel para aprovação do especialista. NÃO é deploy de produção.",
+      "approvedBy": "user",
+      "deployType": "preview_teste",
+      "previewUrl": null,
+      "gitCommits": [
+        "f4d6680 - feat: LP Fórmula da Confiança A1 — versão para validação",
+        "9b4ce68 - fix: add root rewrite to /a1/ for default Vercel URL",
+        "3897200 - fix: rename images to correct extensions (jpg/png instead of webp)",
+        "98479a1 - fix: use absolute paths for images and assets (rewrite compatibility)"
+      ]
+    },
+    "phase_5_tracking": {
+      "status": "completed",
+      "completedAt": "2026-03-28T00:00:00Z",
+      "notes": "GTM-T6CSJF68 integrado (script async no head + noscript no body). Pixel e Hotmart via painel GTM. OG tags, favicon e meta SEO já presentes.",
+      "approvedBy": "user",
+      "trackingIds": {
+        "gtm": "GTM-T6CSJF68"
+      }
+    },
+    "phase_6_qa": {
+      "status": "pending",
+      "notes": "Auditoria completa não realizada. Lighthouse não rodado. Compliance com guideline não verificado formalmente."
+    },
+    "phase_7_deploy": {
+      "status": "pending",
+      "notes": "Deploy atual é de TESTE/validação. Deploy de produção pendente após QA passar.",
+      "currentDeploy": {
+        "type": "teste",
+        "purpose": "Aprovação do especialista",
+        "isProduction": false
+      }
+    },
+    "phase_8_variacoes": {
+      "status": "pending",
+      "notes": "Copies de A3 e A5 prontas. Aguardando A1 ser aprovado e publicado em produção para iniciar."
+    }
+  },
+  "blockers": [
+    "Aprovação do especialista pendente (deploy teste)"
+  ],
+  "nextAction": "Executar Fase 6 (QA Final) — auditoria completa via @lp-qa."
+}
