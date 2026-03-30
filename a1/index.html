@@ -1205,7 +1205,6 @@
         <input class="modal__input" type="tel" name="phone" placeholder="Telefone com DDD" required autocomplete="tel">
         <button type="submit" class="cta-button">Garantir minha vaga →</button>
       </form>
-      <!-- PLACEHOLDER: Webhook + ActiveCampaign + UTM capture scripts aqui -->
     </div>
   </div>
 
@@ -1317,26 +1316,55 @@
         if(e.key === 'Escape') closeModal();
       });
 
-      // Form submit placeholder
+      // Captura UTMs da URL ao carregar a página
+      var params = new URLSearchParams(window.location.search);
+      var utms = {
+        utm_source: params.get('utm_source') || '',
+        utm_medium: params.get('utm_medium') || '',
+        utm_campaign: params.get('utm_campaign') || '',
+        utm_content: params.get('utm_content') || '',
+        utm_term: params.get('utm_term') || ''
+      };
+
+      // Form submit → envia pro ActiveCampaign + redireciona pro Hotmart
       var form = document.getElementById('leadForm');
       form.addEventListener('submit', function(e){
         e.preventDefault();
-        var data = {
-          name: form.elements.name.value,
-          email: form.elements.email.value,
-          phone: form.elements.phone.value,
-          // Captura UTMs da URL
-          utm_source: new URLSearchParams(window.location.search).get('utm_source') || '',
-          utm_medium: new URLSearchParams(window.location.search).get('utm_medium') || '',
-          utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
-          utm_content: new URLSearchParams(window.location.search).get('utm_content') || '',
-          utm_term: new URLSearchParams(window.location.search).get('utm_term') || ''
-        };
-        console.log('[Lead Form] Dados capturados:', data);
-        // PLACEHOLDER: Enviar para webhook/ActiveCampaign aqui
-        // fetch('WEBHOOK_URL', { method:'POST', body:JSON.stringify(data), headers:{'Content-Type':'application/json'} })
-        //   .then(function(){ window.location.href = 'CHECKOUT_URL_COM_DADOS'; });
-        alert('Formulário capturado! Integre o webhook + ActiveCampaign aqui.');
+        var name = form.elements.name.value.trim();
+        var email = form.elements.email.value.trim();
+        var phone = form.elements.phone.value.trim();
+        var submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Redirecionando...';
+
+        var sck = [utms.utm_campaign, utms.utm_source, utms.utm_medium, utms.utm_content, utms.utm_term]
+          .map(function(v){ return v || ''; }).join('|');
+
+        var checkoutUrl = 'https://pay.hotmart.com/V103997742J?off=hblfb2jm&checkoutMode=10'
+          + '&name=' + encodeURIComponent(name)
+          + '&email=' + encodeURIComponent(email)
+          + '&phonenumber=' + encodeURIComponent(phone)
+          + '&utm_campaign=' + encodeURIComponent(utms.utm_campaign)
+          + '&utm_medium=' + encodeURIComponent(utms.utm_medium)
+          + '&utm_source=' + encodeURIComponent(utms.utm_source)
+          + '&utm_term=' + encodeURIComponent(utms.utm_term)
+          + '&utm_content=' + encodeURIComponent(utms.utm_content)
+          + '&sck=' + encodeURIComponent(sck);
+
+        // Envia pro ActiveCampaign (async, não trava o redirect)
+        fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name, email: email, phone: phone,
+            utm_source: utms.utm_source, utm_medium: utms.utm_medium,
+            utm_campaign: utms.utm_campaign, utm_content: utms.utm_content,
+            utm_term: utms.utm_term
+          })
+        }).catch(function(){});
+
+        // Redireciona pro Hotmart após 500ms (garante que o POST saiu)
+        setTimeout(function(){ window.location.href = checkoutUrl; }, 500);
       });
     })();
   </script>
