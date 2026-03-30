@@ -31,8 +31,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://www.googletagmanager.com">
 
-  <!-- Hero image preload -->
-  <link rel="preload" as="image" href="assets/hero-expert.webp" type="image/webp">
+  <!-- Hero image preload (mobile-first) -->
+  <link rel="preload" as="image" href="assets/hero-expert-mobile.webp" type="image/webp" media="(max-width: 1023px)">
+  <link rel="preload" as="image" href="assets/hero-expert.webp" type="image/webp" media="(min-width: 1024px)">
 
   <!-- Google Fonts (non-blocking) -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -870,7 +871,7 @@
 
       <!-- Photo -->
       <div class="hero__image-wrap">
-        <img class="hero__image" src="/a1/assets/hero-expert.webp" alt="Vitor Santos, Perito Forense e Analista Comportamental" width="2000" height="1125" loading="eager">
+        <img class="hero__image" src="/a1/assets/hero-expert.webp" srcset="/a1/assets/hero-expert-mobile.webp 800w, /a1/assets/hero-expert.webp 2000w" sizes="(max-width: 1023px) 100vw, 50vw" alt="Vitor Santos, Perito Forense e Analista Comportamental" width="2000" height="1125" loading="eager" fetchpriority="high">
       </div>
     </div>
   </section>

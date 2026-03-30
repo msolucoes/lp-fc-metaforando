@@ -79,8 +79,12 @@
       }
     },
     "phase_6_qa": {
-      "status": "pending",
-      "notes": "Auditoria completa não realizada. Lighthouse não rodado. Compliance com guideline não verificado formalmente."
+      "status": "in_progress",
+      "notes": "QA baseline rodado: 84.6/100 CONCERNS. Sem blocking items. Ajustes do especialista (9 itens) aplicados. Imagens otimizadas (WebP q95-q98, 1.3MB total). GTM funcionando. Pendente: integração ActiveCampaign webhook no formulário do modal.",
+      "baselineScore": 74.85,
+      "currentScore": 84.6,
+      "verdict": "CONCERNS",
+      "blockingItems": []
     },
     "phase_7_deploy": {
       "status": "pending",
@@ -96,8 +100,18 @@
       "notes": "Copies de A3 e A5 prontas. Aguardando A1 ser aprovado e publicado em produção para iniciar."
     }
   },
-  "blockers": [
-    "Aprovação do especialista pendente (deploy teste)"
-  ],
-  "nextAction": "Executar Fase 6 (QA Final) — auditoria completa via @lp-qa."
+  "blockers": [],
+  "checkout": {
+    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=hblfb2jm&checkoutMode=10",
+    "url_pattern": "hotmart_url + &name={name}&email={email}&phonenumber={phone}&utm_campaign={utm_campaign}&utm_medium={utm_medium}&utm_source={utm_source}&utm_term={utm_term}&utm_content={utm_content}&sck={utm_campaign}|{utm_source}|{utm_medium}|{utm_content}|{utm_term}",
+    "redirect_on_submit": true,
+    "activecampaign": {
+      "webhook_url": "Via API direta (serverless /api/subscribe.js)",
+      "tag_on_form_submit": "FC_2026_04-View_Checkout",
+      "tag_on_purchase": "FC_2026_04-Compra_Realizada (configurar no painel Hotmart)",
+      "fields_to_send": ["name", "email", "phone", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]
+    },
+    "flow": "Anuncio/Organico → LP → Popup (form) → POST ActiveCampaign (async) + Redirect Hotmart (com UTMs)"
+  },
+  "nextAction": "Rodar QA final. Se PASS, marcar deploy como produção."
 }
