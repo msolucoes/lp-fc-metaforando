@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
   const API_URL = process.env.AC_API_URL;
   const API_KEY = process.env.AC_API_KEY;
-  const TAG_NAME = process.env.AC_TAG_NAME || 'L26 AFC | Inscritos';
+  const TAG_NAME = process.env.AC_TAG_NAME || 'L26 AFC | Iniciou checkout';
 
   if (!API_URL || !API_KEY) {
     return res.status(500).json({ error: 'API not configured' });

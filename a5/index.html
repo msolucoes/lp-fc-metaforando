@@ -1229,7 +1229,7 @@
       <form class="modal__form" id="leadForm">
         <input class="modal__input" type="text" name="name" placeholder="Nome Completo" required autocomplete="name">
         <input class="modal__input" type="email" name="email" placeholder="Email" required autocomplete="email">
-        <input class="modal__input" type="tel" name="phone" placeholder="Telefone com DDD" required autocomplete="tel">
+        <input class="modal__input" type="tel" name="phone" placeholder="(00) 00000-0000" required autocomplete="tel" maxlength="15">
         <button type="submit" class="cta-button">Garantir minha vaga →</button>
       </form>
     </div>
@@ -1353,13 +1353,27 @@
         utm_term: params.get('utm_term') || ''
       };
 
-      // Form submit → envia pro ActiveCampaign + redireciona pro Hotmart
+      // Máscara de telefone — visual pro usuário, valor limpo pro checkout
       var form = document.getElementById('leadForm');
+      var phoneInput = form.querySelector('input[name="phone"]');
+      phoneInput.addEventListener('input', function(){
+        var v = this.value.replace(/\D/g, '');
+        if (v.startsWith('55') && v.length > 11) v = v.slice(2);
+        if (v.length > 11) v = v.slice(0, 11);
+        if (v.length > 6) v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+        else if (v.length > 2) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+        else if (v.length > 0) v = '(' + v;
+        this.value = v;
+      });
+
+      // Form submit → envia pro ActiveCampaign + redireciona pro Hotmart
       form.addEventListener('submit', function(e){
         e.preventDefault();
         var name = form.elements.name.value.trim();
         var email = form.elements.email.value.trim();
         var phone = form.elements.phone.value.trim();
+        var phoneRaw = phone.replace(/\D/g, '');
+        if (phoneRaw.startsWith('55') && phoneRaw.length > 11) phoneRaw = phoneRaw.slice(2);
         var submitBtn = form.querySelector('button[type="submit"]');
         submitBtn.disabled = true;
         submitBtn.textContent = 'Redirecionando...';
@@ -1370,7 +1384,7 @@
         var checkoutUrl = 'https://pay.hotmart.com/V103997742J?off=hblfb2jm&checkoutMode=10'
           + '&name=' + encodeURIComponent(name)
           + '&email=' + encodeURIComponent(email)
-          + '&phonenumber=' + encodeURIComponent(phone)
+          + '&phonenumber=' + encodeURIComponent(phoneRaw)
           + '&utm_campaign=' + encodeURIComponent(utms.utm_campaign)
           + '&utm_medium=' + encodeURIComponent(utms.utm_medium)
           + '&utm_source=' + encodeURIComponent(utms.utm_source)
