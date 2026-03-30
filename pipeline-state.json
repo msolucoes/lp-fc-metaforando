@@ -5,7 +5,7 @@
   "repo": "lp-fc-metaforando",
   "tipo": "lancamento_pago",
   "guideline": "paginas/design/guia-design-pagina-vendas-lancamento-pago.md",
-  "status": "in_progress",
+  "status": "completed",
   "startedAt": "2026-03-26T00:00:00Z",
   "lastUpdated": "2026-03-28T00:00:00Z",
   "currentPhase": "phase_6",
@@ -19,16 +19,16 @@
       "domain": "fca1.metaforando.com.br"
     },
     "a3": {
-      "status": "in_progress",
-      "currentPhase": "review",
+      "status": "completed",
+      "currentPhase": "production",
       "copy": "paginas/copy/PAGINA-FC-A3-Metaforando.md",
       "html": "a3/index.html",
       "config": "a3/config.json",
       "domain": "fca3.metaforando.com.br"
     },
     "a5": {
-      "status": "in_progress",
-      "currentPhase": "review",
+      "status": "completed",
+      "currentPhase": "production",
       "copy": "paginas/copy/PAGINA-FC-A5-Metaforando.md",
       "html": "a5/index.html",
       "config": "a5/config.json",
@@ -105,8 +105,10 @@
       }
     },
     "phase_8_variacoes": {
-      "status": "pending",
-      "notes": "Copies de A3 e A5 prontas. Aguardando A1 ser aprovado e publicado em produção para iniciar."
+      "status": "completed",
+      "completedAt": "2026-03-29T00:00:00Z",
+      "notes": "A3 (Leitura de Pessoas) e A5 (Carreira Travada) construídas, QA passado e deployadas em produção.",
+      "approvedBy": "user"
     }
   },
   "blockers": [],
@@ -122,5 +124,5 @@
     },
     "flow": "Anuncio/Organico → LP → Popup (form) → POST ActiveCampaign (async) + Redirect Hotmart (com UTMs)"
   },
-  "nextAction": "A1 em produção. Próximo: variações A3/A5 quando quiser, ou *update-lote para atualizar lote/percentual."
+  "nextAction": "Pipeline completo. 3 ângulos em produção. Usar *update-lote para atualizar lote/percentual nas 3 LPs."
 }
