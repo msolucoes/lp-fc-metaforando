@@ -20,6 +20,19 @@ export default async function handler(req, res) {
   if (!email) return res.status(400).json({ error: 'Email required' });
 
   try {
+    // 0. ManyChat webhook (async, não bloqueia o fluxo AC)
+    const MANYCHAT_WEBHOOK = process.env.MANYCHAT_WEBHOOK_URL || 'https://webhook.msolucoes.digital/webhook/incluir-manychat-metaforando';
+    fetch(MANYCHAT_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name || '', email, phone: phone || '',
+        utm_source: utm_source || '', utm_medium: utm_medium || '',
+        utm_campaign: utm_campaign || '', utm_content: utm_content || '',
+        utm_term: utm_term || ''
+      })
+    }).catch(function(err){ console.error('ManyChat webhook error:', err); });
+
     // 1. Create or update contact
     const nameParts = (name || '').trim().split(' ');
     const firstName = nameParts[0] || '';
