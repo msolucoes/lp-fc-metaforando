@@ -19,11 +19,11 @@
       "domain": "fca1.metaforando.com.br"
     },
     "a3": {
-      "status": "pending",
-      "currentPhase": null,
+      "status": "in_progress",
+      "currentPhase": "review",
       "copy": "paginas/copy/PAGINA-FC-A3-Metaforando.md",
-      "html": null,
-      "config": null,
+      "html": "a3/index.html",
+      "config": "a3/config.json",
       "domain": "fca3.metaforando.com.br"
     },
     "a5": {
