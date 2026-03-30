@@ -38,11 +38,11 @@ export default async function handler(req, res) {
           lastName: lastName,
           phone: phone || '',
           fieldValues: [
-            { field: 'utm_source', value: utm_source || '' },
-            { field: 'utm_medium', value: utm_medium || '' },
-            { field: 'utm_campaign', value: utm_campaign || '' },
-            { field: 'utm_content', value: utm_content || '' },
-            { field: 'utm_term', value: utm_term || '' }
+            { field: '1', value: utm_source || '' },
+            { field: '3', value: utm_medium || '' },
+            { field: '4', value: utm_campaign || '' },
+            { field: '5', value: utm_content || '' },
+            { field: '23', value: utm_term || '' }
           ]
         }
       })
