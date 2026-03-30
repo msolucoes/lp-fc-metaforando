@@ -1358,7 +1358,7 @@
         var v = this.value.replace(/\D/g, '');
         if (v.startsWith('55') && v.length > 11) v = v.slice(2);
         if (v.length > 11) v = v.slice(0, 11);
-        if (v.length > 6) v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+        if (v.length > 7) v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
         else if (v.length > 2) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
         else if (v.length > 0) v = '(' + v;
         this.value = v;
