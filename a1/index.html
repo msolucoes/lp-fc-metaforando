@@ -27,22 +27,46 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/shared/images/favicon.png">
 
   <!-- Preconnect -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://connect.facebook.net">
 
   <!-- Hero image preload (mobile-first) -->
   <link rel="preload" as="image" href="assets/hero-expert-mobile.webp" type="image/webp" media="(max-width: 1023px)">
   <link rel="preload" as="image" href="assets/hero-expert.webp" type="image/webp" media="(min-width: 1024px)">
 
-  <!-- Google Fonts (non-blocking) -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@400;600;700&display=swap"></noscript>
+  <!-- Fonts (self-hosted, eliminates 2 external connections) -->
+  <link rel="preload" href="/shared/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/shared/fonts/im-fell-english-400.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
     /* ═══════════════════════════════════════════════════════════
        RESET & VARIABLES
        ═══════════════════════════════════════════════════════════ */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url('/shared/fonts/inter-400.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'IM Fell English';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('/shared/fonts/im-fell-english-400.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'IM Fell English';
+      font-style: italic;
+      font-weight: 400;
+      font-display: swap;
+      src: url('/shared/fonts/im-fell-english-400i.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -841,7 +865,7 @@
     <!-- Top nav: logo left + event info right -->
     <nav class="top-nav">
       <div class="top-nav__logo">
-        <img src="/shared/images/logo-afc.png" alt="A Fórmula da Confiança" width="200" height="40">
+        <img src="/shared/images/logo-afc.webp" alt="A Fórmula da Confiança" width="200" height="40">
       </div>
       <div class="top-nav__info">
         <span class="top-nav__date">26-27 de abril</span> | 10h às 18h
@@ -1197,7 +1221,7 @@
     <div class="modal">
       <button class="modal__close" id="modalClose" aria-label="Fechar">&times;</button>
       <div class="modal__logo">
-        <img src="/shared/images/logo-afc.png" alt="A Fórmula da Confiança" width="180" height="36">
+        <img src="/shared/images/logo-afc.webp" alt="A Fórmula da Confiança" width="180" height="36">
       </div>
       <p class="modal__title">Preencha seus dados abaixo para garantir sua vaga no workshop:</p>
       <form class="modal__form" id="leadForm">
