@@ -79,20 +79,29 @@
       }
     },
     "phase_6_qa": {
-      "status": "in_progress",
-      "notes": "QA baseline rodado: 84.6/100 CONCERNS. Sem blocking items. Ajustes do especialista (9 itens) aplicados. Imagens otimizadas (WebP q95-q98, 1.3MB total). GTM funcionando. Pendente: integração ActiveCampaign webhook no formulário do modal.",
-      "baselineScore": 74.85,
-      "currentScore": 84.6,
-      "verdict": "CONCERNS",
-      "blockingItems": []
+      "status": "completed",
+      "completedAt": "2026-03-29T00:00:00Z",
+      "notes": "QA final: 87.6/100 PASS. Lighthouse local: 100. PageSpeed Insights (mobile 4G): 78 (teto com GTM+Pixel). FCP 0.9s, CLS 0, TBT 30ms. Ajustes do especialista aplicados. Imagens WebP. GTM + ActiveCampaign + Hotmart integrados.",
+      "approvedBy": "user",
+      "lighthouse": {
+        "local": { "performance": 100, "accessibility": 91, "bestPractices": 100, "seo": 100 },
+        "pagespeed_insights": { "performance": 78, "accessibility": 91, "bestPractices": 100, "seo": 100 },
+        "fcp": "0.9s",
+        "lcp": "5.5s (render delay por GTM+Pixel — irremovível)",
+        "tbt": "30ms",
+        "cls": "0"
+      }
     },
     "phase_7_deploy": {
-      "status": "pending",
-      "notes": "Deploy atual é de TESTE/validação. Deploy de produção pendente após QA passar.",
+      "status": "completed",
+      "completedAt": "2026-03-29T00:00:00Z",
+      "notes": "Deploy de produção em fca1.metaforando.com.br. GTM funcionando, ActiveCampaign integrado, checkout Hotmart configurado.",
+      "approvedBy": "user",
       "currentDeploy": {
-        "type": "teste",
-        "purpose": "Aprovação do especialista",
-        "isProduction": false
+        "type": "producao",
+        "purpose": "LP live para tráfego",
+        "isProduction": true,
+        "url": "https://fca1.metaforando.com.br"
       }
     },
     "phase_8_variacoes": {
@@ -113,5 +122,5 @@
     },
     "flow": "Anuncio/Organico → LP → Popup (form) → POST ActiveCampaign (async) + Redirect Hotmart (com UTMs)"
   },
-  "nextAction": "Rodar QA final. Se PASS, marcar deploy como produção."
+  "nextAction": "A1 em produção. Próximo: variações A3/A5 quando quiser, ou *update-lote para atualizar lote/percentual."
 }
