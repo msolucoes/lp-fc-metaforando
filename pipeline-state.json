@@ -113,7 +113,7 @@
   },
   "blockers": [],
   "checkout": {
-    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=hblfb2jm&checkoutMode=10",
+    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=mkb2u3hb&checkoutMode=10",
     "url_pattern": "hotmart_url + &name={name}&email={email}&phonenumber={phone}&utm_campaign={utm_campaign}&utm_medium={utm_medium}&utm_source={utm_source}&utm_term={utm_term}&utm_content={utm_content}&sck={utm_campaign}|{utm_source}|{utm_medium}|{utm_content}|{utm_term}",
     "redirect_on_submit": true,
     "activecampaign": {

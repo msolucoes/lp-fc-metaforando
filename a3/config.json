@@ -2,16 +2,16 @@
   "produto": "FC Metaforando",
   "angulo": "A3",
   "lote": {
-    "nome": "Lote 0",
-    "preco": "R$ 19",
+    "nome": "Lote 1",
+    "preco": "R$ 24",
     "preco_anterior": "R$ 47"
   },
   "barra_vendas": {
-    "percentual": 103,
-    "texto": "103% das vagas preenchidas"
+    "percentual": 26,
+    "texto": "26% das vagas preenchidas"
   },
   "cta": {
-    "texto": "Quero ler pessoas — R$19",
+    "texto": "Quero ler pessoas — R$24",
     "url": "#"
   },
   "meta": {
