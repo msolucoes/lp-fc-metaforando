@@ -412,6 +412,10 @@
       100% { transform: translateX(-50%); }
     }
 
+    /* Anti-FOUC: oculta elementos do below-fold que começam escondidos */
+    .modal-overlay { opacity: 0; visibility: hidden; }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+    .sticky-cta { transform: translateY(100%); position: fixed; bottom: 0; left: 0; right: 0; }
   </style>
   <!-- Below-fold CSS: loaded non-blocking for faster first paint -->
   <link rel="stylesheet" href="/a3/below-fold.css?v=1" media="print" onload="this.media='all'">
@@ -774,7 +778,7 @@
   <!-- ═══════════════════════════════════════════════════════════
        POPUP MODAL — Formulário de captura
        ═══════════════════════════════════════════════════════════ -->
-  <div class="modal-overlay" id="modal" style="opacity:0;visibility:hidden">
+  <div class="modal-overlay" id="modal">
     <div class="modal">
       <button class="modal__close" id="modalClose" aria-label="Fechar">&times;</button>
       <div class="modal__logo">
@@ -797,7 +801,7 @@
   </footer>
 
   <!-- STICKY CTA -->
-  <div class="sticky-cta" id="stickyCta" style="transform:translateY(100%)">
+  <div class="sticky-cta" id="stickyCta">
     <span class="sticky-cta__text">26% das vagas preenchidas</span>
     <a href="#preco" class="cta-button cta-scroll">
       Meu lugar por&nbsp;<span>R$24</span>
