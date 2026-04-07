@@ -29,13 +29,17 @@
   <!-- Preconnect -->
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://connect.facebook.net">
+  <link rel="preconnect" href="https://pay.hotmart.com">
+  <link rel="dns-prefetch" href="https://pay.hotmart.com">
 
   <!-- Hero image preload (mobile-first) -->
-  <link rel="preload" as="image" href="/a1/assets/hero-expert-mobile.webp" type="image/webp" media="(max-width: 1023px)">
-  <link rel="preload" as="image" href="/a1/assets/hero-expert.webp" type="image/webp" media="(min-width: 1024px)">
+  <link rel="preload" as="image" href="/a3/assets/hero-expert-mobile.webp" type="image/webp" media="(max-width: 1023px)">
+  <link rel="preload" as="image" href="/a3/assets/hero-expert.webp" type="image/webp" media="(min-width: 1024px)">
 
   <!-- Fonts (self-hosted, eliminates 2 external connections) -->
   <link rel="preload" href="/shared/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/shared/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/shared/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/shared/fonts/im-fell-english-400.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
@@ -45,9 +49,25 @@
     @font-face {
       font-family: 'Inter';
       font-style: normal;
-      font-weight: 400 700;
+      font-weight: 400;
       font-display: swap;
       src: url('/shared/fonts/inter-400.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url('/shared/fonts/inter-600.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('/shared/fonts/inter-700.woff2') format('woff2');
       unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
     }
     @font-face {
@@ -392,464 +412,10 @@
       100% { transform: translateX(-50%); }
     }
 
-    /* ═══════════════════════════════════════════════════════════
-       SECTION 2: CAMINHO
-       ═══════════════════════════════════════════════════════════ */
-    .bar-chart { margin: 2rem 0; max-width: 560px; }
-    .bar-chart__item { margin-bottom: 1rem; }
-    .bar-chart__label { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.375rem; }
-    .bar-chart__track {
-      height: 32px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      padding: 0 1rem;
-      font-weight: 700;
-      font-size: 0.875rem;
-    }
-    .bar-chart__track--high { background: var(--highlight); color: var(--bg-primary); width: 93%; }
-    .bar-chart__track--low { background: var(--text-secondary); color: var(--bg-primary); width: 53%; }
-    .bar-chart__gap { text-align: center; font-size: 0.875rem; color: var(--highlight); font-weight: 700; margin-top: 0.5rem; }
-    .bar-chart__source { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem; }
-
-    /* ═══════════════════════════════════════════════════════════
-       SECTION 3: IDENTIFICAÇÃO
-       ═══════════════════════════════════════════════════════════ */
-    .spotlight { position: relative; }
-    .spotlight::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 50%;
-      background: radial-gradient(ellipse at center top, rgba(179,164,48,0.04) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .spotlight > * { position: relative; z-index: 1; }
-    .punch-line {
-      font-weight: 700;
-      font-size: clamp(1.0625rem, 2vw, 1.25rem);
-      line-height: 1.6;
-      margin-top: 0.5rem;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       SECTION 4: CONTEÚDO — Cards
-       ═══════════════════════════════════════════════════════════ */
-    .cards-scroll {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 1rem;
-      scrollbar-width: none;
-    }
-    .cards-scroll::-webkit-scrollbar { display: none; }
-    .card {
-      flex: 0 0 85%;
-      scroll-snap-align: start;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem 1.5rem;
-    }
-    .card__subtitle { color: var(--highlight); font-size: 0.9375rem; font-weight: 500; margin-bottom: 0.75rem; line-height: 1.5; }
-    .card p { color: var(--text-secondary); font-size: 0.9375rem; }
-
-    @media (min-width: 1024px) {
-      .cards-scroll { overflow-x: visible; display: grid; grid-template-columns: repeat(3, 1fr); }
-      .card { flex: none; }
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       SECTION 5: CRONOGRAMA (simplified, no circles)
-       ═══════════════════════════════════════════════════════════ */
-    .schedule-item {
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .schedule-item:last-of-type { border-bottom: none; }
-    .schedule__title {
-      font-weight: 700;
-      color: var(--highlight);
-      font-size: 1.0625rem;
-      margin-bottom: 0.5rem;
-    }
-    .schedule__desc {
-      color: var(--text-secondary);
-      font-size: 0.9375rem;
-      line-height: 1.7;
-      max-width: var(--max-text);
-    }
-    .schedule__note {
-      margin-top: 2rem;
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      font-style: italic;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       SECTION 6: CASES — WhatsApp grid (not polaroid)
-       ═══════════════════════════════════════════════════════════ */
-    /* Mobile: horizontal scroll */
-    .testimonials-grid {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 1rem;
-      scrollbar-width: none;
-      margin-top: 2rem;
-    }
-    .testimonials-grid::-webkit-scrollbar { display: none; }
-    .testimonial-card {
-      flex: 0 0 75%;
-      scroll-snap-align: start;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .testimonial-card img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* Desktop: grid 2x2, smaller */
-    @media (min-width: 640px) {
-      .testimonials-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.25rem;
-        overflow: visible;
-        max-width: 700px;
-        margin: 2rem auto 0;
-      }
-      .testimonial-card { flex: none; }
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       SECTION 7a: PROPOSTA DE VALOR
-       ═══════════════════════════════════════════════════════════ */
-    .outcomes { list-style: none; margin: 1.5rem 0; }
-    .outcomes li {
-      display: flex;
-      gap: 0.875rem;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-    .outcomes li::before {
-      content: '✓';
-      color: var(--highlight);
-      font-weight: 700;
-      font-size: 1.125rem;
-      flex-shrink: 0;
-      margin-top: 0.125rem;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       SECTION 7b: PREÇO — Card
-       ═══════════════════════════════════════════════════════════ */
-    .price-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: clamp(2rem, 5vw, 3rem);
-      max-width: 640px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .anchor-list { list-style: none; text-align: left; margin-bottom: 1.5rem; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-    .anchor-list li {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.875rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.9375rem;
-      color: var(--text-primary);
-      background: rgba(255,255,255,0.02);
-    }
-    .anchor-list li:nth-child(even) { background: rgba(255,255,255,0.05); }
-    .anchor-list li:last-child { border-bottom: none; }
-    .anchor-list li span { text-decoration: line-through; color: var(--text-secondary); font-weight: 600; }
-    .anchor-total {
-      text-align: center;
-      font-size: 1.25rem;
-      color: var(--text-secondary);
-      text-decoration: line-through;
-      margin: 1rem 0 1.5rem;
-      font-weight: 600;
-    }
-    .price-divider { width: 60px; height: 2px; background: var(--border); margin: 1.5rem auto; }
-    .price-big {
-      font-family: var(--font-body);
-      font-size: clamp(3.5rem, 10vw, 5.5rem);
-      color: var(--text-primary);
-      font-weight: 700;
-      line-height: 1;
-      margin: 0.5rem 0;
-    }
-    .price-label { font-size: 1.125rem; color: var(--highlight); font-weight: 700; margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    .price-urgency { font-size: 0.875rem; color: var(--urgency); font-weight: 600; margin: 1rem 0; }
-    .price-card .cta-button {
-      margin: 1.5rem auto 0;
-      font-size: clamp(1.0625rem, 2.5vw, 1.25rem);
-      padding: 1.25rem 2.5rem;
-    }
-    .price-card .scarcity-bar { margin: 1.5rem auto; }
-    .price-quote { font-style: italic; font-size: 0.875rem; color: var(--text-secondary); margin-top: 1.5rem; line-height: 1.6; }
-
-    @media (min-width: 1024px) {
-      .price-card { padding: 3rem 4rem; }
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       SECTION 9: BIO
-       ═══════════════════════════════════════════════════════════ */
-    .bio-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start; }
-    .bio-image {
-      width: 100%;
-      max-width: 360px;
-      margin: 0 auto;
-      border-radius: 12px;
-      aspect-ratio: 3/4;
-      object-fit: cover;
-    }
-    .bio__subtitle { color: var(--text-secondary); font-size: 1rem; margin-bottom: 1.25rem; }
-    .credentials { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
-    .credential {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      font-size: 0.75rem;
-      font-weight: 500;
-      padding: 0.375rem 0.875rem;
-      border-radius: 100px;
-    }
-
-    @media (min-width: 1024px) {
-      .bio-grid { grid-template-columns: 0.8fr 1fr; }
-      .bio-image { max-width: 100%; }
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       SECTION 10: GARANTIA
-       ═══════════════════════════════════════════════════════════ */
-    .guarantee-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--highlight);
-      border-radius: 0 12px 12px 0;
-      padding: clamp(2rem, 5vw, 3rem);
-      max-width: 720px;
-    }
-    .guarantee-icon { width: 48px; height: 48px; margin-bottom: 1.25rem; }
-    .guarantee-quote {
-      font-style: italic;
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      margin-top: 1.5rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border);
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       SECTION 12: FAQ
-       ═══════════════════════════════════════════════════════════ */
-    .faq-list { max-width: 760px; margin: 0 auto; }
-    .faq-item { border-bottom: 1px solid var(--border); }
-    .faq-question {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.25rem 0;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--text-primary);
-      background: none;
-      border: none;
-      width: 100%;
-      text-align: left;
-      font-family: var(--font-body);
-      gap: 1rem;
-      min-height: 48px;
-    }
-    .faq-question:hover { color: var(--highlight); }
-    .faq-arrow {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      color: var(--text-secondary);
-      transition: transform 0.3s ease;
-    }
-    .faq-item.open .faq-arrow { transform: rotate(180deg); }
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    .faq-answer__inner {
-      padding: 0 0 1.25rem;
-      font-size: 1rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       FINAL CTA
-       ═══════════════════════════════════════════════════════════ */
-    .final-cta { text-align: center; padding: var(--section-padding) var(--content-padding); }
-    .final-cta h2 { margin-bottom: 2rem; }
-    .final-cta .cta-button { margin: 0 auto; }
-
-    /* ═══════════════════════════════════════════════════════════
-       STICKY CTA
-       ═══════════════════════════════════════════════════════════ */
-    .sticky-cta {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      background: rgba(13,13,9,0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-top: 1px solid var(--border);
-      padding: 0.75rem var(--content-padding);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      transform: translateY(100%);
-      transition: transform 0.3s ease;
-    }
-    .sticky-cta.visible { transform: translateY(0); }
-    .sticky-cta__text { font-size: 0.8125rem; color: var(--text-secondary); display: none; }
-    .sticky-cta .cta-button {
-      font-size: 0.9375rem;
-      padding: 0.875rem 1.5rem;
-      width: 100%;
-      max-width: 360px;
-      box-shadow: 0 2px 16px rgba(45, 181, 71, 0.3);
-    }
-
-    @media (min-width: 640px) {
-      .sticky-cta__text { display: block; }
-      .sticky-cta .cta-button { width: auto; }
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       POPUP / MODAL
-       ═══════════════════════════════════════════════════════════ */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.25rem;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    .modal-overlay.open {
-      opacity: 1;
-      visibility: visible;
-    }
-    .modal {
-      background: var(--bg-card);
-      border: 1px solid var(--highlight);
-      border-radius: 16px;
-      max-width: 480px;
-      width: 100%;
-      padding: clamp(2rem, 5vw, 2.5rem);
-      position: relative;
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-    }
-    .modal-overlay.open .modal {
-      transform: translateY(0);
-    }
-    .modal__close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: var(--border);
-      border: none;
-      color: var(--text-primary);
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      font-size: 1.125rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
-    }
-    .modal__close:hover { background: var(--text-secondary); }
-    .modal__logo {
-      text-align: center;
-      margin-bottom: 1.25rem;
-    }
-    .modal__logo img { height: auto; width: 220px; max-width: 80%; margin: 0 auto; }
-    .modal__title {
-      text-align: center;
-      font-size: 1rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-    }
-    .modal__form { display: flex; flex-direction: column; gap: 1rem; }
-    .modal__input {
-      width: 100%;
-      padding: 1rem 1.25rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .modal__input::placeholder { color: var(--text-secondary); }
-    .modal__input:focus { border-color: var(--highlight); }
-    .modal__form .cta-button {
-      width: 100%;
-      max-width: none;
-      margin-top: 0.5rem;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════════════════════════ */
-    .footer {
-      text-align: center;
-      padding: 2rem var(--content-padding);
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      border-top: 1px solid var(--border);
-    }
-    .footer img { height: 20px; margin: 0 auto 0.5rem; }
-
-    /* ═══════════════════════════════════════════════════════════
-       UTILITY
-       ═══════════════════════════════════════════════════════════ */
-    .text-center { text-align: center; }
-    .mx-auto { margin-left: auto; margin-right: auto; }
-    .mt-2 { margin-top: 2rem; }
-    .mb-1 { margin-bottom: 1rem; }
   </style>
+  <!-- Below-fold CSS: loaded non-blocking for faster first paint -->
+  <link rel="stylesheet" href="/a3/below-fold.css?v=1" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/a3/below-fold.css?v=1"></noscript>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -880,14 +446,14 @@
         <p class="hero__lastro">Vitor Santos, perito forense com certificação FACS por Paul Ekman, revela o sistema de leitura comportamental que usava em interrogatórios reais. Agora aplicado a reuniões, negociações e conversas de alto impacto.</p>
 
         <a href="#preco" class="cta-button cta-scroll">
-          <span data-config="cta.texto">Quero ler pessoas — R$24</span>
+          <span>Quero ler pessoas — R$24</span>
         </a>
 
         <div class="scarcity-bar">
           <div class="scarcity-bar__track">
-            <div class="scarcity-bar__fill" data-config="barra_vendas.percentual" data-type="progress"></div>
+            <div class="scarcity-bar__fill" style="width:26%"></div>
           </div>
-          <span class="scarcity-bar__text" data-config="barra_vendas.texto">20% das vagas preenchidas</span>
+          <span class="scarcity-bar__text">26% das vagas preenchidas</span>
         </div>
 
         <p class="hero__quote"><em>"Este ponto fraco pode ser usado para tirarem proveito de mim."</em> <span style="font-style:normal;">Se você já sentiu isso numa negociação, reunião ou conversa importante, este workshop existe por causa de você.</span></p>
@@ -895,7 +461,7 @@
 
       <!-- Photo -->
       <div class="hero__image-wrap">
-        <img class="hero__image" src="/a1/assets/hero-expert.webp" srcset="/a1/assets/hero-expert-mobile.webp 800w, /a1/assets/hero-expert.webp 2000w" sizes="(max-width: 1023px) 100vw, 50vw" alt="Vitor Santos, Perito Forense e Analista Comportamental" width="2000" height="1125" loading="eager" fetchpriority="high">
+        <img class="hero__image" src="/a3/assets/hero-expert.webp" srcset="/a3/assets/hero-expert-mobile.webp 800w, /a3/assets/hero-expert.webp 2000w" sizes="(max-width: 1023px) 100vw, 50vw" alt="Vitor Santos, Perito Forense e Analista Comportamental" width="2000" height="1125" loading="eager" fetchpriority="high">
       </div>
     </div>
   </section>
@@ -1072,19 +638,19 @@
 
         <div class="price-divider"></div>
 
-        <p class="price-label"><span data-config="lote.nome">Lote 1</span></p>
-        <div class="price-big" data-config="lote.preco">R$ 24</div>
+        <p class="price-label"><span>Lote 1</span></p>
+        <div class="price-big">R$ 24</div>
         <p class="muted" style="font-size:1rem;">Vinte e quatro reais. Menos que um almoço. Pra resolver algo que te custa oportunidades há anos.</p>
 
         <a href="#" class="cta-button cta-modal" onclick="event.preventDefault();">
-          <span data-config="cta.texto">Quero ler pessoas — R$24</span>
+          <span>Quero ler pessoas — R$24</span>
         </a>
 
         <div class="scarcity-bar" style="margin: 1.5rem auto;">
           <div class="scarcity-bar__track">
-            <div class="scarcity-bar__fill" data-config="barra_vendas.percentual" data-type="progress"></div>
+            <div class="scarcity-bar__fill" style="width:26%"></div>
           </div>
-          <span class="scarcity-bar__text" data-config="barra_vendas.texto">20% das vagas preenchidas</span>
+          <span class="scarcity-bar__text">26% das vagas preenchidas</span>
         </div>
 
         <p class="price-quote">"Eu sempre achei que confiança era algo que você nascia tendo ou não. Depois do método do Vitor, descobri que é uma habilidade. E habilidade se treina." — Juliana</p>
@@ -1200,7 +766,7 @@
     <div class="container">
       <h2>Sua próxima reunião pode ser <span class="highlight">diferente.</span></h2>
       <a href="#preco" class="cta-button cta-scroll">
-        <span data-config="cta.texto">Quero ler pessoas — R$24</span>
+        <span>Quero ler pessoas — R$24</span>
       </a>
     </div>
   </section>
@@ -1232,33 +798,16 @@
 
   <!-- STICKY CTA -->
   <div class="sticky-cta" id="stickyCta">
-    <span class="sticky-cta__text" data-config="barra_vendas.texto">Lote 1 com vagas limitadas</span>
+    <span class="sticky-cta__text">26% das vagas preenchidas</span>
     <a href="#preco" class="cta-button cta-scroll">
-      Meu lugar por&nbsp;<span data-config="lote.preco">R$24</span>
+      Meu lugar por&nbsp;<span>R$24</span>
     </a>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
        SCRIPTS
        ═══════════════════════════════════════════════════════════ -->
-  <script>
-    (function(){
-      fetch('/a3/config.json')
-        .then(function(r){ return r.json(); })
-        .then(function(data){
-          document.querySelectorAll('[data-config]').forEach(function(el){
-            var key = el.getAttribute('data-config');
-            var type = el.getAttribute('data-type');
-            var value = key.split('.').reduce(function(o,k){ return o && o[k]; }, data);
-            if(value === undefined) return;
-            if(type === 'href') el.setAttribute('href', value);
-            else if(type === 'progress') el.style.width = value + '%';
-            else el.textContent = value;
-          });
-        })
-        .catch(function(){ console.warn('config.json nao carregou'); });
-    })();
-  </script>
+  <!-- config.json removido: valores hardcodados no HTML para eliminar fetch extra -->
 
   <script>
     (function(){
@@ -1384,6 +933,7 @@
         // Envia pro ActiveCampaign (async, não trava o redirect)
         fetch('/api/subscribe', {
           method: 'POST',
+          keepalive: true,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: name, email: email, phone: phone,
@@ -1393,8 +943,8 @@
           })
         }).catch(function(){});
 
-        // Redireciona pro Hotmart após 500ms (garante que o POST saiu)
-        setTimeout(function(){ window.location.href = checkoutUrl; }, 500);
+        // Redireciona pro Hotmart após 100ms (garante que o POST saiu)
+        setTimeout(function(){ window.location.href = checkoutUrl; }, 100);
       });
     })();
   </script>
