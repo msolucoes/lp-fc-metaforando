@@ -2,16 +2,16 @@
   "produto": "FC Metaforando",
   "angulo": "A1",
   "lote": {
-    "nome": "Lote 1",
-    "preco": "R$ 24",
+    "nome": "Lote 2",
+    "preco": "R$ 29",
     "preco_anterior": "R$ 47"
   },
   "barra_vendas": {
-    "percentual": 98,
-    "texto": "98% das vagas preenchidas"
+    "percentual": 32,
+    "texto": "32% das vagas preenchidas"
   },
   "cta": {
-    "texto": "Quero parar de travar — R$24",
+    "texto": "Quero parar de travar — R$29",
     "url": "#"
   },
   "meta": {
