@@ -2,16 +2,16 @@
   "produto": "FC Metaforando",
   "angulo": "A5",
   "lote": {
-    "nome": "Lote 2",
-    "preco": "R$ 29",
+    "nome": "Lote 3",
+    "preco": "R$ 34",
     "preco_anterior": "R$ 47"
   },
   "barra_vendas": {
-    "percentual": 104,
-    "texto": "LOTE 2 — 104% das vagas preenchidas"
+    "percentual": 43,
+    "texto": "LOTE 3 — 43% das vagas preenchidas"
   },
   "cta": {
-    "texto": "Quero ser a escolha óbvia — R$29",
+    "texto": "Quero ser a escolha óbvia — R$34",
     "url": "#"
   },
   "meta": {
