@@ -7,6 +7,11 @@
     },
     {
       "source": "/(.*)",
+      "has": [{ "type": "host", "value": "fca1b.metaforando.com.br" }],
+      "destination": "/a1b/$1"
+    },
+    {
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "fca3.metaforando.com.br" }],
       "destination": "/a3/$1"
     },
