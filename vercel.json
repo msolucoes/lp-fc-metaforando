@@ -12,6 +12,11 @@
     },
     {
       "source": "/(.*)",
+      "has": [{ "type": "host", "value": "fca1c.metaforando.com.br" }],
+      "destination": "/a1c/$1"
+    },
+    {
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "fca3.metaforando.com.br" }],
       "destination": "/a3/$1"
     },
