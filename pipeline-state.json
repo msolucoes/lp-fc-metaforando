@@ -7,7 +7,7 @@
   "guideline": "paginas/design/guia-design-pagina-vendas-lancamento-pago.md",
   "status": "completed",
   "startedAt": "2026-03-26T00:00:00Z",
-  "lastUpdated": "2026-04-17T00:00:00Z",
+  "lastUpdated": "2026-04-20T00:00:00Z",
   "currentPhase": "phase_6",
   "angles": {
     "a1": {
@@ -113,7 +113,7 @@
   },
   "blockers": [],
   "checkout": {
-    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=nzpysz1u&checkoutMode=10",
+    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=nlr63d82&checkoutMode=10",
     "url_pattern": "hotmart_url + &name={name}&email={email}&phonenumber={phone}&utm_campaign={utm_campaign}&utm_medium={utm_medium}&utm_source={utm_source}&utm_term={utm_term}&utm_content={utm_content}&sck={utm_campaign}|{utm_source}|{utm_medium}|{utm_content}|{utm_term}",
     "redirect_on_submit": true,
     "activecampaign": {
@@ -124,5 +124,5 @@
     },
     "flow": "Anuncio/Organico → LP → Popup (form) → POST ActiveCampaign (async) + Redirect Hotmart (com UTMs)"
   },
-  "nextAction": "Hotfix Lote 4 aplicado (R$39, 41%, oferta nzpysz1u). Falta git push para deploy em produção."
+  "nextAction": "Update Último Lote aplicado (R$49, 53%, oferta nlr63d82). Falta git push para deploy em produção."
 }
