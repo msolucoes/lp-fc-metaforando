@@ -1436,7 +1436,7 @@
             var value = key.split('.').reduce(function(o,k){ return o && o[k]; }, data);
             if(value === undefined) return;
             if(type === 'href') el.setAttribute('href', value);
-            else if(type === 'progress') el.style.width = value + '%';
+            else if(type === 'progress') el.style.width = Math.min(value, 100) + '%';
             else el.textContent = value;
           });
         })
