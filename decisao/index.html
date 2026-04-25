@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fórmula da Confiança | Escolha sua opção</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/shared/images/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/shared/images/favicon.png">
+
+  <!-- Fonts (self-hosted) -->
+  <link rel="preload" href="/shared/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/shared/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/shared/fonts/im-fell-english-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('/shared/fonts/inter-400.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url('/shared/fonts/inter-600.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('/shared/fonts/inter-700.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'IM Fell English';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('/shared/fonts/im-fell-english-400.woff2') format('woff2');
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #0D0D09;
+      --bg-card: #1C1A17;
+      --cta: #2DB547;
+      --cta-hover: #33C950;
+      --cta-active: #28A340;
+      --text-primary: #E3DDCA;
+      --text-secondary: #A39E8F;
+      --highlight: #B3A430;
+      --border: #2A2724;
+      --font-heading: 'IM Fell English', serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      background-color: var(--bg-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Texture grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(179,164,48,0.03) 79px, rgba(179,164,48,0.03) 80px),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(179,164,48,0.03) 79px, rgba(179,164,48,0.03) 80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .logo {
+      width: 200px;
+      height: auto;
+    }
+
+    /* Option Cards */
+    .option-card {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .option-card:hover {
+      border-color: var(--highlight);
+    }
+
+    .option-card.doubt {
+      border-color: transparent;
+      background: transparent;
+      padding: 1.5rem;
+    }
+
+    .option-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .option-desc {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 460px;
+    }
+
+    .option-card.doubt .option-title {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* CTA Buttons */
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2rem;
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      background: var(--cta);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 16px rgba(45,181,71,0.25);
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .btn-cta:hover {
+      background: var(--cta-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(45,181,71,0.35);
+    }
+
+    .btn-cta:active {
+      background: var(--cta-active);
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: rgba(179,164,48,0.1);
+      border: 1px solid var(--highlight);
+      color: var(--text-primary);
+      box-shadow: none;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(179,164,48,0.2);
+      border-color: var(--highlight);
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(179,164,48,0.15);
+    }
+
+    .btn-secondary:active {
+      background: rgba(179,164,48,0.15);
+      transform: translateY(0);
+    }
+
+    /* Divider */
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      body { padding: 1.5rem 1rem; }
+      .option-card { padding: 1.5rem 1.25rem; }
+      .option-title { font-size: 1.125rem; }
+      .btn-cta { padding: 0.875rem 1.5rem; font-size: 0.875rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Logo -->
+    <img
+      src="/shared/images/logo-afc.webp"
+      alt="Fórmula da Confiança"
+      class="logo"
+      width="200"
+      height="40"
+    >
+
+    <!-- Option 1: Full commitment -->
+    <div class="option-card">
+      <h2 class="option-title">Já tenho certeza. Quero meu onboarding agora.</h2>
+      <p class="option-desc">Acesso imediato ao onboarding e a todos os bônus.</p>
+      <a href="https://pay.hotmart.com/G101853759D?off=rdd2m4lh&checkoutMode=10" class="btn-cta" target="_blank" rel="noopener">
+        Garantir minha vaga agora
+      </a>
+    </div>
+
+    <!-- Option 2: Signal payment -->
+    <div class="option-card">
+      <h2 class="option-title">Quero reservar minha vaga com um sinal de R$&nbsp;1.000.</h2>
+      <p class="option-desc">Em seguida, minha equipe entrará em contato para combinar o restante do valor.</p>
+      <a href="https://pay.hotmart.com/G101853759D?off=9n2vyl8b&checkoutMode=10" class="btn-cta" target="_blank" rel="noopener">
+        Fazer o sinal e reservar minha vaga
+      </a>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Option 3: Doubt / Talk to team -->
+    <div class="option-card doubt">
+      <p class="option-title">&#x1F914; Ainda estou em dúvida. Quero falar com o time, mesmo sabendo que posso perder os bônus.</p>
+      <p class="option-desc">Meu time vai tirar suas dúvidas por ordem de chegada.</p>
+      <a href="https://link.metaforando.com.br/l26atendimento" class="btn-cta btn-secondary">
+        Quero falar com o time
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
