@@ -1369,8 +1369,10 @@
         var email = form.elements.email.value.trim();
         var phone = form.elements.phone.value.trim();
         var phoneRaw = phone.replace(/\D/g, '');
-        var phoneHotmart = phoneRaw;
-        if (phoneHotmart.length === 10 || phoneHotmart.length === 11) phoneHotmart = '55' + phoneHotmart;
+        // Remove DDI 55 se tiver (Hotmart preenche código do país automaticamente)
+        if (phoneRaw.startsWith('55') && phoneRaw.length >= 12) phoneRaw = phoneRaw.slice(2);
+        var phoneAc = phoneRaw.slice(0, 2);
+        var phoneNumber = phoneRaw.slice(2);
         var submitBtn = form.querySelector('button[type="submit"]');
         submitBtn.disabled = true;
         submitBtn.textContent = 'Redirecionando...';
@@ -1381,7 +1383,8 @@
         var checkoutUrl = 'https://pay.hotmart.com/V103997742J?off=80nj4k9k&checkoutMode=10'
           + '&name=' + encodeURIComponent(name)
           + '&email=' + encodeURIComponent(email)
-          + '&phonenumber=' + encodeURIComponent(phoneHotmart)
+          + '&phoneac=' + encodeURIComponent(phoneAc)
+          + '&phonenumber=' + encodeURIComponent(phoneNumber)
           + '&utm_campaign=' + encodeURIComponent(utms.utm_campaign)
           + '&utm_medium=' + encodeURIComponent(utms.utm_medium)
           + '&utm_source=' + encodeURIComponent(utms.utm_source)
