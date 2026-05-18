@@ -2,21 +2,20 @@
   "produto": "FC Metaforando",
   "angulo": "A1",
   "lote": {
-    "nome": "Último Lote",
-    "preco": "R$ 49",
-    "preco_anterior": "R$ 47"
+    "nome": "Lote Promocional",
+    "preco": "R$ 27"
   },
   "barra_vendas": {
-    "percentual": 103,
-    "texto": "ÚLTIMO LOTE — 103% das vagas preenchidas"
+    "percentual": 26,
+    "texto": "LOTE PROMOCIONAL — 26% das vagas preenchidas"
   },
   "cta": {
-    "texto": "Quero parar de travar — R$49",
+    "texto": "Quero parar de travar — R$27",
     "url": "#"
   },
   "meta": {
     "title": "Fórmula da Confiança — Workshop com Vitor Santos",
-    "description": "Workshop ao vivo de 2 dias. Domine as 3 Armas da Comunicação de Alto Impacto.",
+    "description": "Workshop online ao vivo. Domine as 3 Armas da Comunicação de Alto Impacto.",
     "og_image": "../shared/images/og-image.jpg"
   }
 }

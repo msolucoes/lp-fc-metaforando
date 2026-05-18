@@ -113,7 +113,7 @@
   },
   "blockers": [],
   "checkout": {
-    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=nlr63d82&checkoutMode=10",
+    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=80nj4k9k&checkoutMode=10",
     "url_pattern": "hotmart_url + &name={name}&email={email}&phonenumber={phone}&utm_campaign={utm_campaign}&utm_medium={utm_medium}&utm_source={utm_source}&utm_term={utm_term}&utm_content={utm_content}&sck={utm_campaign}|{utm_source}|{utm_medium}|{utm_content}|{utm_term}",
     "redirect_on_submit": true,
     "activecampaign": {
@@ -124,5 +124,5 @@
     },
     "flow": "Anuncio/Organico → LP → Popup (form) → POST ActiveCampaign (async) + Redirect Hotmart (com UTMs)"
   },
-  "nextAction": "Update Último Lote aplicado (R$49, 53%, oferta nlr63d82). Falta git push para deploy em produção."
+  "nextAction": "Update Nova Edição AFC aplicado (R$27, 26%, evento 30/05 em dia único, oferta 80nj4k9k). Falta git push para deploy em produção."
 }
