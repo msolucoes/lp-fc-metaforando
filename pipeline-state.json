@@ -7,24 +7,42 @@
   "guideline": "paginas/design/guia-design-pagina-vendas-lancamento-pago.md",
   "status": "completed",
   "startedAt": "2026-03-26T00:00:00Z",
-  "lastUpdated": "2026-04-20T00:00:00Z",
-  "currentPhase": "phase_6",
+  "lastUpdated": "2026-05-25T00:00:00Z",
+  "currentPhase": "production",
   "angles": {
     "a1": {
-      "status": "in_progress",
-      "currentPhase": "phase_6",
+      "status": "completed",
+      "currentPhase": "production",
       "copy": "paginas/copy/PAGINA-FC-A1-Metaforando.md",
       "html": "a1/index.html",
       "config": "a1/config.json",
       "domain": "fca1.metaforando.com.br"
+    },
+    "a1b": {
+      "status": "completed",
+      "currentPhase": "production",
+      "copy": "lp-fc-metaforando/COPY-A1-v2-OTIMIZADA.md",
+      "html": "a1b/index.html",
+      "config": "a1b/config.json",
+      "domain": "fca1b.metaforando.com.br",
+      "notes": "Variação da A1 — copy v2 otimizada (squad launch-page-pro, base AD02 309 vendas)."
+    },
+    "a1c": {
+      "status": "completed",
+      "currentPhase": "production",
+      "html": "a1c/index.html",
+      "config": "a1c/config.json",
+      "domain": "fca1c.metaforando.com.br",
+      "notes": "Variação visual/copy da A1."
     },
     "a3": {
       "status": "completed",
       "currentPhase": "production",
       "copy": "paginas/copy/PAGINA-FC-A3-Metaforando.md",
       "html": "a3/index.html",
-      "config": "a3/config.json",
-      "domain": "fca3.metaforando.com.br"
+      "config": null,
+      "domain": "fca3.metaforando.com.br",
+      "notes": "Hardcoded de propósito — sem config.json (decisão de performance, evita fetch extra)."
     },
     "a5": {
       "status": "completed",
@@ -113,7 +131,7 @@
   },
   "blockers": [],
   "checkout": {
-    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=80nj4k9k&checkoutMode=10",
+    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=sjs6cmmn&checkoutMode=10",
     "url_pattern": "hotmart_url + &name={name}&email={email}&phonenumber={phone}&utm_campaign={utm_campaign}&utm_medium={utm_medium}&utm_source={utm_source}&utm_term={utm_term}&utm_content={utm_content}&sck={utm_campaign}|{utm_source}|{utm_medium}|{utm_content}|{utm_term}",
     "redirect_on_submit": true,
     "activecampaign": {
@@ -124,5 +142,5 @@
     },
     "flow": "Anuncio/Organico → LP → Popup (form) → POST ActiveCampaign (async) + Redirect Hotmart (com UTMs)"
   },
-  "nextAction": "Update Nova Edição AFC aplicado (R$27, 26%, evento 30/05 em dia único, oferta 80nj4k9k). Falta git push para deploy em produção."
+  "nextAction": "Último Lote aplicado (R$37, 89% das vagas, oferta sjs6cmmn) nas 5 páginas (A1, A1b, A1c, A3, A5). Falta git push (via @devops, conta msolucoes) para deploy em produção."
 }

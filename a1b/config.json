@@ -2,15 +2,15 @@
   "produto": "FC Metaforando",
   "angulo": "A1b",
   "lote": {
-    "nome": "Lote Promocional",
-    "preco": "R$ 27"
+    "nome": "Último Lote",
+    "preco": "R$ 37"
   },
   "barra_vendas": {
-    "percentual": 73,
-    "texto": "LOTE PROMOCIONAL — 73% das vagas preenchidas"
+    "percentual": 89,
+    "texto": "ÚLTIMO LOTE — 89% das vagas preenchidas"
   },
   "cta": {
-    "texto": "Quero parar de travar — R$27",
+    "texto": "Quero parar de travar — R$37",
     "url": "#"
   },
   "meta": {
