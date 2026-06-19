@@ -7,7 +7,7 @@
   "guideline": "paginas/design/guia-design-pagina-vendas-lancamento-pago.md",
   "status": "completed",
   "startedAt": "2026-03-26T00:00:00Z",
-  "lastUpdated": "2026-05-25T00:00:00Z",
+  "lastUpdated": "2026-06-08T00:00:00Z",
   "currentPhase": "production",
   "angles": {
     "a1": {
@@ -131,7 +131,7 @@
   },
   "blockers": [],
   "checkout": {
-    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=sjs6cmmn&checkoutMode=10",
+    "hotmart_url": "https://pay.hotmart.com/V103997742J?off=tlvdsvcu&checkoutMode=10",
     "url_pattern": "hotmart_url + &name={name}&email={email}&phonenumber={phone}&utm_campaign={utm_campaign}&utm_medium={utm_medium}&utm_source={utm_source}&utm_term={utm_term}&utm_content={utm_content}&sck={utm_campaign}|{utm_source}|{utm_medium}|{utm_content}|{utm_term}",
     "redirect_on_submit": true,
     "activecampaign": {
@@ -142,5 +142,5 @@
     },
     "flow": "Anuncio/Organico → LP → Popup (form) → POST ActiveCampaign (async) + Redirect Hotmart (com UTMs)"
   },
-  "nextAction": "Último Lote aplicado (R$37, 89% das vagas, oferta sjs6cmmn) nas 5 páginas (A1, A1b, A1c, A3, A5). Falta git push (via @devops, conta msolucoes) para deploy em produção."
+  "nextAction": "Lote Promocional aplicado (R$27, 56% das vagas, data 20/06 sábado, oferta tlvdsvcu, tag AC L28) nas 5 páginas (A1, A1b, A1c, A3, A5). Commit 6a3faee pushed para msolucoes/lp-fc-metaforando main. Deploy automático Vercel. Pendente: equipe criar tag L28 no ActiveCampaign + automações; testar checkout em produção."
 }
