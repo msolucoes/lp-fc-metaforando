@@ -1549,7 +1549,7 @@
         var sck = [utms.utm_campaign, utms.utm_source, utms.utm_medium, utms.utm_content, utms.utm_term]
           .map(function(v){ return v || ''; }).join('|');
 
-        var checkoutUrl = 'https://pay.hotmart.com/V103997742J?off=06axulhm&checkoutMode=10'
+        var checkoutUrl = (window.__CHECKOUT_URL || 'https://pay.hotmart.com/V103997742J?off=06axulhm&checkoutMode=10')
           + '&name=' + encodeURIComponent(name)
           + '&email=' + encodeURIComponent(email)
           + '&phoneac=' + encodeURIComponent(phoneAc)
@@ -1579,6 +1579,7 @@
     })();
   </script>
 
+  <script src="/shared/virada-lote.js"></script>
   <script src="/shared/tracking.js" async></script>
 </body>
 </html>
