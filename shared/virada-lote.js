@@ -4,7 +4,13 @@
  * O QUE FAZ (por data, fuso de Brasília, sem depender de deploy):
  *   1) Define o lote ativo → troca preço exibido, texto por extenso e a
  *      BASE do checkout (o off= do Hotmart).
- *   2) Anima a barra de progresso proporcionalmente entre duas datas.
+ *   2) Troca a DATA DO EVENTO exibida na copy conforme o lote ativo.
+ *   3) Anima a barra de progresso proporcionalmente entre duas datas.
+ *
+ * CRONOGRAMA (Brasília, UTC-3):
+ *   • até 17/07/2026 23:59:59 → R$ 37 · off=142taykp · evento "18 de julho"
+ *   • 18/07 00:00 → 28/07 23:59:59 → R$ 27 · off=nc8vnczs · evento "1º de agosto"
+ *   • a partir de 29/07 00:00 → R$ 37 · off=rnvs7juu · evento "1º de agosto"
  *
  * O QUE NÃO TOCA (para não prejudicar tráfego/campanhas):
  *   - Formulário, envio ao ActiveCampaign, pixels/GTM.
@@ -12,7 +18,7 @@
  *   Ele só expõe window.__CHECKOUT_URL, que o form usa como base.
  *
  * COMO EDITAR NA PRÓXIMA VIRADA: mexa só no bloco LOTES abaixo.
- * TESTE: adicione ?__loteDate=2026-07-16T10:00 na URL para simular a data.
+ * TESTE: adicione ?__loteDate=2026-07-18T00:00 na URL para simular a data.
  * ═══════════════════════════════════════════════════════════════════════ */
 (function () {
   "use strict";
@@ -23,22 +29,32 @@
   var LOTES = [
     {
       nome: "Lote Promocional",
-      preco: "R$ 27",           // sempre com espaço; o script cobre "R$27" também
-      precoExtenso: "Vinte e sete",
-      checkout: "https://pay.hotmart.com/V103997742J?off=06axulhm&checkoutMode=10",
-      ate: "2026-07-14T23:59:59", // vira em 15/07 00:00
-      // Barra fixa em 63% (nada regride no que já está no ar hoje).
-      // Para rampar o Lote 1 depois, é só trocar startPct/start abaixo.
-      progresso: { startPct: 63, endPct: 63, start: "2026-07-14T00:00:00", end: "2026-07-14T23:59:59" }
-    },
-    {
-      nome: "Lote Promocional",  // nome mantido igual (pedido)
-      preco: "R$ 37",
+      preco: "R$ 37",              // sempre com espaço; o script cobre "R$37" também
       precoExtenso: "Trinta e sete",
       checkout: "https://pay.hotmart.com/V103997742J?off=142taykp&checkoutMode=10",
-      // sem "ate" = lote vigente até o fim
-      // Barra sobe 51% → 98% entre 15/07 00:00 e 17/07 23:59:59 e trava em 98%.
+      dataEvento: "18 de julho",
+      ate: "2026-07-17T23:59:59",  // vira em 18/07 00:00
+      // Comportamento atual mantido: barra sobe 51% → 98% e trava em 98%.
       progresso: { startPct: 51, endPct: 98, start: "2026-07-15T00:00:00", end: "2026-07-17T23:59:59" }
+    },
+    {
+      nome: "Lote Promocional",    // nome mantido igual (pedido)
+      preco: "R$ 27",
+      precoExtenso: "Vinte e sete",
+      checkout: "https://pay.hotmart.com/V103997742J?off=nc8vnczs&checkoutMode=10",
+      dataEvento: "1º de agosto",  // evento passa a ser 01/08/2026 (sábado, igual a 18/07)
+      ate: "2026-07-28T23:59:59",  // vira em 29/07 00:00
+      // Novo lote/relançamento: barra reinicia e sobe 63% → 98% na janela.
+      progresso: { startPct: 63, endPct: 98, start: "2026-07-18T00:00:00", end: "2026-07-28T23:59:59" }
+    },
+    {
+      nome: "Lote Promocional",
+      preco: "R$ 37",
+      precoExtenso: "Trinta e sete",
+      checkout: "https://pay.hotmart.com/V103997742J?off=rnvs7juu&checkoutMode=10",
+      dataEvento: "1º de agosto",  // evento continua 01/08/2026
+      // sem "ate" = lote vigente até o fim
+      progresso: { startPct: 63, endPct: 98, start: "2026-07-29T00:00:00", end: "2026-08-01T10:00:00" }
     }
   ];
 
@@ -82,6 +98,9 @@
   var PRECOS_JUNTO  = /R\$(?:27|37)\b/g;    // "R$27"  / "R$37"
   var EXTENSOS      = /(?:Vinte e sete|Trinta e sete)(?= reais)/g;
   var BARRA_TXT     = /\d+% das vagas preenchidas/g;
+  // Data do evento: cobre "18 de julho" e "1º de agosto" (ou "1 de agosto"),
+  // troca sempre para a data do lote vigente — bidirecional e idempotente.
+  var EVENTO_RE     = /\b18 de julho\b|\b1º? de agosto\b/gi;
 
   function trocarTokens(root, lote, pct) {
     var precoJunto = lote.preco.replace(/\s/g, "");            // "R$37"
@@ -99,7 +118,8 @@
       var depois = antes
         .replace(PRECOS_ESPACO, lote.preco)
         .replace(PRECOS_JUNTO, precoJunto)
-        .replace(EXTENSOS, lote.precoExtenso);
+        .replace(EXTENSOS, lote.precoExtenso)
+        .replace(EVENTO_RE, lote.dataEvento);
       if (pct != null) depois = depois.replace(BARRA_TXT, pct + "% das vagas preenchidas");
       if (depois !== antes) node.nodeValue = depois;
     }
@@ -140,11 +160,11 @@
       }
     }
 
-    // Preço no texto (CTAs, copy, sticky), por extenso e texto da barra
+    // Preço no texto (CTAs, copy, sticky), por extenso, data do evento e texto da barra
     if (document.body) trocarTokens(document.body, lote, pct);
 
     if (window.__loteDebug) {
-      console.log("[virada-lote] preco:", lote.preco, "| off:", lote.checkout.match(/off=(\w+)/)[1], "| barra:", pct + "%");
+      console.log("[virada-lote] preco:", lote.preco, "| off:", lote.checkout.match(/off=(\w+)/)[1], "| evento:", lote.dataEvento, "| barra:", pct + "%");
     }
 
     // Reconecta o observer: garante vitória mesmo se o config.json resolver depois.
