@@ -13,7 +13,7 @@
  *   • a partir de 29/07 00:00 → R$ 37 · off=rnvs7juu · evento "1º de agosto"
  *
  * O QUE NÃO TOCA (para não prejudicar tráfego/campanhas):
- *   - Formulário, envio ao ActiveCampaign, pixels/GTM.
+ *   - Formulário, envio ao ManyChat/Dynamus, pixels/GTM.
  *   - Repasse de UTM e montagem do sck (continua no submit do form).
  *   Ele só expõe window.__CHECKOUT_URL, que o form usa como base.
  *

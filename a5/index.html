@@ -1388,8 +1388,23 @@
           + '&utm_content=' + encodeURIComponent(utms.utm_content)
           + '&sck=' + encodeURIComponent(sck);
 
-        // Envia o lead pro Dynamus via webhook (async/keepalive, não trava o redirect)
+        // Envia o lead pro ManyChat + Dynamus (async/keepalive, não trava o redirect)
         var partesNome = name.split(' ').filter(Boolean);
+
+        // ManyChat (mantido do fluxo anterior)
+        fetch('https://webhook.msolucoes.digital/webhook/incluir-manychat-metaforando', {
+          method: 'POST',
+          keepalive: true,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name, email: email, phone: phone,
+            utm_source: utms.utm_source, utm_medium: utms.utm_medium,
+            utm_campaign: utms.utm_campaign, utm_content: utms.utm_content,
+            utm_term: utms.utm_term
+          })
+        }).catch(function(){});
+
+        // Dynamus (LeadConnector)
         fetch('https://services.leadconnectorhq.com/hooks/FvAkcb6fhwQre0CP1H1b/webhook-trigger/bebc2ffc-b9e0-4779-b06a-07b498b70f5b', {
           method: 'POST',
           keepalive: true,
