@@ -1241,6 +1241,9 @@
     /* Webhook do Dynamus (LeadConnector) — recebe o lead do formulário. */
     var WEBHOOK_DYNAMUS = 'https://services.leadconnectorhq.com/hooks/FvAkcb6fhwQre0CP1H1b/webhook-trigger/bebc2ffc-b9e0-4779-b06a-07b498b70f5b';
 
+    /* Webhook do ManyChat — mantido do fluxo anterior (recebe o telefone mascarado). */
+    var WEBHOOK_MANYCHAT = 'https://webhook.msolucoes.digital/webhook/incluir-manychat-metaforando';
+
     /* Deriva o início de cada lote (fim do anterior) e resolve o vigente. */
     var prev = new Date(CAMPANHA_INICIO).getTime();
     for (var i = 0; i < LOTES.length; i++) {
@@ -1468,6 +1471,24 @@
       submitBtn.textContent = 'Redirecionando...';
 
       var checkoutUrl = montaCheckout(name, email, phoneAc, phoneNumber);
+
+      /* Envia o lead pro ManyChat (fire-and-forget, telefone mascarado
+         como no fluxo antigo — não trava o redirect pro checkout). */
+      fetch(WEBHOOK_MANYCHAT, {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          phone: phone,
+          utm_source: utms.utm_source,
+          utm_medium: utms.utm_medium,
+          utm_campaign: utms.utm_campaign,
+          utm_content: utms.utm_content,
+          utm_term: utms.utm_term
+        })
+      }).catch(function () {});
 
       /* Envia o lead direto pro webhook do Dynamus/LeadConnector
          (fire-and-forget — não trava o redirect pro checkout). */
