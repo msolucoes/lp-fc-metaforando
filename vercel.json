@@ -26,6 +26,11 @@
       "destination": "/a5/$1"
     },
     {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "afc.metaforando.com.br" }],
+      "destination": "/afc/$1"
+    },
+    {
       "source": "/",
       "destination": "/a1/index.html"
     }
