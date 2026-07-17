@@ -1,4 +1,12 @@
 {
+  "redirects": [
+    {
+      "source": "/v6",
+      "has": [{ "type": "host", "value": "afc.metaforando.com.br" }],
+      "destination": "/v6/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
