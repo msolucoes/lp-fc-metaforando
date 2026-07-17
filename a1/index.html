@@ -1356,7 +1356,7 @@
         this.value = v;
       });
 
-      // Form submit → envia pro ActiveCampaign + redireciona pro Hotmart
+      // Form submit → envia pro Dynamus (LeadConnector) + redireciona pro Hotmart
       form.addEventListener('submit', function(e){
         e.preventDefault();
         var name = form.elements.name.value.trim();
@@ -1386,12 +1386,18 @@
           + '&utm_content=' + encodeURIComponent(utms.utm_content)
           + '&sck=' + encodeURIComponent(sck);
 
-        // Envia pro ActiveCampaign (async, não trava o redirect)
-        fetch('/api/subscribe', {
+        // Envia o lead pro Dynamus via webhook (async/keepalive, não trava o redirect)
+        var partesNome = name.split(' ').filter(Boolean);
+        fetch('https://services.leadconnectorhq.com/hooks/FvAkcb6fhwQre0CP1H1b/webhook-trigger/bebc2ffc-b9e0-4779-b06a-07b498b70f5b', {
           method: 'POST',
+          keepalive: true,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            name: name, email: email, phone: phone,
+            name: name,
+            first_name: partesNome[0] || '',
+            last_name: partesNome.slice(1).join(' '),
+            email: email,
+            phone: '+55' + phoneRaw,
             utm_source: utms.utm_source, utm_medium: utms.utm_medium,
             utm_campaign: utms.utm_campaign, utm_content: utms.utm_content,
             utm_term: utms.utm_term
