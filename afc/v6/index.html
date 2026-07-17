@@ -128,7 +128,13 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
-      .ticker__inner { animation: none !important; }
+      /* A tarja é decorativa (aria-hidden). Mantemos o scroll mesmo com
+         reduced-motion — reafirmando a animação por cima do reset global acima. */
+      .ticker__inner {
+        animation: ticker-scroll 20s linear infinite !important;
+        animation-duration: 20s !important;
+        animation-iteration-count: infinite !important;
+      }
     }
 
     /* ═══════════════════════════════════════════════════════════
