@@ -5,6 +5,12 @@
       "has": [{ "type": "host", "value": "afc.metaforando.com.br" }],
       "destination": "/v6/",
       "permanent": false
+    },
+    {
+      "source": "/v7",
+      "has": [{ "type": "host", "value": "afc.metaforando.com.br" }],
+      "destination": "/v7/",
+      "permanent": false
     }
   ],
   "rewrites": [

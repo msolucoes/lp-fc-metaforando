@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Fórmula da Confiança | Workshop com Vitor Santos | Metaforando</title>
+  <meta name="description" content="Você domina o assunto, mas trava na hora de comunicar. Em um único dia, acesse o protocolo que profissionais usam para se comunicar com confiança mesmo sob pressão.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <meta property="og:title" content="A Fórmula da Confiança | Workshop com Vitor Santos">
+  <meta property="og:description" content="Você domina o assunto. Mas na hora de comunicar… Trava. Em um único dia, acesse o protocolo para nunca mais travar.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://metaforando.com.br/afc-v6">
+  <meta property="og:image" content="https://metaforando.com.br/afc-v6/assets/og-image.jpg">
+  <link rel="canonical" href="https://metaforando.com.br/afc-v6">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+
+  <!-- Hero = elemento de LCP. O preload casa com o media do <picture>,
+       então só a variante que vai ser usada é baixada. -->
+  <link rel="preload" as="image" href="assets/hero-mobile.webp" type="image/webp" media="(max-width: 1023px)" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/hero-desktop.webp" type="image/webp" media="(min-width: 1024px)" fetchpriority="high">
+
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/im-fell-english-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- ═══════════ TRACKING ═══════════
+       Scripts async (não bloqueiam parse nem LCP). Colocados DEPOIS dos preloads
+       do hero/fontes de propósito: o navegador enfileira os recursos críticos
+       primeiro e só então o tracking. dns-prefetch aquece a conexão sem roubar
+       banda do LCP (mais leve que preconnect). -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.clarity.ms">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-N44X97PK');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xo01vwb5c9");
+  </script>
+  <!-- End Microsoft Clarity -->
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       FONTES — self-hosted, sem conexão externa
+       ═══════════════════════════════════════════════════════════ */
+    @font-face { font-family:'Inter'; font-style:normal; font-weight:400; font-display:swap; src:url('assets/fonts/inter-400.woff2') format('woff2'); }
+    @font-face { font-family:'Inter'; font-style:normal; font-weight:600; font-display:swap; src:url('assets/fonts/inter-600.woff2') format('woff2'); }
+    @font-face { font-family:'Inter'; font-style:normal; font-weight:700; font-display:swap; src:url('assets/fonts/inter-700.woff2') format('woff2'); }
+    @font-face { font-family:'IM Fell English'; font-style:normal; font-weight:400; font-display:swap; src:url('assets/fonts/im-fell-english-400.woff2') format('woff2'); }
+    @font-face { font-family:'IM Fell English'; font-style:italic; font-weight:400; font-display:swap; src:url('assets/fonts/im-fell-english-400i.woff2') format('woff2'); }
+
+    /* ═══════════════════════════════════════════════════════════
+       TOKENS — paleta da fca1
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      --bg-primary: #0D0D09;
+      --bg-secondary: #2E2A1B;
+      --bg-card: #1C1A17;
+
+      --text-primary: #E3DDCA;    /* 14.33:1 sobre bg-primary */
+      --text-secondary: #A39E8F;  /*  7.27:1 sobre bg-primary */
+
+      --cta: #2DB547;             /* verde da marca */
+      --cta-active: #28A340;
+      --on-cta: #FFFFFF;          /* ⚠ 2.69:1 sobre --cta — reprova WCAG AA (mín. 4.5:1).
+                                       Definido pelo cliente em 16/07/2026 para bater com a fca1.
+                                       Alternativas que passam: #0D0D09 (7.24:1) ou fundo #208333 (4.82:1). */
+      --highlight: #B3A430;       /*  7.67:1 sobre bg-primary */
+      --urgency: #FF5500;         /*  6.07:1 sobre bg-primary */
+      --border: #2A2724;
+      --border-strong: #55504A;
+
+      /* brilho do CTA — o verde da marca como fonte de luz */
+      --glow: 0 0 0 1px rgba(45,181,71,0.55),
+              0 4px 18px rgba(45,181,71,0.30),
+              0 0 44px rgba(45,181,71,0.22);
+      --glow-strong: 0 0 0 1px rgba(45,181,71,0.9),
+                     0 6px 22px rgba(45,181,71,0.45),
+                     0 0 60px rgba(45,181,71,0.35);
+
+      --font-heading: 'IM Fell English', Georgia, serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+      --section-padding: clamp(3rem, 8vw, 6rem);
+      --content-padding: clamp(1.25rem, 4vw, 2rem);
+      --max-width: 1120px;
+      --max-text: 680px;
+
+      --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESET
+       ═══════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 1.0625rem;   /* 17px — ≥16px evita o zoom automático do iOS */
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img, svg { display: block; max-width: 100%; }
+    button { font: inherit; color: inherit; }
+
+    :focus-visible { outline: 3px solid var(--highlight); outline-offset: 3px; border-radius: 4px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      /* A tarja é decorativa (aria-hidden). Mantemos o scroll mesmo com
+         reduced-motion — reafirmando a animação por cima do reset global acima. */
+      .ticker__inner {
+        animation: ticker-scroll 20s linear infinite !important;
+        animation-duration: 20s !important;
+        animation-iteration-count: infinite !important;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       LAYOUT
+       ═══════════════════════════════════════════════════════════ */
+    .section { padding: var(--section-padding) var(--content-padding); }
+    /* a barra do timer é fixa: sem isto a âncora para atrás dela */
+    section[id] { scroll-margin-top: 4.5rem; }
+    .container { max-width: var(--max-width); margin: 0 auto; }
+    .text-block { max-width: var(--max-text); }
+    .text-center { text-align: center; }
+    .mx-auto { margin-inline: auto; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: absolute; top: -100px; left: 1rem; z-index: 2000;
+      background: var(--cta); color: var(--on-cta);
+      padding: 0.75rem 1.25rem; border-radius: 0 0 8px 8px;
+      font-weight: 700; text-decoration: none;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* textura de grade — herdada da fca1 */
+    .texture-grid { position: relative; }
+    .texture-grid::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(179,164,48,0.03) 79px, rgba(179,164,48,0.03) 80px),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(179,164,48,0.03) 79px, rgba(179,164,48,0.03) 80px);
+      pointer-events: none; z-index: 0;
+    }
+    .texture-grid > * { position: relative; z-index: 1; }
+
+    .spotlight { position: relative; }
+    .spotlight::after {
+      content: '';
+      position: absolute; top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 80%; height: 50%;
+      background: radial-gradient(ellipse at center top, rgba(179,164,48,0.04) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .spotlight > * { position: relative; z-index: 1; }
+
+    /* ═══════════════════════════════════════════════════════════
+       TIPOGRAFIA
+       ═══════════════════════════════════════════════════════════ */
+    h1, h2, h3 { font-family: var(--font-heading); font-weight: 400; line-height: 1.2; color: var(--text-primary); text-wrap: balance; }
+    h1 { font-size: clamp(1.75rem, 3.2vw, 2.5rem); margin-bottom: 1rem; }
+    h2 { font-size: clamp(1.5rem, 2.8vw, 2.125rem); margin-bottom: 1rem; }
+    h3 { font-size: 1.1875rem; margin-bottom: 0.5rem; }
+
+    p { text-wrap: pretty; }
+    p + p { margin-top: 1.15em; }
+
+    .highlight { color: var(--highlight); }
+    .bold { font-weight: 700; color: var(--text-primary); }
+    .muted { color: var(--text-secondary); }
+    .tnum { font-variant-numeric: tabular-nums; }
+
+    .text-block p { color: var(--text-secondary); }
+    .text-block p .bold, .text-block p .highlight { color: inherit; }
+    .text-block p .bold { color: var(--text-primary); }
+    .text-block p .highlight { color: var(--highlight); }
+
+    /* ═══════════════════════════════════════════════════════════
+       PLACEHOLDER DE IMAGEM (só no wireframe)
+       ═══════════════════════════════════════════════════════════ */
+    .ph {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.375rem;
+      background: repeating-linear-gradient(45deg, #1C1A17, #1C1A17 10px, #211E1A 10px, #211E1A 20px);
+      border: 2px dashed var(--border-strong);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      text-align: center; padding: 1rem;
+      font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
+    }
+    .ph strong { color: var(--highlight); font-size: 0.8125rem; }
+    .ph span { font-size: 0.6875rem; letter-spacing: 0.02em; text-transform: none; font-weight: 400; }
+
+    .todo {
+      background: rgba(255,85,0,0.15);
+      border-bottom: 2px dotted var(--urgency);
+      color: var(--urgency);
+      font-weight: 700; padding: 0 0.2em; border-radius: 3px;
+    }
+    /* dentro do CTA o marcador herda a cor do botão — laranja sobre verde é ilegível */
+    .cta-button .todo, .price-big .todo {
+      background: transparent; color: inherit;
+      border-bottom-color: currentColor; opacity: 0.8;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BOTÃO CTA
+       ═══════════════════════════════════════════════════════════ */
+    .cta-button {
+      display: inline-flex; align-items: center; justify-content: center;
+      background-color: var(--cta);
+      color: var(--on-cta);
+      font-family: var(--font-body); font-weight: 700;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      padding: 1.125rem 2.5rem;
+      border: none; border-radius: 8px;
+      cursor: pointer; text-decoration: none;
+      touch-action: manipulation;
+      min-height: 56px;
+      text-align: center;
+      box-shadow: var(--glow);
+      width: 100%; max-width: 480px;
+      transition: box-shadow 0.18s var(--ease), transform 0.18s var(--ease), background-color 0.18s var(--ease);
+    }
+    .cta-button:hover { box-shadow: var(--glow-strong); }
+    .cta-button:active { background-color: var(--cta-active); transform: scale(0.985); }
+
+    @media (max-width: 639px) {
+      .cta-button { font-size: 0.9375rem; padding: 1rem 1.25rem; }
+    }
+    @media (min-width: 1024px) {
+      .hero__content .cta-button { width: auto; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BARRA DE ESCASSEZ
+       ═══════════════════════════════════════════════════════════ */
+    .scarcity-bar { width: 100%; max-width: 480px; margin: 1rem 0; }
+    .scarcity-bar__track {
+      width: 100%; height: 8px;
+      background: #322E28; border-radius: 4px;
+      overflow: hidden; margin-bottom: 0.5rem;
+    }
+    .scarcity-bar__fill {
+      height: 100%; width: 63%;
+      background: linear-gradient(90deg, var(--highlight), #D4C444);
+      border-radius: 4px;
+    }
+    .scarcity-bar__text { font-size: 0.875rem; color: var(--highlight); font-weight: 700; }
+
+    /* ═══════════════════════════════════════════════════════════
+       BARRA DE URGÊNCIA (timer, topo fixo)
+       ═══════════════════════════════════════════════════════════ */
+    .topbar {
+      position: sticky; top: 0; z-index: 900;
+      background: #14130F;
+      border-bottom: 1px solid var(--border);
+      padding: 0.625rem var(--content-padding);
+      padding-top: max(0.625rem, env(safe-area-inset-top));
+      text-align: center;
+      font-size: clamp(0.8125rem, 3vw, 0.9375rem);
+    }
+    .topbar__label { color: var(--text-secondary); }
+    .topbar__timer { color: var(--urgency); font-weight: 700; white-space: nowrap; }
+
+    /* ═══════════════════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════════════════ */
+    .hero { background: var(--bg-primary); position: relative; overflow: hidden; }
+    .hero::after {
+      content: '';
+      position: absolute; top: -20%; left: -10%;
+      width: 60%; height: 60%;
+      background: radial-gradient(ellipse, rgba(179,164,48,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .top-nav {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1rem var(--content-padding);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem;
+      background: linear-gradient(to bottom, rgba(13,13,9,0.7) 0%, transparent 100%);
+    }
+    /* ratio 3.077 do arquivo — largura segue a altura, sem distorcer */
+    .top-nav__logo { height: clamp(38px, 11vw, 52px); width: auto; }
+    .top-nav__info {
+      font-size: 0.8125rem; color: var(--text-secondary);
+      display: flex; align-items: center; gap: 0.375rem;
+      text-align: right;
+    }
+    .top-nav__date { color: var(--highlight); font-weight: 600; }
+
+    .hero__grid { display: grid; grid-template-columns: 1fr; position: relative; z-index: 1; }
+
+    /* mobile: imagem primeiro, conteúdo depois */
+    .hero__image-wrap {
+      order: 1; width: 100%; max-height: 55vh;
+      overflow: hidden; position: relative;
+      aspect-ratio: 16 / 9;   /* proporção nativa do arquivo mobile — sem corte */
+    }
+    .hero__image {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+    }
+    .hero__image-wrap::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+      background: linear-gradient(to top, var(--bg-primary), transparent);
+      pointer-events: none;
+    }
+    .hero__content { order: 2; padding: 1.5rem var(--content-padding) 2.5rem; }
+
+    .hero__lastro {
+      font-size: 0.9375rem; color: var(--text-secondary);
+      margin-bottom: 1.25rem; line-height: 1.6; max-width: var(--max-text);
+    }
+    @media (max-width: 639px) { .hero__lastro { font-size: 0.875rem; } }
+
+    .hero__quote {
+      font-style: italic; font-size: 0.875rem; color: var(--text-secondary);
+      margin-top: 1.5rem; padding-left: 1rem;
+      border-left: 2px solid var(--border);
+      line-height: 1.6; max-width: var(--max-text);
+    }
+    .hero__quote cite { font-style: normal; color: var(--text-primary); font-weight: 600; }
+
+    @media (min-width: 1024px) {
+      .hero__grid {
+        grid-template-columns: 1fr 0.85fr;
+        gap: 3rem; align-items: center;
+        max-width: var(--max-width); margin: 0 auto;
+        padding: 6rem var(--content-padding) 4rem;
+      }
+      .hero__content { order: 1; padding: 0; }
+      .hero__image-wrap { order: 2; max-height: none; aspect-ratio: 3/4; border-radius: 16px; }
+      .hero__image-wrap::after { display: none; }
+      /* o arquivo do desktop já vem em 3:4 — object-fit não recorta nada aqui */
+      .hero__image { object-position: center; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TICKER
+       ═══════════════════════════════════════════════════════════ */
+    .ticker {
+      background: #1A1710;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden; white-space: nowrap; padding: 0.875rem 0;
+    }
+    .ticker__inner { display: inline-flex; animation: ticker-scroll 20s linear infinite; }
+    .ticker__item {
+      font-size: 0.875rem; font-weight: 500; color: var(--text-primary);
+      padding: 0 2rem; display: inline-flex; align-items: center; gap: 2rem;
+    }
+    .ticker__item::after { content: '•'; color: var(--highlight); }
+    @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ═══════════════════════════════════════════════════════════
+       NARRATIVA
+       ═══════════════════════════════════════════════════════════ */
+    .quote-inner {
+      border-left: 3px solid var(--urgency);
+      padding: 0.25rem 0 0.25rem 1.125rem;
+      margin-block: 1.5rem;
+      font-family: var(--font-heading); font-style: italic;
+      font-size: clamp(1.1875rem, 4.5vw, 1.5rem);
+      line-height: 1.4; color: var(--text-primary);
+    }
+    .punch-line {
+      font-weight: 700; color: var(--text-primary);
+      font-size: clamp(1.0625rem, 2vw, 1.25rem);
+      line-height: 1.6; margin-top: 2rem;
+      padding-top: 1.5rem; border-top: 1px solid var(--border);
+    }
+
+    .stat {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: clamp(1.25rem, 5vw, 1.75rem);
+      margin: 2rem 0; text-align: center; max-width: var(--max-text);
+    }
+    .stat__num { font-family: var(--font-heading); font-size: clamp(2.75rem, 12vw, 4rem); line-height: 1; color: var(--highlight); }
+    .stat__of { font-size: 0.9375rem; color: var(--text-secondary); margin-top: 0.5rem; }
+    .stat__desc { margin-top: 0.875rem; font-weight: 600; color: var(--text-primary); }
+
+    .ask {
+      font-family: var(--font-heading);
+      font-size: clamp(1.25rem, 3vw, 1.625rem);
+      line-height: 1.35; color: var(--text-primary);
+      margin-top: 2rem; max-width: var(--max-text);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CARDS — 3 ARMAS (scroll horizontal no mobile, grid no desktop)
+       ═══════════════════════════════════════════════════════════ */
+    .cards-scroll {
+      display: flex; gap: 1rem;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 1rem; margin-top: 2rem;
+      scrollbar-width: none;
+    }
+    .cards-scroll::-webkit-scrollbar { display: none; }
+    .card {
+      flex: 0 0 85%; scroll-snap-align: start;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem 1.5rem;
+      display: flex; flex-direction: column;
+    }
+    .card__n {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--highlight); margin-bottom: 0.75rem;
+    }
+    .card__n::before { content: ''; width: 24px; height: 2px; background: var(--highlight); flex-shrink: 0; }
+    .card__subtitle { color: var(--highlight); font-size: 0.9375rem; font-weight: 500; margin-bottom: 0.75rem; line-height: 1.5; }
+    .card p { color: var(--text-secondary); font-size: 0.9375rem; }
+    .card__kicker {
+      margin-top: auto; padding-top: 0.875rem;
+      border-top: 1px solid var(--border);
+      font-weight: 600; color: var(--text-primary); font-size: 0.9375rem;
+    }
+    @media (min-width: 1024px) {
+      .cards-scroll { overflow-x: visible; display: grid; grid-template-columns: repeat(3, 1fr); }
+      .card { flex: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       CRONOGRAMA
+       ═══════════════════════════════════════════════════════════ */
+    .prog__date {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--bg-card); border: 1px solid var(--border-strong);
+      border-radius: 100px; padding: 0.5rem 1.125rem;
+      font-weight: 700; color: var(--highlight); font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .schedule-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 1.5rem; }
+    @media (min-width: 768px) { .schedule-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; } }
+    .schedule-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.75rem;
+    }
+    .schedule__title { font-weight: 700; color: var(--highlight); font-size: 1.0625rem; margin-bottom: 0.5rem; }
+    .schedule__desc { color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.7; }
+    .schedule__out { margin-top: 0.875rem; color: var(--text-primary); font-weight: 600; font-size: 0.9375rem; }
+
+    /* ═══════════════════════════════════════════════════════════
+       DEPOIMENTOS
+       ═══════════════════════════════════════════════════════════ */
+    .testimonials-grid {
+      display: flex; gap: 1rem;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 1rem; margin-top: 2rem;
+      scrollbar-width: none;
+    }
+    .testimonials-grid::-webkit-scrollbar { display: none; }
+    .testimonial-card {
+      flex: 0 0 80%; scroll-snap-align: start;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.75rem 1.5rem;
+      display: flex; flex-direction: column; gap: 1.125rem;
+    }
+    .testimonial-card__text {
+      font-family: var(--font-heading); font-style: italic;
+      font-size: 1.0625rem; line-height: 1.45; color: var(--text-primary);
+    }
+    /* sem foto (definido em 16/07/2026) — só a assinatura */
+    .testimonial-card__who { margin-top: auto; padding-top: 0.25rem; }
+    .testimonial-card__name {
+      font-weight: 700; font-size: 0.9375rem; color: var(--highlight);
+    }
+    .testimonial-card__name::before { content: '— '; }
+
+    @media (min-width: 640px) {
+      .testimonials-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem; overflow: visible; margin: 2rem auto 0;
+      }
+      .testimonial-card { flex: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       VALOR
+       ═══════════════════════════════════════════════════════════ */
+    .outcomes { list-style: none; margin: 1.5rem 0; }
+    .outcomes li {
+      display: flex; gap: 0.875rem; align-items: flex-start;
+      margin-bottom: 1rem; font-size: 1rem; line-height: 1.6;
+      color: var(--text-secondary);
+    }
+    .outcomes li::before {
+      content: '→'; color: var(--cta); font-weight: 700;
+      font-size: 1.125rem; flex-shrink: 0; margin-top: 0.0625rem;
+    }
+    .leva__title {
+      font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--highlight); margin-bottom: 0.5rem;
+    }
+    .leva__when { color: var(--text-primary); font-weight: 700; font-size: 1.0625rem; }
+
+    /* ═══════════════════════════════════════════════════════════
+       PREÇO — card único
+       ═══════════════════════════════════════════════════════════ */
+    .price-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: clamp(2rem, 5vw, 3rem);
+      max-width: 640px; margin: 0 auto; text-align: center;
+    }
+    .price-card__intro { margin-bottom: 1.5rem; color: var(--highlight); font-weight: 600; }
+    .anchor-list {
+      list-style: none; text-align: left; margin-bottom: 1rem;
+      border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    }
+    .anchor-list li {
+      display: flex; justify-content: space-between; gap: 1rem;
+      padding: 0.875rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9375rem; color: var(--text-primary);
+      background: rgba(255,255,255,0.02);
+    }
+    .anchor-list li:nth-child(even) { background: rgba(255,255,255,0.05); }
+    .anchor-list li:last-child { border-bottom: none; }
+    .anchor-list li span { color: var(--text-secondary); font-weight: 600; white-space: nowrap; }
+    .anchor-total {
+      text-align: center; font-size: 1.25rem; color: var(--text-secondary);
+      margin: 1rem 0 1.5rem; font-weight: 700;
+    }
+    .anchor-total span { color: var(--text-primary); }
+
+    .price-divider { width: 60px; height: 2px; background: var(--border-strong); margin: 1.5rem auto; }
+    .price-label {
+      font-size: 1.125rem; color: var(--highlight); font-weight: 700;
+      margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    /* preço em sans bold: o serif do resto da página some no tamanho grande
+       e o número precisa bater como dado, não como título */
+    .price-big {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(4.25rem, 16vw, 6.5rem);
+      letter-spacing: -0.035em;   /* Inter 700 nesse corpo abre demais sem isto */
+      color: var(--text-primary);
+      line-height: 1;
+      margin: 0.75rem 0;
+    }
+    .price-card .cta-button { margin: 1.5rem auto 0; }
+    .price-card .scarcity-bar { margin: 1.5rem auto; }
+    .price-quote {
+      font-style: italic; font-size: 0.875rem; color: var(--text-secondary);
+      margin-top: 1.5rem; line-height: 1.6;
+      padding-top: 1.5rem; border-top: 1px solid var(--border);
+    }
+    .price-quote cite { font-style: normal; color: var(--text-primary); font-weight: 600; }
+
+    /* ═══════════════════════════════════════════════════════════
+       GARANTIA
+       ═══════════════════════════════════════════════════════════ */
+    .guarantee-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-left: 4px solid var(--highlight);
+      border-radius: 12px;
+      padding: clamp(2rem, 5vw, 3rem); max-width: 720px;
+      margin-inline: auto;
+    }
+    .guarantee-icon { width: 48px; height: 48px; margin-bottom: 1.25rem; }
+    .guarantee-card p { color: var(--text-secondary); }
+    .guarantee__hard {
+      margin-top: 1.5rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-heading);
+      font-size: clamp(1.25rem, 3vw, 1.625rem);
+      line-height: 1.35; color: var(--text-primary) !important;
+    }
+    .guarantee__hard em { color: var(--urgency); font-style: italic; }
+    .guarantee-card .cta-button { margin-top: 2rem; }
+
+    /* ═══════════════════════════════════════════════════════════
+       BIO
+       ═══════════════════════════════════════════════════════════ */
+    /* dobra 3 (prova + bio) — largura única e centralizada, para narrativa e
+       bio compartilharem o mesmo eixo no desktop (mesma medida do card de garantia) */
+    .prova-wrap { max-width: 720px; margin-inline: auto; }
+    .bio-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start; }
+    .bio-image {
+      width: 100%; max-width: 300px; height: auto; margin: 0 auto;
+      border-radius: 12px; aspect-ratio: 3/4;
+      object-fit: cover; align-self: start;
+    }
+    .bio__subtitle { color: var(--highlight); font-size: 1rem; margin-bottom: 1.25rem; font-weight: 600; }
+    .bio-grid p { color: var(--text-secondary); font-size: 0.9375rem; }
+    .credentials { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .credential {
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-primary); font-size: 0.75rem; font-weight: 500;
+      padding: 0.375rem 0.875rem; border-radius: 100px;
+    }
+    .bio__close {
+      margin-top: 1.5rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      font-weight: 600; color: var(--text-primary) !important; font-size: 1.0625rem;
+    }
+    @media (min-width: 1024px) {
+      .bio-grid { grid-template-columns: 300px 1fr; gap: 3rem; align-items: start; }
+      .bio-image { margin: 0; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FAQ — <details> nativo
+       ═══════════════════════════════════════════════════════════ */
+    .faq-list { max-width: 760px; margin: 2rem auto 0; display: grid; gap: 0.75rem; }
+    .faq-item {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .faq-item[open] { border-color: var(--border-strong); }
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1.125rem 1.25rem; min-height: 56px;
+      font-weight: 600; font-size: 1rem;
+      cursor: pointer; list-style: none;
+      touch-action: manipulation;
+      transition: background-color 0.18s var(--ease);
+    }
+    .faq-question::-webkit-details-marker { display: none; }
+    .faq-question:hover { background: rgba(255,255,255,0.03); }
+    .faq-arrow { width: 20px; height: 20px; flex-shrink: 0; color: var(--highlight); transition: transform 0.22s var(--ease); }
+    .faq-item[open] .faq-arrow { transform: rotate(180deg); }
+    .faq-answer { padding: 0 1.25rem 1.25rem; color: var(--text-secondary); font-size: 0.9375rem; }
+    .faq-answer a {
+      display: inline-flex; align-items: center; min-height: 44px;
+      color: var(--cta); font-weight: 600; text-underline-offset: 3px;
+      touch-action: manipulation;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FECHAMENTO
+       ═══════════════════════════════════════════════════════════ */
+    .final { text-align: center; }
+    .final__lines {
+      font-size: clamp(1.0625rem, 2vw, 1.25rem); color: var(--text-secondary);
+      max-width: 34rem; margin: 0 auto 2rem;
+    }
+    .final__lines strong { color: var(--text-primary); display: block; margin-top: 0.5rem; font-weight: 600; }
+    .final .cta-button { margin-inline: auto; }
+
+    /* ═══════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════ */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem var(--content-padding);
+      padding-bottom: calc(2.5rem + 84px);
+      text-align: center;
+    }
+    /* SVG vetorial — nítido em qualquer densidade de tela */
+    .footer__logo { width: 150px; height: auto; margin: 0 auto 1.25rem; }
+    .footer__legal { font-size: 0.8125rem; color: var(--text-secondary); }
+    @media (min-width: 900px) { .footer { padding-bottom: 2.5rem; } }
+
+    /* ═══════════════════════════════════════════════════════════
+       CTA FIXO
+       ═══════════════════════════════════════════════════════════ */
+    .sticky-cta {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 950;
+      background: rgba(13,13,9,0.94);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-strong);
+      padding: 0.75rem var(--content-padding);
+      padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+      transform: translateY(110%);
+      transition: transform 0.3s var(--ease);
+    }
+    .sticky-cta.visible { transform: translateY(0); }
+    .sticky-cta__info { display: none; }
+    .sticky-cta .cta-button { max-width: 360px; min-height: 52px; padding-block: 0.875rem; }
+    @media (min-width: 900px) {
+      .sticky-cta { justify-content: space-between; }
+      .sticky-cta__info { display: block; font-size: 0.875rem; color: var(--text-secondary); }
+      .sticky-cta__info b { color: var(--highlight); }
+      .sticky-cta .cta-button { width: auto; padding-inline: 2rem; }
+    }
+
+    /* ══════════════ MODAL DE CAPTURA ══════════════
+       Abre no clique do checkout (CTAs .cta-modal). Coleta nome/email/telefone
+       e só então redireciona para o Hotmart do lote vigente. */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,0.78);
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.25rem;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s var(--ease), visibility 0.3s var(--ease);
+    }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--highlight);
+      border-radius: 16px;
+      max-width: 480px; width: 100%;
+      padding: clamp(1.75rem, 5vw, 2.5rem);
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s var(--ease);
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal__close {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--border); border: none; color: var(--text-primary);
+      font-size: 1.25rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal__close:hover { background: var(--border-strong); }
+    .modal__close:focus-visible { outline: 2px solid var(--highlight); outline-offset: 2px; }
+    .modal__logo { text-align: center; margin-bottom: 1.25rem; }
+    .modal__logo img { height: clamp(40px, 12vw, 52px); width: auto; margin: 0 auto; }
+    .modal__title {
+      text-align: center; font-size: 1rem; line-height: 1.5;
+      color: var(--text-secondary); margin-bottom: 1.5rem;
+    }
+    .modal__form { display: flex; flex-direction: column; gap: 0.875rem; }
+    .modal__input {
+      width: 100%; padding: 1rem 1.25rem;
+      border: 1px solid var(--border-strong); border-radius: 8px;
+      background: var(--bg-primary); color: var(--text-primary);
+      font-family: var(--font-body); font-size: 1rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .modal__input::placeholder { color: var(--text-secondary); }
+    .modal__input:focus { border-color: var(--highlight); }
+    .modal__form .cta-button { width: 100%; max-width: none; margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N44X97PK"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+  <!-- ══════════════ BARRA DE URGÊNCIA ══════════════ -->
+  <div class="topbar">
+    <span class="topbar__label">O ingresso por apenas <strong class="tnum" data-preco>R$ 37</strong> acaba em:</span>
+    <strong class="topbar__timer tnum" id="timer" role="timer">--h --m --s</strong>
+    <span class="sr-only" id="timer-sr" aria-live="polite"></span>
+  </div>
+
+  <main id="main">
+
+    <!-- ══════════════ SEÇÃO 1: HERO ══════════════ -->
+    <section class="hero texture-grid" id="hero">
+
+      <nav class="top-nav">
+        <img class="top-nav__logo" src="assets/logo-afc.webp"
+             width="477" height="155"
+             alt="A Fórmula da Confiança"
+             fetchpriority="high" decoding="async">
+        <div class="top-nav__info">
+          <span class="top-nav__date" data-evento>18 de julho</span> | 10h às 18h
+        </div>
+      </nav>
+
+      <div class="hero__grid">
+
+        <div class="hero__content">
+          <p style="font-size:0.8125rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--highlight);margin-bottom:0.875rem;">
+            <span data-evento>18 de julho</span> · 10h às 18h · Online ao vivo
+          </p>
+
+          <h1>Você sabia a resposta, mas na hora de falar… <span class="highlight">TRAVOU!</span></h1>
+
+          <p class="hero__lastro">
+            Um perito forense que analisou centenas de casos descobriu o mecanismo
+            exato da trava. E criou o método para isso <span class="bold">nunca</span>
+            mais acontecer.
+          </p>
+
+          <a href="#preco" class="cta-button" data-cta="hero">Quero destravar agora</a>
+
+          <p style="display:flex;align-items:center;gap:0.5rem;margin-top:0.875rem;font-size:0.8125rem;color:var(--text-secondary);max-width:480px;">
+            <svg width="16" height="16" viewBox="0 0 48 48" fill="none" aria-hidden="true" style="flex-shrink:0">
+              <path d="M24 4L6 12v12c0 11.1 7.8 21.5 18 24 10.2-2.5 18-12.9 18-24V12L24 4z" stroke="#B3A430" stroke-width="3" fill="none"/>
+              <path d="M16 24l6 6 10-12" stroke="#B3A430" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+            Garantia incondicional de 100%
+          </p>
+
+          <div class="scarcity-bar">
+            <div class="scarcity-bar__track" role="progressbar"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="63"
+                 aria-label="Vagas preenchidas no lote promocional" data-vagas-track>
+              <div class="scarcity-bar__fill" data-vagas-fill style="width:63%"></div>
+            </div>
+            <span class="scarcity-bar__text">
+              LOTE PROMOCIONAL — <span class="tnum" data-vagas-text>63%</span> das vagas preenchidas
+            </span>
+          </div>
+
+          <p style="margin-top:1.25rem;font-size:0.8125rem;color:var(--text-secondary);max-width:480px;line-height:1.6;">
+            <span class="tnum">37 mil</span> alunos formados · Certificação FACS por Paul Ekman · <span class="tnum">5,69M</span> inscritos no YouTube
+          </p>
+        </div>
+
+        <div class="hero__image-wrap">
+          <!-- Art direction: 16:9 no mobile, recorte 3:4 já feito para o desktop.
+               Cortar o 16:9 via CSS jogaria fora 58% dos pixels baixados. -->
+          <picture>
+            <source media="(min-width: 1024px)" srcset="assets/hero-desktop.webp" width="844" height="1126">
+            <img class="hero__image" src="assets/hero-mobile.webp"
+                 width="1200" height="676"
+                 alt="Vitor Santos, perito forense e analista comportamental"
+                 fetchpriority="high" decoding="async">
+          </picture>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════ TICKER ══════════════ -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__inner">
+        <span class="ticker__item">Para quem sabia a resposta, mas travou na hora de falar</span>
+        <span class="ticker__item">+37 mil alunos formados</span>
+        <span class="ticker__item">Ao vivo, online <span data-evento>18 de julho</span></span>
+        <span class="ticker__item">Certificação FACS por Paul Ekman</span>
+        <span class="ticker__item">Para quem sabia a resposta, mas travou na hora de falar</span>
+        <span class="ticker__item">+37 mil alunos formados</span>
+        <span class="ticker__item">Ao vivo, online <span data-evento>18 de julho</span></span>
+        <span class="ticker__item">Certificação FACS por Paul Ekman</span>
+      </div>
+    </div>
+
+    <!-- ══════════════ SEÇÃO 2: OS 3 PROTOCOLOS ══════════════ -->
+    <section class="section" style="background: var(--bg-secondary);" id="protocolos">
+      <div class="container">
+
+        <h2 class="text-center">
+          Em um dia, você sai com <span class="highlight">3 protocolos</span> que mudam tudo.
+        </h2>
+
+        <div class="cards-scroll">
+
+          <article class="card">
+            <p class="card__n">Protocolo 1</p>
+            <h3>Leitura Comportamental</h3>
+            <p>
+              Você aprende a ler o estado emocional de qualquer pessoa antes dela
+              abrir a boca. Sabe quando avançar e quando pausar. Sabe se a sala está
+              receptiva ou na defensiva antes de falar uma palavra.
+            </p>
+            <p class="card__kicker">A trava piora quando você não lê o ambiente. Isso acaba aqui.</p>
+          </article>
+
+          <article class="card">
+            <p class="card__n">Protocolo 2</p>
+            <h3>Controle Emocional</h3>
+            <p class="card__subtitle">A janela dos 3 segundos.</p>
+            <p>
+              Existe uma janela de 3 segundos entre o gatilho e a trava. Quem sabe o
+              protocolo usa essa janela. Quem não sabe, trava.
+            </p>
+            <p class="card__kicker">Você vai sair daqui sabendo usar essa janela — toda vez.</p>
+          </article>
+
+          <article class="card">
+            <p class="card__n">Protocolo 3</p>
+            <h3>Persuasão Ética</h3>
+            <p>
+              Como levar seu ponto adiante sem levantar a voz, sem engolir sapo, sem
+              sair da conversa pensando "eu deveria ter dito aquilo".
+            </p>
+            <p class="card__kicker">
+              Com Vitor Santos corrigindo ao vivo, em tempo real. Não é PDF. É treino.
+            </p>
+          </article>
+
+        </div>
+
+        <div class="text-center" style="margin-top:2.5rem;">
+          <a href="#" class="cta-button cta-modal mx-auto" data-cta="protocolos">Quero os 3 protocolos — <span data-preco>R$ 37</span></a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════ SEÇÃO 3: A PROVA (TV RECORD) + VITOR ══════════════ -->
+    <section class="section spotlight texture-grid" style="background: var(--bg-primary);" id="prova">
+      <div class="container">
+        <div class="prova-wrap">
+
+        <div class="text-block" style="max-width:none;">
+          <h2>O método foi testado onde errar tem consequência de verdade.</h2>
+
+          <blockquote class="quote-inner">
+            Câmeras ligadas. Holofotes. Milhões assistindo.
+          </blockquote>
+
+          <p>
+            Chamaram Vitor Santos para analisar linguagem corporal em um caso criminal
+            ao vivo, na TV Record. Uma palavra errada não significava vergonha —
+            significava prejudicar uma investigação real.
+          </p>
+
+          <p>
+            Naquele momento, ele não usou oratória. Não usou técnica de palco. Usou os
+            3 protocolos que vai te ensinar.
+          </p>
+
+          <p class="punch-line">
+            Funcionou com investigação criminal em jogo. Imagina o que faz numa reunião
+            de quinta-feira.
+          </p>
+        </div>
+
+        <div class="bio-grid" style="margin-top:3rem;">
+
+          <img class="bio-image" src="assets/bio-vitor.webp"
+               width="900" height="1200"
+               alt="Vitor Santos, criador do Metaforando"
+               loading="lazy" decoding="async">
+
+          <div>
+            <h2>Vitor Santos</h2>
+            <p class="bio__subtitle">Perito em análise comportamental forense · Certificação FACS por Paul Ekman.</p>
+
+            <p>
+              Vitor Santos é perito em análise comportamental forense, certificado FACS
+              por Paul Ekman — o maior especialista mundial em microexpressões e a
+              inspiração por trás da série Lie to Me. Atuou em perícias forenses,
+              interrogatórios reais e consultorias com Forças Armadas.
+            </p>
+
+            <p>
+              Criador do Metaforando: <span class="tnum">5,69M</span> no YouTube ·
+              <span class="tnum">1,35M</span> no Instagram ·
+              <span class="tnum">37 mil</span> alunos formados.
+            </p>
+
+            <div class="credentials">
+              <span class="credential">FACS Paul Ekman</span>
+              <span class="credential">5,69M YouTube</span>
+              <span class="credential">1,35M Instagram</span>
+              <span class="credential">37 mil alunos</span>
+            </div>
+          </div>
+
+        </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════ SEÇÃO 4: PREÇO ══════════════ -->
+    <section class="section texture-grid" style="background: var(--bg-secondary);" id="preco">
+      <div class="container">
+
+        <h2 class="text-center">
+          <span data-preco>R$ 37</span>. E a trava para se comunicar some.
+        </h2>
+
+        <div class="text-block mx-auto">
+          <p class="leva__title">O que você leva</p>
+          <ul class="outcomes">
+            <li>Protocolo dos 3 segundos — intercepte a trava antes que ela tome conta</li>
+            <li>Leitura comportamental — entre em qualquer sala sabendo o que está acontecendo</li>
+            <li>Persuasão ética — fale de um jeito que as pessoas ouçam, confiem e ajam</li>
+            <li>Treino ao vivo com Vitor Santos corrigindo em tempo real</li>
+          </ul>
+        </div>
+
+        <div class="price-card">
+
+          <p class="price-card__intro">Para ter isso separado:</p>
+
+          <ul class="anchor-list">
+            <li>Coach de comunicação (3 sessões) <span class="tnum">R$ 1.500</span></li>
+            <li>Controle emocional <span class="tnum">R$ 350</span></li>
+            <li>Leitura corporal <span class="tnum">R$ 497</span></li>
+            <li>Oratória presencial <span class="tnum">R$ 800</span></li>
+          </ul>
+          <p class="anchor-total">Total separado: <span class="tnum">R$ 3.147</span></p>
+
+          <div class="price-divider"></div>
+
+          <p class="price-label">Neste workshop</p>
+          <div class="price-big tnum" data-preco>R$ 37</div>
+          <p class="muted" style="font-size:1rem;">
+            Menos que um almoço. Para resolver algo que te custa oportunidades há anos.
+          </p>
+
+          <a href="#" class="cta-button cta-modal" data-cta="preco">Quero destravar — <span data-preco>R$ 37</span></a>
+
+          <div class="scarcity-bar">
+            <div class="scarcity-bar__track" role="progressbar"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="63"
+                 aria-label="Vagas preenchidas no lote promocional" data-vagas-track>
+              <div class="scarcity-bar__fill" data-vagas-fill style="width:63%"></div>
+            </div>
+            <span class="scarcity-bar__text">
+              LOTE PROMOCIONAL — <span class="tnum" data-vagas-text>63%</span> das vagas preenchidas
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ SEÇÃO 5: GARANTIA ══════════════ -->
+    <section class="section" style="background: var(--bg-primary);" id="garantia">
+      <div class="container">
+        <div class="guarantee-card">
+
+          <svg class="guarantee-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path d="M24 4L6 12v12c0 11.1 7.8 21.5 18 24 10.2-2.5 18-12.9 18-24V12L24 4z" stroke="#B3A430" stroke-width="2.5" fill="none"/>
+            <path d="M16 24l6 6 10-12" stroke="#B3A430" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+
+          <h2>Se você não gostar, eu devolvo 100% do seu dinheiro.</h2>
+
+          <p>
+            Eu sei que você já investiu em coisas que prometiam resolver esse problema
+            e não resolveram.
+          </p>
+
+          <p>
+            Por isso: entre no workshop. Participe do início ao fim. Se até o final
+            você sentir que não aprendeu nada que possa usar na sua próxima reunião,
+            conversa difícil ou negociação — me manda uma mensagem e eu devolvo cada
+            centavo.
+          </p>
+
+          <p class="bold">Sem perguntas. Sem formulários. Sem constrangimento.</p>
+
+          <p class="guarantee__hard">
+            Você não perde os <span class="tnum" data-preco>R$ 37</span>.<br>
+            <em>Você perde se não estiver lá.</em>
+          </p>
+
+          <a href="#preco" class="cta-button" data-cta="garantia">Quero entrar sem risco</a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ SEÇÃO 6: FAQ ══════════════ -->
+    <section class="section" style="background: var(--bg-secondary);" id="faq">
+      <div class="container">
+
+        <h2 class="text-center">Perguntas frequentes</h2>
+
+        <div class="faq-list">
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              O evento é ao vivo ou gravado?
+              <svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Ao vivo. Sábado, das 10h às 18h, online. Você participa em tempo real, faz perguntas e pratica com o Vitor e os outros participantes.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              Vai ter replay?
+              <svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>A gravação é um upgrade disponível no momento da compra. Quem adquire o ingresso simples participa ao vivo, mas não recebe a gravação. A gravação não será disponibilizada separadamente depois do evento.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              Preciso ter experiência com comunicação ou análise comportamental?
+              <svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Não. O workshop foi desenhado para quem sente a dor mas não tem o protocolo. Se você já tentou oratória, coaching ou PNL e o padrão voltou, este evento é exatamente para você.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              Como funciona a garantia?
+              <svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Você tem garantia incondicional. Se não aprender nada que possa aplicar na sua próxima reunião ou conversa importante, devolvemos 100% sem perguntas. Basta enviar um e-mail.</p>
+              <p class="bold" style="margin-top:0.75rem">Faça o teste ou 100% do seu investimento de volta.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              Quais as formas de pagamento?
+              <svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Cartão de crédito ou PIX via Hotmart. O acesso ao grupo de alunos é liberado imediatamente após a confirmação do pagamento.</p>
+              <p><a href="#preco">Toque aqui e faça sua inscrição.</a></p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              Este workshop é para iniciantes ou avançados?
+              <svg class="faq-arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Para quem sente a trava na prática. Não importa se você nunca estudou comunicação ou se já fez 10 cursos. O diferencial não é mais conteúdo — é diagnóstico e treino sob pressão real.</p>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ SEÇÃO 7: FECHAMENTO ══════════════ -->
+    <section class="section final texture-grid" style="background: var(--bg-primary);">
+      <div class="container">
+        <h2>Na sua próxima reunião, você pode ser outra pessoa.</h2>
+
+        <p class="final__lines">
+          Não a pessoa que sabe tudo mas não consegue mostrar.
+          <strong>A pessoa que sabe — e faz o outro sentir isso.</strong>
+        </p>
+
+        <a href="#" class="cta-button cta-modal" data-cta="final">Quero destravar — <span data-preco>R$ 37</span></a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════ MODAL DE CAPTURA ══════════════
+       Abre no clique dos CTAs de checkout (.cta-modal). Sem JS, os CTAs
+       apenas rolam para a oferta — a experiência degrada com segurança. -->
+  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <button class="modal__close" id="modalClose" type="button" aria-label="Fechar">&times;</button>
+      <div class="modal__logo">
+        <img src="assets/logo-afc.webp" width="477" height="155" alt="A Fórmula da Confiança" decoding="async">
+      </div>
+      <p class="modal__title" id="modalTitle">Preencha seus dados abaixo para garantir sua vaga no workshop:</p>
+      <form class="modal__form" id="leadForm" novalidate>
+        <input class="modal__input" type="text"  name="name"  placeholder="Nome Completo"   required autocomplete="name">
+        <input class="modal__input" type="email" name="email" placeholder="Email"           required autocomplete="email">
+        <input class="modal__input" type="tel"   name="phone" placeholder="(00) 00000-0000"  required autocomplete="tel" maxlength="15">
+        <button type="submit" class="cta-button">Garantir minha vaga →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="footer">
+    <!-- sem loading="lazy": o SVG não disparava o lazy nem dentro da viewport
+         (a bio, .webp, dispara normal). São 7,7 KB — não vale arriscar a marca
+         não aparecer para economizar isso. -->
+    <img class="footer__logo" src="assets/logo-metaforando.svg"
+         width="245" height="38" alt="Metaforando" decoding="async">
+    <p class="footer__legal">Todos os direitos reservados © Meta Studios LTDA 2026</p>
+  </footer>
+
+  <!-- ══════════════ CTA FIXO ══════════════ -->
+  <div class="sticky-cta" id="sticky">
+    <p class="sticky-cta__info">
+      Lote promocional — <b><span class="tnum" data-vagas-text>63%</span> das vagas preenchidas</b>
+    </p>
+    <a href="#preco" class="cta-button" data-cta="sticky">Quero destravar — <span data-preco>R$ 37</span></a>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ══════════════ LOTES ══════════════
+       Único bloco a editar quando o cronograma de lotes mudar.
+       Todos os horários em Brasília (UTC-3). Cada lote vale de `inicio`
+       (derivado do fim do anterior) até `fim`. `off` é o código da oferta
+       no Hotmart — o resto da URL de checkout é montado no submit do form.
+
+       O preço e a data do evento exibidos na página seguem o lote vigente:
+       R$37 até 17/07 23:59 → R$27 de 18/07 a 28/07 → R$37 de 29/07 em diante.
+       A data do evento vira 18/07 → 1º de agosto na virada do lote 1 p/ 2.
+       (Se o evento for 01/08 desde já, troque `evento`/`eventoCurta` do lote 1.)
+
+       01/08/2026 é sábado — bate com o "Sábado, das 10h às 18h" do FAQ.
+    */
+    var CAMPANHA_INICIO = '2026-07-16T00:00:00-03:00';
+    var LOTES = [
+      { fim: '2026-07-18T00:00:00-03:00', preco: 'R$ 37', off: '142taykp', evento: '18 de julho',  eventoCurta: '18/07' },
+      { fim: '2026-07-29T00:00:00-03:00', preco: 'R$ 27', off: 'nc8vnczs', evento: '1º de agosto', eventoCurta: '01/08' },
+      { fim: '2026-08-01T10:00:00-03:00', preco: 'R$ 37', off: 'rnvs7juu', evento: '1º de agosto', eventoCurta: '01/08' }
+    ];
+
+    /* Vagas sobem de VAGAS_INICIO a VAGAS_FIM ao longo da janela do lote vigente.
+       Nunca chega a 100%: lote esgotado sem checkout fechado destrói a credibilidade. */
+    var VAGAS_INICIO = 63;
+    var VAGAS_FIM = 98;
+
+    var HOTMART_ID = 'V103997742J';   // mesmo produto nos três lotes
+
+    /* Webhook do Dynamus (LeadConnector) — recebe o lead do formulário. */
+    var WEBHOOK_DYNAMUS = 'https://services.leadconnectorhq.com/hooks/FvAkcb6fhwQre0CP1H1b/webhook-trigger/bebc2ffc-b9e0-4779-b06a-07b498b70f5b';
+
+    /* Deriva o início de cada lote (fim do anterior) e resolve o vigente. */
+    var prev = new Date(CAMPANHA_INICIO).getTime();
+    for (var i = 0; i < LOTES.length; i++) {
+      LOTES[i].inicioMs = prev;
+      LOTES[i].fimMs = new Date(LOTES[i].fim).getTime();
+      prev = LOTES[i].fimMs;
+    }
+
+    function loteVigente() {
+      var agora = Date.now();
+      for (var j = 0; j < LOTES.length; j++) {
+        if (agora < LOTES[j].fimMs) return LOTES[j];
+      }
+      return LOTES[LOTES.length - 1];   // após o último fim, mantém o último lote
+    }
+
+    var lote = loteVigente();
+
+    /* ══════════════ PREÇO E DATA NA PÁGINA ══════════════
+       Preenche todo lugar marcado com o valor/data do lote vigente. */
+    document.querySelectorAll('[data-preco]').forEach(function (el) { el.textContent = lote.preco; });
+    document.querySelectorAll('[data-evento]').forEach(function (el) { el.textContent = lote.evento; });
+    document.querySelectorAll('[data-evento-curta]').forEach(function (el) { el.textContent = lote.eventoCurta; });
+
+    /* ══════════════ CONTADOR ══════════════
+       Conta até o fim do lote vigente. */
+    var elTimer = document.getElementById('timer');
+    var elTimerSR = document.getElementById('timer-sr');
+    var deadline = lote.fimMs;
+    var lastAnnounce = 0;
+    var timerId;
+
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+    function tick() {
+      if (isNaN(deadline)) { elTimer.textContent = '--h --m --s'; return; }
+
+      var diff = deadline - Date.now();
+
+      if (diff <= 0) {
+        /* Lote virou com a página aberta: recarrega os valores do novo lote. */
+        var novo = loteVigente();
+        if (novo !== lote) {
+          lote = novo;
+          deadline = lote.fimMs;
+          document.querySelectorAll('[data-preco]').forEach(function (el) { el.textContent = lote.preco; });
+          document.querySelectorAll('[data-evento]').forEach(function (el) { el.textContent = lote.evento; });
+          document.querySelectorAll('[data-evento-curta]').forEach(function (el) { el.textContent = lote.eventoCurta; });
+          inicio = lote.inicioMs; fim = lote.fimMs; atualizaVagas();
+          return;   // próximo tick já usa o novo deadline
+        }
+        elTimer.textContent = 'Encerrado';
+        elTimerSR.textContent = 'O prazo deste lote encerrou.';
+        clearInterval(timerId);
+        return;
+      }
+
+      var h = Math.floor(diff / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+
+      elTimer.textContent = pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
+
+      /* Leitor de tela: anuncia de minuto em minuto, não a cada segundo. */
+      if (Date.now() - lastAnnounce > 60000) {
+        elTimerSR.textContent = 'Faltam ' + h + ' horas e ' + m + ' minutos para o fim deste lote.';
+        lastAnnounce = Date.now();
+      }
+    }
+
+    tick();
+    timerId = setInterval(tick, 1000);
+
+    /* ══════════════ VAGAS PROGRESSIVAS ══════════════
+       Sobe linearmente de VAGAS_INICIO a VAGAS_FIM na janela do lote vigente.
+       É função do relógio, não do scroll: o número não cai ao recarregar
+       nem sobe por rolar a tela. */
+    var inicio = lote.inicioMs;
+    var fim = lote.fimMs;
+
+    function atualizaVagas() {
+      if (isNaN(inicio) || isNaN(fim) || fim <= inicio) return;
+
+      var t = (Date.now() - inicio) / (fim - inicio);
+      t = Math.min(1, Math.max(0, t));   // trava fora da janela
+
+      var pct = Math.round(VAGAS_INICIO + (VAGAS_FIM - VAGAS_INICIO) * t);
+
+      document.querySelectorAll('[data-vagas-fill]').forEach(function (el) {
+        el.style.width = pct + '%';
+      });
+      document.querySelectorAll('[data-vagas-text]').forEach(function (el) {
+        el.textContent = pct + '%';
+      });
+      document.querySelectorAll('[data-vagas-track]').forEach(function (el) {
+        el.setAttribute('aria-valuenow', pct);
+      });
+    }
+
+    atualizaVagas();
+    setInterval(atualizaVagas, 60000);   // de minuto em minuto basta
+
+    /* ══════════════ CTA FIXO ══════════════
+       Aparece depois que o CTA do hero passa para cima da viewport e
+       some quando a oferta entra em tela — lá o CTA do card assume. */
+    var sticky = document.getElementById('sticky');
+    var heroCta = document.querySelector('[data-cta="hero"]');
+    var oferta = document.getElementById('preco');
+
+    if (sticky && heroCta && oferta && 'IntersectionObserver' in window) {
+      var heroPassou = false;
+      var ofertaVisivel = false;
+
+      function sync() {
+        sticky.classList.toggle('visible', heroPassou && !ofertaVisivel);
+      }
+
+      new IntersectionObserver(function (entries) {
+        var e = entries[0];
+        heroPassou = !e.isIntersecting && e.boundingClientRect.top < 0;
+        sync();
+      }).observe(heroCta);
+
+      new IntersectionObserver(function (entries) {
+        ofertaVisivel = entries[0].isIntersecting;
+        sync();
+      }).observe(oferta);
+    }
+
+    /* ══════════════ UTMs ══════════════
+       Captura os parâmetros de origem uma vez. Os CTAs de scroll (hero,
+       garantia, sticky) apontam para #preco e não recebem UTM — a
+       atribuição é injetada na URL de checkout, no submit do formulário. */
+    var params = new URLSearchParams(window.location.search);
+    var utms = {
+      utm_source:   params.get('utm_source')   || '',
+      utm_medium:   params.get('utm_medium')   || '',
+      utm_campaign: params.get('utm_campaign') || '',
+      utm_content:  params.get('utm_content')  || '',
+      utm_term:     params.get('utm_term')     || ''
+    };
+
+    /* ══════════════ MODAL DE CAPTURA ══════════════
+       Abre no clique dos CTAs de checkout (.cta-modal). Coleta os dados e
+       só então redireciona para o Hotmart do lote vigente. */
+    var modal = document.getElementById('modal');
+    var modalClose = document.getElementById('modalClose');
+    var form = document.getElementById('leadForm');
+    var lastFocus = null;
+
+    function abreModal(trigger) {
+      lastFocus = trigger || document.activeElement;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      var primeiro = form.querySelector('input');
+      if (primeiro) primeiro.focus();
+    }
+
+    function fechaModal() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    document.querySelectorAll('.cta-modal').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        abreModal(btn);
+      });
+    });
+
+    modalClose.addEventListener('click', fechaModal);
+    modal.addEventListener('click', function (e) { if (e.target === modal) fechaModal(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('open')) fechaModal();
+    });
+
+    /* Máscara de telefone — visual pro usuário, valor limpo pro checkout. */
+    var phoneInput = form.querySelector('input[name="phone"]');
+    phoneInput.addEventListener('input', function () {
+      var v = this.value.replace(/\D/g, '');
+      if (v.indexOf('55') === 0 && v.length > 11) v = v.slice(2);
+      if (v.length > 11) v = v.slice(0, 11);
+      if (v.length > 7) v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7);
+      else if (v.length > 2) v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
+      else if (v.length > 0) v = '(' + v;
+      this.value = v;
+    });
+
+    /* Monta a URL de checkout do lote vigente, com dados do lead + UTMs + sck.
+       O sck reconstrói a atribuição no Hotmart (mesmo formato da fca1). */
+    function montaCheckout(name, email, phoneAc, phoneNumber) {
+      var sck = [utms.utm_campaign, utms.utm_source, utms.utm_medium, utms.utm_content, utms.utm_term]
+        .map(function (v) { return v || ''; }).join('|');
+
+      return 'https://pay.hotmart.com/' + HOTMART_ID + '?off=' + lote.off + '&checkoutMode=10'
+        + '&name=' + encodeURIComponent(name)
+        + '&email=' + encodeURIComponent(email)
+        + '&phoneac=' + encodeURIComponent(phoneAc)
+        + '&phonenumber=' + encodeURIComponent(phoneNumber)
+        + '&utm_campaign=' + encodeURIComponent(utms.utm_campaign)
+        + '&utm_medium=' + encodeURIComponent(utms.utm_medium)
+        + '&utm_source=' + encodeURIComponent(utms.utm_source)
+        + '&utm_term=' + encodeURIComponent(utms.utm_term)
+        + '&utm_content=' + encodeURIComponent(utms.utm_content)
+        + '&sck=' + encodeURIComponent(sck);
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var name = form.elements.name.value.trim();
+      var email = form.elements.email.value.trim();
+      var phone = form.elements.phone.value.trim();
+      if (!name || !email || !phone) { form.reportValidity(); return; }
+
+      var phoneRaw = phone.replace(/\D/g, '');
+      /* Remove DDI 55 se veio colado — o Hotmart preenche o país sozinho. */
+      if (phoneRaw.indexOf('55') === 0 && phoneRaw.length >= 12) phoneRaw = phoneRaw.slice(2);
+      var phoneAc = phoneRaw.slice(0, 2);
+      var phoneNumber = phoneRaw.slice(2);
+
+      var submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Redirecionando...';
+
+      var checkoutUrl = montaCheckout(name, email, phoneAc, phoneNumber);
+
+      /* Envia o lead direto pro webhook do Dynamus/LeadConnector
+         (fire-and-forget — não trava o redirect pro checkout). */
+      fetch(WEBHOOK_DYNAMUS, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          phone: '+55' + phoneAc + phoneNumber,
+          full_name: name,
+          first_name: name.split(' ')[0] || '',
+          last_name: name.split(' ').slice(1).join(' ') || '',
+          utm_source: utms.utm_source,
+          utm_medium: utms.utm_medium,
+          utm_campaign: utms.utm_campaign,
+          utm_content: utms.utm_content,
+          utm_term: utms.utm_term
+        })
+      }).catch(function () {});
+
+      /* Pequeno atraso garante que o POST saiu antes de trocar de página. */
+      setTimeout(function () { window.location.href = checkoutUrl; }, 500);
+    });
+  })();
+  </script>
+
+</body>
+</html>
