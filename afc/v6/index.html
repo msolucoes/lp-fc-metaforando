@@ -1425,36 +1425,36 @@
     document.querySelectorAll('[data-evento-curta]').forEach(function (el) { el.textContent = lote.eventoCurta; });
 
     /* ══════════════ CONTADOR ══════════════
-       Conta até o fim do lote vigente. */
+       Janela fixa de 8h: reinicia a cada visita (cada carregamento da página),
+       independente do lote. O lote continua mandando em preço/data/vagas. */
+    var DURACAO_CONTADOR_MS = 8 * 60 * 60 * 1000;
+
     var elTimer = document.getElementById('timer');
     var elTimerSR = document.getElementById('timer-sr');
-    var deadline = lote.fimMs;
+    var deadline = Date.now() + DURACAO_CONTADOR_MS;
     var lastAnnounce = 0;
     var timerId;
 
     function pad(n) { return n < 10 ? '0' + n : String(n); }
 
     function tick() {
-      if (isNaN(deadline)) { elTimer.textContent = '--h --m --s'; return; }
+      /* Lote virou com a página aberta: recarrega os valores do novo lote.
+         Não mexe no contador — ele tem vida própria. */
+      var novo = loteVigente();
+      if (novo !== lote) {
+        lote = novo;
+        document.querySelectorAll('[data-preco]').forEach(function (el) { el.textContent = lote.preco; });
+        document.querySelectorAll('[data-evento]').forEach(function (el) { el.textContent = lote.evento; });
+        document.querySelectorAll('[data-evento-curta]').forEach(function (el) { el.textContent = lote.eventoCurta; });
+        inicio = lote.inicioMs; fim = lote.fimMs; atualizaVagas();
+      }
 
       var diff = deadline - Date.now();
 
       if (diff <= 0) {
-        /* Lote virou com a página aberta: recarrega os valores do novo lote. */
-        var novo = loteVigente();
-        if (novo !== lote) {
-          lote = novo;
-          deadline = lote.fimMs;
-          document.querySelectorAll('[data-preco]').forEach(function (el) { el.textContent = lote.preco; });
-          document.querySelectorAll('[data-evento]').forEach(function (el) { el.textContent = lote.evento; });
-          document.querySelectorAll('[data-evento-curta]').forEach(function (el) { el.textContent = lote.eventoCurta; });
-          inicio = lote.inicioMs; fim = lote.fimMs; atualizaVagas();
-          return;   // próximo tick já usa o novo deadline
-        }
-        elTimer.textContent = 'Encerrado';
-        elTimerSR.textContent = 'O prazo deste lote encerrou.';
-        clearInterval(timerId);
-        return;
+        /* Página aberta por mais de 8h: reinicia a contagem em vez de travar. */
+        deadline = Date.now() + DURACAO_CONTADOR_MS;
+        diff = DURACAO_CONTADOR_MS;
       }
 
       var h = Math.floor(diff / 3600000);
@@ -1465,7 +1465,7 @@
 
       /* Leitor de tela: anuncia de minuto em minuto, não a cada segundo. */
       if (Date.now() - lastAnnounce > 60000) {
-        elTimerSR.textContent = 'Faltam ' + h + ' horas e ' + m + ' minutos para o fim deste lote.';
+        elTimerSR.textContent = 'Faltam ' + h + ' horas e ' + m + ' minutos para o fim desta oferta.';
         lastAnnounce = Date.now();
       }
     }
