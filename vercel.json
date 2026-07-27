@@ -2,46 +2,108 @@
   "redirects": [
     {
       "source": "/v6",
-      "has": [{ "type": "host", "value": "afc.metaforando.com.br" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "afc.metaforando.com.br"
+        }
+      ],
       "destination": "/v6/",
       "permanent": false
     },
     {
       "source": "/v7",
-      "has": [{ "type": "host", "value": "afc.metaforando.com.br" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "afc.metaforando.com.br"
+        }
+      ],
       "destination": "/v7/",
+      "permanent": false
+    },
+    {
+      "source": "/v8-a1",
+      "has": [
+        {
+          "type": "host",
+          "value": "afc.metaforando.com.br"
+        }
+      ],
+      "destination": "/v8-a1/",
+      "permanent": false
+    },
+    {
+      "source": "/v8-a2",
+      "has": [
+        {
+          "type": "host",
+          "value": "afc.metaforando.com.br"
+        }
+      ],
+      "destination": "/v8-a2/",
       "permanent": false
     }
   ],
   "rewrites": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "fca1.metaforando.com.br" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "fca1.metaforando.com.br"
+        }
+      ],
       "destination": "/a1/$1"
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "fca1b.metaforando.com.br" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "fca1b.metaforando.com.br"
+        }
+      ],
       "destination": "/a1b/$1"
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "fca1c.metaforando.com.br" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "fca1c.metaforando.com.br"
+        }
+      ],
       "destination": "/a1c/$1"
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "fca3.metaforando.com.br" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "fca3.metaforando.com.br"
+        }
+      ],
       "destination": "/a3/$1"
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "fca5.metaforando.com.br" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "fca5.metaforando.com.br"
+        }
+      ],
       "destination": "/a5/$1"
     },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "afc.metaforando.com.br" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "afc.metaforando.com.br"
+        }
+      ],
       "destination": "/afc/$1"
     },
     {
@@ -53,25 +115,37 @@
     {
       "source": "/shared/(.*).js",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/shared/(.*).(woff2|woff|ttf|eot|png|jpg|jpeg|webp|avif|gif|svg|ico)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(.*).css",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(.*).html",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=86400" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=86400"
+        }
       ]
     }
   ]
