@@ -346,6 +346,10 @@
     }
     .hero__content { order: 2; padding: 1.5rem var(--content-padding) 2.5rem; }
 
+    /* h1 do hero ocupa a largura toda (só as margens laterais do content);
+       sem balance — no mobile ele encurtava as linhas e forçava quebras feias */
+    .hero__content h1 { text-wrap: pretty; max-width: none; }
+
     .hero__lastro {
       font-size: 0.9375rem; color: var(--text-secondary);
       margin-bottom: 1.25rem; line-height: 1.6; max-width: var(--max-text);
@@ -708,7 +712,7 @@
       <div class="hero__grid">
 
         <div class="hero__content">
-          <h1>O criador do maior canal de comunicação não-verbal do mundo liberou um protocolo para você <span class="highlight">nunca mais travar</span> ao se comunicar.</h1>
+          <h1>O criador do maior canal de comunicação não&#8209;verbal do mundo liberou um protocolo para você <span class="highlight">nunca mais travar</span> ao se comunicar.</h1>
 
           <p class="hero__lastro">
             Seu cérebro congela em <span class="bold">0,07 segundos</span>. É mais
