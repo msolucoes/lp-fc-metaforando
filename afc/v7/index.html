@@ -151,6 +151,8 @@
     .section { padding: var(--section-padding) var(--content-padding); }
     /* a barra do timer é fixa: sem isto a âncora para atrás dela */
     section[id] { scroll-margin-top: 4.5rem; }
+    /* alvo de rolagem dos CTAs dentro do price-card (ver #preco) */
+    .anchor-jump { display: block; scroll-margin-top: 4.5rem; }
     .container { max-width: var(--max-width); margin: 0 auto; }
     .text-block { max-width: var(--max-text); }
     .text-center { text-align: center; }
@@ -997,7 +999,7 @@
     </section>
 
     <!-- ══════════════ SEÇÃO 4: PREÇO ══════════════ -->
-    <section class="section texture-grid" style="background: var(--bg-secondary);" id="preco">
+    <section class="section texture-grid" style="background: var(--bg-secondary);" id="secao-preco">
       <div class="container">
 
         <h2 class="text-center">
@@ -1017,6 +1019,10 @@
         <div class="price-card">
 
           <p class="price-card__intro">Para ter isso separado:</p>
+
+          <!-- Âncora dos CTAs (28/07/2026): a rolagem passa a parar aqui, na
+               ancoragem de preço, em vez do topo da seção. -->
+          <span class="anchor-jump" id="preco" aria-hidden="true"></span>
 
           <ul class="anchor-list">
             <li>Coach de comunicação (3 sessões) <span class="tnum">R$ 1.500</span></li>
@@ -1359,7 +1365,7 @@
        some quando a oferta entra em tela — lá o CTA do card assume. */
     var sticky = document.getElementById('sticky');
     var heroCta = document.querySelector('[data-cta="hero"]');
-    var oferta = document.getElementById('preco');
+    var oferta = document.getElementById('secao-preco');
 
     if (sticky && heroCta && oferta && 'IntersectionObserver' in window) {
       var heroPassou = false;
