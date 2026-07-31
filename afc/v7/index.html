@@ -1232,17 +1232,22 @@
        no Hotmart — o resto da URL de checkout é montado no submit do form.
 
        O preço e a data do evento exibidos na página seguem o lote vigente:
-       R$37 até 17/07 23:59 → R$27 de 18/07 a 28/07 → R$37 de 29/07 em diante.
-       A data do evento vira 18/07 → 1º de agosto na virada do lote 1 p/ 2.
-       (Se o evento for 01/08 desde já, troque `evento`/`eventoCurta` do lote 1.)
+       R$37 até 17/07 → R$27 de 18/07 a 28/07 → R$37 de 29/07 a 31/07 →
+       R$27 de 01/08 a 10/08 → R$37 de 11/08 em diante.
+       A data do evento vira 1º de agosto → 15 de agosto em 01/08 00:00.
 
-       01/08/2026 é sábado — bate com o "Sábado, das 10h às 18h" do FAQ.
+       15/08/2026 é sábado — bate com o "Sábado, das 10h às 18h" do FAQ.
+
+       TESTE: adicione ?__loteDate=2026-08-01T00:00 na URL para simular a
+       data (horário de Brasília). Afeta lote e vagas; o contador de 8h não.
     */
     var CAMPANHA_INICIO = '2026-07-16T00:00:00-03:00';
     var LOTES = [
-      { fim: '2026-07-18T00:00:00-03:00', preco: 'R$ 37', off: '142taykp', evento: '18 de julho',  eventoCurta: '18/07' },
-      { fim: '2026-07-29T00:00:00-03:00', preco: 'R$ 27', off: 'nc8vnczs', evento: '1º de agosto', eventoCurta: '01/08' },
-      { fim: '2026-08-01T10:00:00-03:00', preco: 'R$ 37', off: 'rnvs7juu', evento: '1º de agosto', eventoCurta: '01/08' }
+      { fim: '2026-07-18T00:00:00-03:00', preco: 'R$ 37', off: '142taykp', evento: '18 de julho',   eventoCurta: '18/07' },
+      { fim: '2026-07-29T00:00:00-03:00', preco: 'R$ 27', off: 'nc8vnczs', evento: '1º de agosto',  eventoCurta: '01/08' },
+      { fim: '2026-08-01T00:00:00-03:00', preco: 'R$ 37', off: 'rnvs7juu', evento: '1º de agosto',  eventoCurta: '01/08' },
+      { fim: '2026-08-11T00:00:00-03:00', preco: 'R$ 27', off: 'ts2hy0m6', evento: '15 de agosto',  eventoCurta: '15/08' },
+      { fim: '2026-08-15T10:00:00-03:00', preco: 'R$ 37', off: 'lsh8u5t4', evento: '15 de agosto',  eventoCurta: '15/08' }
     ];
 
     /* Vagas sobem de VAGAS_INICIO a VAGAS_FIM ao longo da janela do lote vigente.
@@ -1266,8 +1271,16 @@
       prev = LOTES[i].fimMs;
     }
 
+    /* Relógio do lote — permite simular a data via ?__loteDate= (só teste). */
+    var __simMs = null;
+    try {
+      var __q = new URLSearchParams(location.search).get('__loteDate');
+      if (__q) { var __t = new Date(__q + '-03:00').getTime(); if (!isNaN(__t)) __simMs = __t; }
+    } catch (e) {}
+    function agoraMs() { return __simMs !== null ? __simMs : Date.now(); }
+
     function loteVigente() {
-      var agora = Date.now();
+      var agora = agoraMs();
       for (var j = 0; j < LOTES.length; j++) {
         if (agora < LOTES[j].fimMs) return LOTES[j];
       }
@@ -1341,7 +1354,7 @@
     function atualizaVagas() {
       if (isNaN(inicio) || isNaN(fim) || fim <= inicio) return;
 
-      var t = (Date.now() - inicio) / (fim - inicio);
+      var t = (agoraMs() - inicio) / (fim - inicio);
       t = Math.min(1, Math.max(0, t));   // trava fora da janela
 
       var pct = Math.round(VAGAS_INICIO + (VAGAS_FIM - VAGAS_INICIO) * t);

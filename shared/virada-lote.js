@@ -10,7 +10,9 @@
  * CRONOGRAMA (Brasília, UTC-3):
  *   • até 17/07/2026 23:59:59 → R$ 37 · off=142taykp · evento "18 de julho"
  *   • 18/07 00:00 → 28/07 23:59:59 → R$ 27 · off=nc8vnczs · evento "1º de agosto"
- *   • a partir de 29/07 00:00 → R$ 37 · off=rnvs7juu · evento "1º de agosto"
+ *   • 29/07 00:00 → 31/07 23:59:59 → R$ 37 · off=rnvs7juu · evento "1º de agosto"
+ *   • 01/08 00:00 → 10/08 23:59:59 → R$ 27 · off=ts2hy0m6 · evento "15 de agosto"
+ *   • a partir de 11/08 00:00 → R$ 37 · off=lsh8u5t4 · evento "15 de agosto"
  *
  * O QUE NÃO TOCA (para não prejudicar tráfego/campanhas):
  *   - Formulário, envio ao ManyChat/Dynamus, pixels/GTM.
@@ -53,8 +55,27 @@
       precoExtenso: "Trinta e sete",
       checkout: "https://pay.hotmart.com/V103997742J?off=rnvs7juu&checkoutMode=10",
       dataEvento: "1º de agosto",  // evento continua 01/08/2026
+      ate: "2026-07-31T23:59:59",  // vira em 01/08 00:00
+      progresso: { startPct: 63, endPct: 98, start: "2026-07-29T00:00:00", end: "2026-07-31T23:59:59" }
+    },
+    {
+      nome: "Lote Promocional",
+      preco: "R$ 27",
+      precoExtenso: "Vinte e sete",
+      checkout: "https://pay.hotmart.com/V103997742J?off=ts2hy0m6&checkoutMode=10",
+      dataEvento: "15 de agosto",  // evento passa a ser 15/08/2026 (sábado)
+      ate: "2026-08-10T23:59:59",  // vira em 11/08 00:00
+      // Novo lote: barra reinicia e sobe 63% → 98% na janela.
+      progresso: { startPct: 63, endPct: 98, start: "2026-08-01T00:00:00", end: "2026-08-10T23:59:59" }
+    },
+    {
+      nome: "Lote Promocional",
+      preco: "R$ 37",
+      precoExtenso: "Trinta e sete",
+      checkout: "https://pay.hotmart.com/V103997742J?off=lsh8u5t4&checkoutMode=10",
+      dataEvento: "15 de agosto",
       // sem "ate" = lote vigente até o fim
-      progresso: { startPct: 63, endPct: 98, start: "2026-07-29T00:00:00", end: "2026-08-01T10:00:00" }
+      progresso: { startPct: 63, endPct: 98, start: "2026-08-11T00:00:00", end: "2026-08-15T10:00:00" }
     }
   ];
 
@@ -98,9 +119,10 @@
   var PRECOS_JUNTO  = /R\$(?:27|37)\b/g;    // "R$27"  / "R$37"
   var EXTENSOS      = /(?:Vinte e sete|Trinta e sete)(?= reais)/g;
   var BARRA_TXT     = /\d+% das vagas preenchidas/g;
-  // Data do evento: cobre "18 de julho" e "1º de agosto" (ou "1 de agosto"),
-  // troca sempre para a data do lote vigente — bidirecional e idempotente.
-  var EVENTO_RE     = /\b18 de julho\b|\b1º? de agosto\b/gi;
+  // Data do evento: cobre "18 de julho", "1º de agosto" (ou "1 de agosto") e
+  // "15 de agosto" — troca sempre para a data do lote vigente, bidirecional
+  // e idempotente. ("1º?" não casa "15": o \b + dígito seguinte impedem.)
+  var EVENTO_RE     = /\b18 de julho\b|\b1º? de agosto\b|\b15 de agosto\b/gi;
 
   function trocarTokens(root, lote, pct) {
     var precoJunto = lote.preco.replace(/\s/g, "");            // "R$37"
