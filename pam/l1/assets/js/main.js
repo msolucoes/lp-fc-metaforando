@@ -120,6 +120,35 @@
       }
     });
   });
+
+  /* ------------------------------------------------------------------------
+     5b. UTMs → checkout Hotmart.
+         Repassa as utm_* da URL da página para os links de CTA e monta o
+         `sck` posicional (source|medium|campaign|content|term) para o
+         rastreio nativo da Hotmart.
+     ------------------------------------------------------------------------ */
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var UTMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    if (!UTMS.some(function (k) { return params.get(k); })) return;
+
+    var vals = UTMS.map(function (k) { return params.get(k) || ''; });
+    while (vals.length && !vals[vals.length - 1]) vals.pop();
+    var sck = vals.join('|');
+
+    document.querySelectorAll('a[data-cta]').forEach(function (a) {
+      try {
+        var u = new URL(a.href);
+        if (u.hostname.indexOf('hotmart.com') === -1) return;
+        UTMS.forEach(function (k) {
+          var v = params.get(k);
+          if (v) u.searchParams.set(k, v);
+        });
+        if (sck) u.searchParams.set('sck', sck);
+        a.href = u.toString();
+      } catch (e) { /* href inválido: deixa como está */ }
+    });
+  })();
 })();
 
 /* ------------------------------------------------------------------------
