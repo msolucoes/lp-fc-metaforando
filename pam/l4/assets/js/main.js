@@ -136,7 +136,7 @@
     while (vals.length && !vals[vals.length - 1]) vals.pop();
     var sck = vals.join('|');
 
-    document.querySelectorAll('a[data-cta]').forEach(function (a) {
+    var applyUtms = function (a) {
       try {
         var u = new URL(a.href);
         if (u.hostname.indexOf('hotmart.com') === -1) return;
@@ -147,7 +147,18 @@
         if (sck) u.searchParams.set('sck', sck);
         a.href = u.toString();
       } catch (e) { /* href inválido: deixa como está */ }
-    });
+    };
+
+    document.querySelectorAll('a[data-cta]').forEach(applyUtms);
+
+    /* O player da VTurb reescreve os links depois do load e injeta o sck de
+       sessão dele (v3_..._s-1). Reaplicar no clique, em fase de captura,
+       garante que nosso sck (montado das UTMs) é a última escrita antes da
+       navegação. */
+    document.addEventListener('click', function (ev) {
+      var a = ev.target && ev.target.closest ? ev.target.closest('a[data-cta]') : null;
+      if (a) applyUtms(a);
+    }, true);
   })();
 })();
 
