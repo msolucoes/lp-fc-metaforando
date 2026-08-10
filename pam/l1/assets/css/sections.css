@@ -102,9 +102,9 @@
       linear-gradient(155deg, #10201f 0%, #0c1717 55%, #0a1010 100%);
   }
   .hero__title { padding-top: 24px; }
-  /* Vídeo com 20px de margem lateral no mobile. Seletor composto para
+  /* Vídeo com 24px de margem lateral no mobile. Seletor composto para
      vencer o max-width base de .vsl, declarado mais abaixo no arquivo. */
-  .hero .vsl { max-width: calc(100vw - 40px); }
+  .hero .vsl { max-width: calc(100vw - 48px); }
   /* Blur de luz quente encostado no canto superior direito do vídeo. */
   .hero__media { position: relative; }
   .hero__media::before {
