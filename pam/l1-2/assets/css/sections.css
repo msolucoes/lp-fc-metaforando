@@ -1,0 +1,1063 @@
+/* ==========================================================================
+   PROTOCOLO AUTORIDADE MAGNÉTICA — estilos de seção
+   Depende de styles.css (tokens, reset, componentes base).
+
+   Ritmo estrutural inspirado na referência (priscianepereira.com/mslv2bio):
+   bandas escuras full-bleed alternando com "folhas" claras flutuantes,
+   layouts assimétricos com imagem sangrando, imagem em todo bloco.
+   A identidade visual é 100% Metaforando — nada da referência foi copiado.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   SHELL — banda escura x folha clara
+   -------------------------------------------------------------------------- */
+
+/* Banda: seção full-bleed sobre a Tinta. */
+.band { position: relative; padding-block: var(--space-section); overflow: hidden; }
+
+/* Glow radial teal discreto, para dar profundidade sem caixa. */
+.band--glow::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(1200px, 130vw);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: radial-gradient(circle, rgba(47, 158, 143, 0.1), transparent 62%);
+  pointer-events: none;
+}
+.band--glow.band--warm::before {
+  background: radial-gradient(circle, rgba(219, 122, 51, 0.09), transparent 62%);
+}
+.band > .container { position: relative; z-index: 1; }
+
+/* Folha: painel claro flutuando sobre a Tinta. Marca virada de ritmo
+   e devolve alívio de leitura nos blocos mais racionais. */
+.sheet {
+  position: relative;
+  margin-inline: var(--gutter);
+  padding-block: var(--space-section);
+  background: var(--mist);
+  color: var(--ink);
+  border-radius: 24px;
+  overflow: hidden;
+}
+@media (min-width: 1024px) {
+  .sheet { margin-inline: var(--s-48); border-radius: 32px; }
+}
+.sheet .section-title,
+.sheet .card-title { color: var(--ink); }
+.sheet .lead,
+.sheet .muted { color: #4f544c; }
+.sheet .prose p { color: #3a3f38; }
+.sheet .prose strong { color: var(--ink); }
+
+/* Espaço entre uma folha e a banda seguinte. */
+.sheet + .band,
+.band + .sheet,
+.sheet + .sheet { margin-top: 0; }
+
+/* Marca d'água tipográfica — grafismo de fundo, nunca legível como texto. */
+.watermark {
+  position: absolute;
+  z-index: 0;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: clamp(8rem, 26vw, 22rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: var(--mist);
+  opacity: 0.035;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+.watermark--tl { top: -0.1em; left: -0.08em; }
+.watermark--br { right: -0.08em; bottom: -0.15em; }
+
+/* Layout assimétrico com imagem sangrando até a borda da viewport. */
+.split { display: grid; gap: var(--s-32); align-items: center; }
+@media (min-width: 900px) {
+  .split { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--s-48); }
+  .split--textFirst > :first-child { order: 0; }
+  .split__bleed-right { margin-right: calc(50% - 50vw); }
+  .split__bleed-left { margin-left: calc(50% - 50vw); }
+}
+
+/* --------------------------------------------------------------------------
+   01 HERO — coluna única centralizada. Sem imagem e sem coluna concorrente:
+   a leitura desce em linha reta até o play, que é a única ação da dobra.
+   -------------------------------------------------------------------------- */
+/* Densidade é decisão de CRO: com H1 de 46 palavras e vídeo vertical, cada
+   pixel de respiro empurra o player para fora da dobra. Padding curto. */
+.hero { position: relative; padding-block: var(--s-24) var(--s-48); overflow: hidden; }
+/* Mobile: fundo de grade técnica (laudo/scanner) — base teal escura, linhas
+   de grade e luz quente no canto superior direito, replicando a referência. */
+@media (max-width: 899px) {
+  .hero {
+    background:
+      repeating-linear-gradient(0deg, rgba(86, 160, 150, 0.16) 0 1px, transparent 1px 54px),
+      repeating-linear-gradient(90deg, rgba(86, 160, 150, 0.16) 0 1px, transparent 1px 54px),
+      linear-gradient(155deg, #10201f 0%, #0c1717 55%, #0a1010 100%);
+  }
+  .hero__title { padding-top: 24px; }
+  /* Vídeo com 24px de margem lateral no mobile. Seletor composto para
+     vencer o max-width base de .vsl, declarado mais abaixo no arquivo. */
+  .hero .vsl { max-width: calc(100vw - 48px); }
+  /* Blur de luz quente encostado no canto superior direito do vídeo. */
+  .hero__media { position: relative; }
+  .hero__media::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -60px;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(closest-side, rgba(240, 200, 140, 0.5), transparent 72%);
+    filter: blur(28px);
+    pointer-events: none;
+  }
+}
+@media (min-width: 900px) {
+  .hero { padding-block: var(--s-32) var(--space-section); }
+}
+
+.hero__grid {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-24);
+  text-align: center;
+}
+
+/* Desktop: duas colunas — texto e CTA à esquerda, VSL vertical à direita.
+   No mobile o flex acima mantém a ordem título → sub → vídeo → CTA. */
+@media (min-width: 900px) {
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    /* Linhas 1fr vazias absorvem a folga de altura do video: o bloco
+       texto+CTA fica centralizado e o gap entre eles permanece fixo. */
+    grid-template-areas:
+      ".       media"
+      "content media"
+      "cta     media"
+      ".       media";
+    grid-template-rows: 1fr auto auto 1fr;
+    row-gap: var(--s-24);
+    column-gap: var(--s-48);
+    text-align: left;
+  }
+  .hero__content { grid-area: content; }
+  .hero__cta { grid-area: cta; text-align: left; }
+  .hero__cta .btn { margin-inline: 0; }
+  .hero__media { grid-area: media; align-self: center; }
+}
+
+/* Título mais largo que o corpo: headline longa em medida de leitura fica
+   estreita demais e vira uma torre de linhas curtas. */
+.hero__content { max-width: 1000px; }
+.hero__title { margin-bottom: var(--s-12); font-size: calc(var(--fs-display) * 0.85); line-height: 1.3; }
+@media (min-width: 900px) {
+  .hero__title { font-size: 2.75rem; } /* 44px */
+}
+/* Trecho de abertura sem bold; o destaque fica no span teal e no fecho. */
+.hero__title-intro { font-weight: 400; }
+.hero__sub { max-width: 56ch; margin-inline: auto; }
+/* Em telas maiores o subtitulo quebra em 2 linhas equilibradas; balance
+   evita viuva na segunda linha. */
+@media (min-width: 900px) {
+  .hero__sub { max-width: 78ch; margin-inline: 0; text-wrap: balance; }
+}
+
+.hero__media { display: flex; flex-direction: column; align-items: center; width: 100%; }
+/* O gap do grid/flex já espaça o CTA; sem o margin-top global de 48px. */
+.hero__grid .hero__cta { margin-top: 0; }
+
+/* Variante l4 (sem h1/subheadline): no desktop o grid de 2 colunas dá lugar
+   a uma coluna única — vídeo centralizado na página e CTA centralizado
+   logo abaixo. */
+@media (min-width: 900px) {
+  .hero--solo .hero__grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero--solo .hero__cta { text-align: center; }
+  .hero--solo .hero__cta .btn { margin-inline: auto; }
+}
+
+/* Reflexo varrendo o CTA da hero e o da barra sticky a cada ~3.5s. */
+.hero__cta .btn,
+.sticky-bar .btn {
+  position: relative;
+  overflow: hidden;
+}
+.hero__cta .btn::after,
+.sticky-bar .btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+  animation: cta-shine 3.5s var(--ease, ease) infinite;
+}
+@keyframes cta-shine {
+  0%   { left: -60%; }
+  55%  { left: 130%; }
+  100% { left: 130%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__cta .btn::after,
+  .sticky-bar .btn::after { animation: none; display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   GATE DA VSL — a página abre só com o hero (vídeo). CTA, dobras, rodapé e
+   sticky ficam ocultos até o vídeo atingir o tempo definido no main.js
+   (revelação persistida em localStorage para retornos). O JS remove
+   .is-gated do <body>.
+   -------------------------------------------------------------------------- */
+body.is-gated .hero__cta,
+body.is-gated .sheet,
+body.is-gated .band,
+body.is-gated .site-footer,
+body.is-gated .sticky-bar { display: none !important; }
+
+/* --------------------------------------------------------------------------
+   PLAYER VSL
+   Proporção controlada por --vsl-ratio. 9/16 = vertical (padrão, como a
+   referência); trocar para 16/9 num único ponto se a VSL for horizontal.
+   -------------------------------------------------------------------------- */
+:root { --vsl-ratio: 9 / 16; }
+
+.vsl {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: var(--s-24);
+  aspect-ratio: var(--vsl-ratio);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+/* Player VTurb ocupa a caixa .vsl inteira; a proporção fica com o container.
+   Overrides com !important vencem o style inline do snippet do embed. */
+.vsl vturb-smartplayer {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  max-width: none !important;
+  height: 100%;
+  z-index: 2;
+}
+.vsl .vturb-player-placeholder { padding: 0 !important; height: 100%; }
+
+/* Desktop: VSL vertical na coluna direita do hero. */
+@media (min-width: 900px) {
+  .vsl { max-width: 360px; margin-bottom: 0; }
+}
+
+.vsl__facade {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-16);
+  width: 100%;
+  padding: var(--s-24);
+  background: var(--surface);
+  border: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+.vsl__facade img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+}
+.vsl__play {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  background: rgba(20, 20, 15, 0.6);
+  border: 1.5px solid var(--teal);
+  border-radius: 50%;
+  color: var(--teal-text);
+  transition: transform 160ms var(--ease);
+}
+.vsl__facade:hover .vsl__play { transform: scale(1.04); }
+.vsl__hint { position: relative; color: var(--gray); text-align: center; }
+.vsl iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
+
+/* Scanline: assina o conceito de scanner. Uma passada, no load. */
+.scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  opacity: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scanline { animation: scan 3s var(--ease) 0.4s 1 forwards; }
+}
+@keyframes scan {
+  0%   { opacity: 0; transform: translateY(0); }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(560px); }
+}
+
+/* --------------------------------------------------------------------------
+   02 SINTOMAS — grid de cards com foto (era lista de texto)
+   -------------------------------------------------------------------------- */
+.symptom-grid {
+  display: grid;
+  gap: var(--s-12);
+  margin-top: var(--space-block);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 900px) { .symptom-grid { grid-template-columns: repeat(3, 1fr); gap: var(--s-16); } }
+
+.symptom-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  border-bottom: 2px solid var(--teal);
+}
+.symptom-card__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+.symptom-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.symptom-card__media .placeholder-box { height: 100%; aspect-ratio: auto; border: 0; border-radius: 0; }
+.symptom-card__num {
+  position: absolute;
+  top: var(--s-8);
+  left: var(--s-8);
+  z-index: 2;
+  padding: 2px 8px;
+  background: rgba(20, 20, 15, 0.8);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: var(--teal-text);
+}
+.symptom-card__text {
+  padding: var(--s-16);
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--mist);
+}
+
+/* --------------------------------------------------------------------------
+   03 HISTÓRIA
+   -------------------------------------------------------------------------- */
+/* A foto de infância é 317x529 nativos. Sem teto ela era esticada para ~600px
+   de largura: além de dominar o bloco, ficava borrada pelo upscale. */
+.origin { max-width: 340px; margin-inline: auto; }
+.origin img { filter: grayscale(1) contrast(1.05); width: 100%; }
+
+/* No desktop a foto acompanha a altura da coluna de texto: sem sobra de fundo
+   embaixo, colunas equilibradas. O corte (cover) fica no alto, onde está o rosto. */
+@media (min-width: 900px) {
+  .origin { display: flex; align-self: stretch; width: min(340px, 100%); }
+  .origin img { height: 100%; object-fit: cover; object-position: 50% 25%; }
+}
+
+/* Frase de virada do Bloco 03: fecha a jornada do herói e faz a ponte para a
+   oferta. Recebe peso de subtítulo, não de corpo. */
+.statement {
+  margin-top: var(--s-24);
+  padding-top: var(--s-24);
+  border-top: 1px solid var(--line);
+  font-size: clamp(1.25rem, 1.05rem + 1vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--teal-text);
+  text-wrap: balance;
+}
+
+.proof-mosaic { display: grid; gap: var(--s-12); }
+.proof-mosaic figure {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  aspect-ratio: 16 / 9;
+}
+/* Foto do palco é retrato: recorte 16/9 decapitava o assunto. */
+.proof-mosaic figure:first-child { aspect-ratio: 3 / 4; }
+.proof-mosaic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85) contrast(1.02);
+}
+@media (min-width: 560px) {
+  .proof-mosaic { grid-template-columns: repeat(2, 1fr); }
+  .proof-mosaic figure:first-child { grid-row: span 2; aspect-ratio: auto; }
+  .proof-mosaic figure:first-child img { object-position: center 35%; }
+}
+
+/* --------------------------------------------------------------------------
+   04 "MESMO QUE"
+   -------------------------------------------------------------------------- */
+.objections { display: grid; gap: var(--s-12); margin-block: var(--space-block); }
+.objection {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-16);
+  align-items: center;
+  padding: var(--s-16) var(--s-24);
+  background: var(--surface);
+  border-left: 2px solid var(--teal);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--gray);
+}
+.objection .icon { color: var(--teal-text); }
+
+/* --------------------------------------------------------------------------
+   05 DEPOIMENTOS — citação abaixo do vídeo: converte sem play
+   -------------------------------------------------------------------------- */
+.testimonial { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+.testimonial__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 9 / 16;
+  width: 100%;
+  background: var(--ink);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  color: var(--teal-text);
+}
+.testimonial__media .vsl__play { width: 56px; height: 56px; }
+/* Capa (print do Short) atras do botao de play; o video so carrega no clique. */
+.testimonial__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.testimonial__media .vsl__play { position: relative; z-index: 1; }
+/* Iframe injetado pelo main.js no clique substitui a facade: mantem o mesmo
+   formato vertical 9:16 dos Shorts. */
+.testimonial iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--ink);
+}
+.testimonial__body { padding: var(--s-24); }
+/* O card do depoimento e escuro (Superficie) mesmo dentro da folha clara, que
+   define color: ink no contexto. Sem cor explicita a citacao herdava preto
+   sobre fundo escuro. Nevoa sobre Superficie: 11,4:1. */
+.testimonial__quote { font-size: var(--fs-body); line-height: 1.55; color: var(--mist); }
+.testimonial__name {
+  margin-top: var(--s-16);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal-text);
+}
+
+/* Depoimentos em carrossel: mesmo trilho nativo dos modulos, colunas mais
+   estreitas (video 9:16) e navegacao por setas e pontos. */
+/* .carousel base e declarado depois no arquivo (secao 11); o seletor composto
+   garante que o modificador venca sem depender da ordem. */
+.carousel.carousel--depo { margin-top: var(--space-block); grid-auto-columns: 82%; scrollbar-width: none; }
+.carousel.carousel--depo::-webkit-scrollbar { display: none; }
+@media (min-width: 640px)  { .carousel.carousel--depo { grid-auto-columns: 54%; } }
+@media (min-width: 1024px) { .carousel.carousel--depo { grid-auto-columns: 36%; } }
+
+.carousel__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-16);
+  margin-top: var(--s-16);
+}
+.carousel__btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+.carousel__btn:hover:not(:disabled) { border-color: var(--teal); color: var(--teal); }
+.carousel__btn:disabled { opacity: 0.35; cursor: default; }
+.carousel__dots { display: flex; gap: var(--s-8); }
+.carousel__dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--line);
+  cursor: pointer;
+}
+.carousel__dot.is-active { background: var(--teal); }
+
+/* --------------------------------------------------------------------------
+   06 DIFERENCIAÇÃO — dois cards com badge "X" no encontro
+   -------------------------------------------------------------------------- */
+.compare {
+  position: relative;
+  display: grid;
+  gap: var(--s-24);
+  margin-top: var(--space-block);
+}
+@media (min-width: 900px) { .compare { grid-template-columns: 1fr 1fr; gap: var(--s-32); } }
+
+.compare__col { padding: var(--s-24); border-radius: var(--radius-md); }
+.compare__col--no {
+  background: rgba(179, 184, 172, 0.05);
+  border: 1px solid rgba(179, 184, 172, 0.18);
+}
+.compare__col--yes {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+}
+.compare__head {
+  margin-bottom: var(--s-16);
+  padding-bottom: var(--s-12);
+  border-bottom: 1px solid currentColor;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.compare__col--no .compare__head { color: var(--gray); }
+.compare__col--yes .compare__head { color: var(--teal-text); }
+
+/* Badge de confronto no ponto de encontro das duas colunas. */
+.compare__badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: none;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  translate: -50% -50%;
+  background: var(--ink);
+  border: 1.5px solid var(--teal);
+  border-radius: 50%;
+  color: var(--teal-text);
+}
+@media (min-width: 900px) { .compare__badge { display: grid; } }
+
+.check-list { list-style: none; padding: 0; display: grid; gap: var(--s-16); }
+.check-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-12);
+  align-items: start;
+}
+.check-list .icon { margin-top: 3px; }
+.compare__col--no .check-list li,
+.compare__col--no .icon { color: var(--gray); }
+.compare__col--yes .check-list li { color: var(--mist); }
+.compare__col--yes .icon { color: var(--teal-text); }
+
+/* --------------------------------------------------------------------------
+   07 RAZÕES — lista com ícone circular preenchido + mockup ao lado
+   -------------------------------------------------------------------------- */
+.reasons { list-style: none; padding: 0; display: grid; gap: var(--s-16); }
+.reason {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-16);
+  padding-bottom: var(--s-16);
+  border-bottom: 1px solid var(--line);
+}
+.reason:last-child { border-bottom: 0; padding-bottom: 0; }
+.reason__badge {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-top: 2px;
+  background: var(--teal);
+  border-radius: 50%;
+  color: var(--ink);
+}
+.reason__badge .icon { width: 16px; height: 16px; stroke-width: 2.5; }
+.reason__title { font-weight: 600; color: var(--mist); margin-bottom: var(--s-4); }
+.reason__text { color: var(--gray); font-size: var(--fs-small); }
+
+/* Painel do mockup: Superficie lisa, sem textura. A arte e transparente
+   e flutua sobre o painel. */
+.reasons__mock {
+  align-self: center;
+  padding: var(--s-24);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+.reasons__mock img { width: 100%; height: auto; display: block; }
+
+/* --------------------------------------------------------------------------
+   08 PILARES — arco de sinal no topo (rima com o ímã do logotipo)
+   -------------------------------------------------------------------------- */
+.pillar { display: flex; flex-direction: column; gap: var(--s-12); padding: 0; overflow: hidden; }
+.pillar__media { aspect-ratio: 16 / 10; overflow: hidden; }
+.pillar__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pillar__media .placeholder-box { height: 100%; aspect-ratio: auto; border: 0; border-radius: 0; }
+.pillar__body { display: flex; flex-direction: column; gap: var(--s-12); padding: var(--s-24); }
+.pillar__num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-title);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: var(--teal-text);
+}
+.pillar__text { color: var(--gray); font-size: var(--fs-small); }
+
+/* --------------------------------------------------------------------------
+   09 PASSOS — passo a passo metodológico. Sem imagem: numeral, título e
+   uma linha de texto. A sequência é a informação; o resto seria ruído.
+   -------------------------------------------------------------------------- */
+.steps { display: grid; gap: var(--s-32); margin-top: var(--space-block); }
+@media (min-width: 768px)  { .steps { grid-template-columns: repeat(3, 1fr); gap: var(--s-48); } }
+
+.step { padding-top: var(--s-16); border-top: 2px solid #1f6b60; }
+.step__num {
+  display: block;
+  margin-bottom: var(--s-8);
+  font-family: var(--font-mono);
+  font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1;
+  color: #1f6b60;
+  font-variant-numeric: tabular-nums;
+}
+.step__title {
+  margin-bottom: var(--s-8);
+  font-size: var(--fs-subtitle);
+  font-weight: 700;
+  color: var(--ink);
+}
+.step__text { color: #4f544c; font-size: var(--fs-small); }
+
+/* --------------------------------------------------------------------------
+   10 QUALIFICAÇÃO
+   -------------------------------------------------------------------------- */
+.qualify { display: grid; gap: var(--s-24); margin-top: var(--space-block); }
+@media (min-width: 900px) { .qualify { grid-template-columns: 1fr 1fr; align-items: start; } }
+.qualify__no { opacity: 0.75; }
+.qualify__closing {
+  margin-top: var(--space-block);
+  padding: var(--s-24);
+  background: var(--surface);
+  border-left: 2px solid var(--amber);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: var(--fs-subtitle);
+  font-weight: 600;
+  color: var(--mist);
+}
+
+/* --------------------------------------------------------------------------
+   11 MÓDULOS — carrossel com scroll-snap nativo (zero JS)
+   -------------------------------------------------------------------------- */
+.carousel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 78%;
+  gap: var(--s-16);
+  margin-top: var(--space-block);
+  padding-bottom: var(--s-16);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--teal) transparent;
+  overscroll-behavior-x: contain;
+}
+.carousel > * { scroll-snap-align: center; }
+@media (min-width: 640px)  { .carousel { grid-auto-columns: 46%; } }
+@media (min-width: 1024px) { .carousel { grid-auto-columns: 31%; } }
+
+.placeholder-box {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: var(--s-8);
+  padding: var(--s-16);
+  aspect-ratio: 16 / 9;
+  background: var(--surface);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+  color: var(--gray);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  text-align: center;
+}
+.placeholder-box .mono { color: var(--teal-text); }
+
+/* --------------------------------------------------------------------------
+   12 BÔNUS — barra de título, mockup, barra de valor
+   -------------------------------------------------------------------------- */
+/* Card claro, como na referência: cada bônus é uma "folha" própria sobre a banda.
+   Barra de título escura no topo, mockup no meio, barra de valor no pé. */
+.bonus {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  background: var(--mist);
+  border: 0;
+  border-radius: var(--radius-lg);
+}
+/* Coluna, não linha: o rótulo fica sempre sozinho na 1ª linha e o nome na 2ª.
+   Em flex-wrap o nome curto ("IA Metaforando") subia para junto do rótulo e
+   a barra do card 1 ficava mais baixa que a do card 3. */
+.bonus__bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-16);
+  background: var(--ink);
+}
+.bonus__label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal-text);
+}
+/* Reserva 2 linhas: "IA Metaforando" ocupa 1 e "Formação em Comunicação
+   Persuasiva" ocupa 2. Sem o piso, as barras dos 3 cards teriam alturas
+   diferentes e os mockups não alinhariam. */
+.bonus__name {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  min-height: 2.6em;
+  color: var(--mist);
+}
+/* 16/9: proporcao nativa das artes dos bonus. O card 1 ainda em placeholder
+   herda a mesma caixa, entao os tres topos ficam alinhados. */
+.bonus__mock { aspect-ratio: 16 / 9; background: #fff; overflow: hidden; }
+.bonus__mock img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bonus__mock .placeholder-box {
+  height: 100%;
+  aspect-ratio: auto;
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  color: #6b6a5f;
+}
+.bonus__mock .placeholder-box .mono { color: #1f6b60; }
+.bonus__body { display: flex; flex-direction: column; gap: var(--s-12); padding: var(--s-24); flex: 1; }
+.bonus__text { color: #4f544c; font-size: var(--fs-small); }
+/* Barra de valor no pé, como na referência. Fundo Tinta (não âmbar tingido:
+   ali o texto âmbar caía para 3,9:1, reprovando AA em texto pequeno). */
+.bonus__price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-12);
+  margin-top: auto;
+  padding: var(--s-16) var(--s-24);
+  background: var(--ink);
+}
+.bonus__from {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  color: var(--gray);
+  text-decoration: line-through;
+}
+.bonus__now {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+/* --------------------------------------------------------------------------
+   13 OFERTA — card destacado, estética de nota fiscal
+   -------------------------------------------------------------------------- */
+.offer-card {
+  max-width: 640px;
+  margin-inline: auto;
+  padding: var(--s-32) var(--s-24);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+@media (min-width: 640px) { .offer-card { padding: var(--s-48) var(--s-32); } }
+
+.offer__logo { display: block; width: min(200px, 55vw); height: auto; margin: 0 auto var(--s-24); }
+.offer__mock { max-width: 520px; margin: 0 auto var(--space-block); }
+.offer__mock img { width: 100%; height: auto; display: block; }
+.stack { list-style: none; padding: 0; margin: var(--space-block) 0; text-align: left; }
+.stack li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--s-12);
+  align-items: center;
+  padding-block: var(--s-12);
+  border-bottom: 1px solid var(--line);
+}
+.stack li:last-child { border-bottom: 0; }
+.stack .icon { color: var(--teal-text); }
+.stack span:nth-child(2) { font-size: var(--fs-small); line-height: 1.4; }
+.stack__value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--gray);
+  white-space: nowrap;
+}
+.price-from {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  letter-spacing: 0.12em;
+  color: var(--gray);
+  text-decoration: line-through;
+}
+.price-intro { margin-top: var(--s-8); color: var(--gray); }
+.price-main {
+  margin-block: var(--s-8);
+  font-size: clamp(2.25rem, 1.6rem + 3.2vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--amber);
+}
+.price-alt { font-size: var(--fs-subtitle); font-weight: 600; color: var(--mist); }
+.payment-flags { max-width: 320px; margin: var(--space-block) auto 0; }
+
+/* --------------------------------------------------------------------------
+   14 MENTOR — banda com retrato sangrando à direita
+   -------------------------------------------------------------------------- */
+/* Retrato 3:4 contido, sem sangrar. A foto já traz a retícula teal do manual
+   no fundo, então não precisa de véu: ela se integra à banda por si. */
+/* Coluna da foto com largura fixa: o texto ocupa o resto. Assim a imagem
+   não estica em monitor largo e as duas colunas ficam alinhadas ao centro. */
+@media (min-width: 900px) {
+  /* Coluna de texto mais estreita: a foto ganha 40px e o texto perde,
+     o que aproxima as duas alturas e fecha o bloco. */
+  .split--mentor {
+    grid-template-columns: minmax(0, 1fr) 460px;
+    gap: var(--s-48);
+    align-items: center;
+  }
+}
+
+.mentor__photo {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin-inline: auto;
+}
+.mentor__photo img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+
+/* A arte do mentor traz o nome e a marca embutidos no rodape, entao ela nao
+   pode ser cortada: object-fit cover comeria o letreiro. A foto mantem 3:4
+   integral e as duas colunas se alinham pelo centro. */
+@media (min-width: 900px) {
+  .mentor__photo { max-width: 460px; margin-inline: 0; }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-12);
+  margin-top: var(--space-block);
+}
+.stat {
+  padding: var(--s-16) var(--s-8);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  border-bottom: 2px solid var(--teal);
+  text-align: center;
+}
+.stat__num {
+  font-family: var(--font-mono);
+  font-size: clamp(1.25rem, 1rem + 1.2vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--teal-text);
+}
+.stat__label {
+  margin-top: var(--s-4);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+/* --------------------------------------------------------------------------
+   15 GARANTIA — selo grande à esquerda, texto à direita
+   -------------------------------------------------------------------------- */
+.guarantee-card {
+  display: grid;
+  gap: var(--s-24);
+  padding: var(--s-32) var(--s-24);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .guarantee-card {
+    grid-template-columns: auto 1fr;
+    gap: var(--s-48);
+    padding: var(--s-48);
+  }
+}
+.guarantee__seal { width: min(240px, 60vw); height: auto; margin-inline: auto; }
+.guarantee__highlight {
+  margin-top: var(--s-16);
+  font-size: var(--fs-subtitle);
+  font-weight: 700;
+  color: var(--teal-text);
+}
+
+/* --------------------------------------------------------------------------
+   16 FAQ — cards separados
+   -------------------------------------------------------------------------- */
+/* Cards escuros sobre banda escura, como na referência — mas em Superfície
+   (#23302C), que mantém o texto acima de AA (a referência usa marrom sobre
+   marrom e o contraste cai). */
+.faq { display: grid; gap: var(--s-12); margin-top: var(--space-block); }
+.faq__item {
+  background: var(--surface);
+  border: 1px solid rgba(47, 158, 143, 0.15);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.faq__item[open] { border-color: var(--line-strong); }
+.faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-16);
+  min-height: 56px;
+  padding: var(--s-16) var(--s-24);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mist);
+  cursor: pointer;
+  list-style: none;
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__q .icon { flex-shrink: 0; color: var(--teal-text); transition: transform 200ms var(--ease); }
+.faq__item[open] .faq__q .icon { transform: rotate(180deg); }
+.faq__a { padding: 0 var(--s-24) var(--s-24); max-width: 62ch; color: var(--gray); font-size: var(--fs-small); }
+
+/* --------------------------------------------------------------------------
+   BARRA STICKY
+   -------------------------------------------------------------------------- */
+.sticky-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  padding: var(--s-12) var(--gutter);
+  padding-bottom: calc(var(--s-12) + env(safe-area-inset-bottom));
+  background: rgba(20, 20, 15, 0.94);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line);
+  transform: translateY(110%);
+  opacity: 0;
+  transition: transform 200ms var(--ease), opacity 200ms var(--ease);
+}
+.sticky-bar.is-visible { transform: none; opacity: 1; }
+.sticky-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--s-16);
+  max-width: var(--container);
+  margin-inline: auto;
+}
+.sticky-bar__label { display: none; flex: 1; }
+.sticky-bar .btn { min-height: 48px; }
+@media (min-width: 640px) {
+  .sticky-bar__label { display: block; }
+  .sticky-bar .btn { width: auto; margin-inline: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   RODAPÉ
+   -------------------------------------------------------------------------- */
+.site-footer {
+  padding-block: var(--space-block) calc(var(--s-96) + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  color: var(--gray);
+  font-size: var(--fs-small);
+  text-align: center;
+}
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-16);
+  margin-block: var(--s-16);
+}
+.site-footer a { color: var(--gray); }
+.site-footer a:hover { color: var(--mist); }
+.site-footer small {
+  display: block;
+  max-width: 60ch;
+  margin: var(--s-16) auto 0;
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   HERO — variante de trafego: VSL centralizada como primeiro elemento
+   -------------------------------------------------------------------------- */
+.hero--trafego { padding-block: var(--s-32) var(--space-section); }
+.hero__solo { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.hero__solo .vsl { margin-inline: auto; }
