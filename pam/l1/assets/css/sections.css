@@ -121,6 +121,15 @@
 }
 @media (min-width: 900px) {
   .hero { padding-block: var(--s-32) var(--space-section); }
+  /* Desktop: mesma grade técnica da referência, com o blur de luz quente
+     no canto superior direito da tela. */
+  .hero {
+    background:
+      radial-gradient(55% 65% at 100% 0%, rgba(240, 200, 140, 0.28), rgba(240, 200, 140, 0.10) 40%, transparent 70%),
+      repeating-linear-gradient(0deg, rgba(86, 160, 150, 0.16) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(90deg, rgba(86, 160, 150, 0.16) 0 1px, transparent 1px 64px),
+      linear-gradient(155deg, #10201f 0%, #0c1717 55%, #0a1010 100%);
+  }
 }
 
 .hero__grid {
