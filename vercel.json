@@ -1,6 +1,28 @@
 {
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "pam.metaforando.com.br"
+        }
+      ],
+      "destination": "/l1/",
+      "permanent": false
+    },
+    {
+      "source": "/l1",
+      "has": [
+        {
+          "type": "host",
+          "value": "pam.metaforando.com.br"
+        }
+      ],
+      "destination": "/l1/",
+      "permanent": false
+    },
+    {
       "source": "/v6",
       "has": [
         {
@@ -105,6 +127,16 @@
         }
       ],
       "destination": "/afc/$1"
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "pam.metaforando.com.br"
+        }
+      ],
+      "destination": "/pam/$1"
     },
     {
       "source": "/",
