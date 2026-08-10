@@ -245,7 +245,9 @@
   if (!document.body.classList.contains('is-gated')) return;
 
   var SECONDS_TO_DISPLAY = 18 * 60 + 25; /* 18:25 */
-  var STORAGE_KEY = 'vslElsDisplayed_6a79dcea0b4c5fbc536d3fca';
+  /* Chave derivada do id do player: cada página/vídeo desbloqueia por si. */
+  var playerEl = document.querySelector('vturb-smartplayer');
+  var STORAGE_KEY = 'vslElsDisplayed_' + (playerEl ? playerEl.id : 'default');
   var elsDisplayed = false;
   var attempts = 0;
 
