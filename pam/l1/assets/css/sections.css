@@ -177,6 +177,20 @@
 /* O gap do grid/flex já espaça o CTA; sem o margin-top global de 48px. */
 .hero__grid .hero__cta { margin-top: 0; }
 
+/* Variante l4 (sem h1/subheadline): no desktop o grid de 2 colunas dá lugar
+   a uma coluna única — vídeo centralizado na página e CTA centralizado
+   logo abaixo. */
+@media (min-width: 900px) {
+  .hero--solo .hero__grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero--solo .hero__cta { text-align: center; }
+  .hero--solo .hero__cta .btn { margin-inline: auto; }
+}
+
 /* Reflexo varrendo o CTA da hero e o da barra sticky a cada ~3.5s. */
 .hero__cta .btn,
 .sticky-bar .btn {
