@@ -23,6 +23,17 @@
       "permanent": false
     },
     {
+      "source": "/l4",
+      "has": [
+        {
+          "type": "host",
+          "value": "pam.metaforando.com.br"
+        }
+      ],
+      "destination": "/l4/",
+      "permanent": false
+    },
+    {
       "source": "/v6",
       "has": [
         {
