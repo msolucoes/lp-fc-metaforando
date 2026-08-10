@@ -102,6 +102,9 @@
       linear-gradient(155deg, #10201f 0%, #0c1717 55%, #0a1010 100%);
   }
   .hero__title { padding-top: 24px; }
+  /* Vídeo com 20px de margem lateral no mobile. Seletor composto para
+     vencer o max-width base de .vsl, declarado mais abaixo no arquivo. */
+  .hero .vsl { max-width: calc(100vw - 40px); }
   /* Blur de luz quente encostado no canto superior direito do vídeo. */
   .hero__media { position: relative; }
   .hero__media::before {
@@ -157,7 +160,7 @@
 /* Título mais largo que o corpo: headline longa em medida de leitura fica
    estreita demais e vira uma torre de linhas curtas. */
 .hero__content { max-width: 1000px; }
-.hero__title { margin-bottom: var(--s-12); font-size: calc(var(--fs-display) * 0.85); }
+.hero__title { margin-bottom: var(--s-12); font-size: calc(var(--fs-display) * 0.85); line-height: 1.3; }
 @media (min-width: 900px) {
   .hero__title { font-size: 2.75rem; } /* 44px */
 }
