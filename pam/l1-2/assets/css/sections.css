@@ -121,13 +121,14 @@
 }
 @media (min-width: 900px) {
   .hero { padding-block: var(--s-32) var(--space-section); }
-  /* Desktop: grade técnica bem sutil, com o blur de luz quente no canto
-     superior direito da tela. */
+  /* Desktop: grade técnica bem sutil que esmaece em preto nas laterais,
+     com o blur de luz quente no canto superior direito da tela. */
   .hero {
     background:
       radial-gradient(55% 65% at 100% 0%, rgba(240, 200, 140, 0.22), rgba(240, 200, 140, 0.08) 40%, transparent 70%),
-      repeating-linear-gradient(0deg, rgba(86, 160, 150, 0.06) 0 1px, transparent 1px 72px),
-      repeating-linear-gradient(90deg, rgba(86, 160, 150, 0.06) 0 1px, transparent 1px 72px),
+      linear-gradient(90deg, rgba(10, 13, 12, 0.95) 0%, rgba(10, 13, 12, 0) 30%, rgba(10, 13, 12, 0) 70%, rgba(10, 13, 12, 0.95) 100%),
+      repeating-linear-gradient(0deg, rgba(86, 160, 150, 0.05) 0 1px, transparent 1px 72px),
+      repeating-linear-gradient(90deg, rgba(86, 160, 150, 0.05) 0 1px, transparent 1px 72px),
       linear-gradient(155deg, #10201f 0%, #0c1717 55%, #0a1010 100%);
   }
 }
