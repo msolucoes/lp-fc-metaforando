@@ -1071,3 +1071,51 @@ body.is-gated .sticky-bar { display: none !important; }
 .hero--trafego { padding-block: var(--s-32) var(--space-section); }
 .hero__solo { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .hero__solo .vsl { margin-inline: auto; }
+
+/* --------------------------------------------------------------------------
+   BARRA DE URGENCIA — marquee infinito no topo
+   -------------------------------------------------------------------------- */
+.urgency-bar {
+  overflow: hidden;
+  background: linear-gradient(180deg, #d42424 0%, #b81a1a 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.urgency-bar__track {
+  display: flex;
+  width: max-content;
+  animation: urgency-marquee 24s linear infinite;
+}
+
+.urgency-bar__group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.urgency-bar__group span {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  color: #fff;
+}
+
+.urgency-bar__group span::after {
+  content: "\2022";
+  padding: 0 28px;
+  opacity: 0.65;
+}
+
+@keyframes urgency-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .urgency-bar__track { animation: none; }
+}
