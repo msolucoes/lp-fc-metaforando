@@ -194,7 +194,13 @@
       ]
     },
     {
-      "source": "/pam/(.*).(webp|png|jpg|svg|ico|woff2)",
+      "source": "/(.*).(webp|png|jpg|svg|ico|woff2)",
+      "has": [
+        {
+          "type": "host",
+          "value": "pam.metaforando.com.br"
+        }
+      ],
       "headers": [
         {
           "key": "Cache-Control",
@@ -203,7 +209,13 @@
       ]
     },
     {
-      "source": "/pam/(.*).js",
+      "source": "/(.*).js",
+      "has": [
+        {
+          "type": "host",
+          "value": "pam.metaforando.com.br"
+        }
+      ],
       "headers": [
         {
           "key": "Cache-Control",
