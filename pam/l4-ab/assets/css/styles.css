@@ -1,0 +1,374 @@
+/* ==========================================================================
+   PROTOCOLO AUTORIDADE MAGNÉTICA — LP VSL
+   Tokens conforme clients/metaforando/brand.md (Manual de Identidade V1.0 2026)
+   Conceito: "O Laudo" — ver design/2026-07-20_preview-ui-vsl.md
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  /* Cor — proporção do manual: teal ~70%, neutros ~20%, âmbar ~10% */
+  --ink: #14140f;
+  --surface: #23302c;
+  --teal: #2f9e8f;        /* linhas, ícones, bordas, títulos grandes — 5,6:1 */
+  --teal-text: #57c4b4;   /* obrigatório para texto teal pequeno — AAA */
+  --amber: #db7a33;       /* exclusivo de ação */
+  --gray: #b3b8ac;
+  --mist: #eceadf;
+
+  --line: rgba(47, 158, 143, 0.2);
+  --line-strong: rgba(47, 158, 143, 0.4);
+
+  /* Tipografia */
+  --font-sans: "Archivo", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* H1 desta página tem 46 palavras. No piso da escala ele empurrava a VSL
+     para ~1.400px abaixo da dobra no mobile — o oposto do objetivo da seção.
+     Piso reduzido para 28px: o vídeo sobe e a promessa continua legível. */
+  --fs-display: clamp(1.75rem, 1.1rem + 3.2vw, 3.5rem);  /* 28 → 56 */
+  --fs-title: clamp(1.625rem, 1.35rem + 1.35vw, 2rem);  /* 26 → 32 */
+  --fs-subtitle: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+  --fs-body: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);  /* 16 → 17 */
+  --fs-small: 0.9375rem;
+  --fs-label: 0.75rem;
+
+  /* Espaçamento — base 8 */
+  --s-4: 4px;   --s-8: 8px;   --s-12: 12px; --s-16: 16px;
+  --s-24: 24px; --s-32: 32px; --s-48: 48px; --s-64: 64px;
+  --s-96: 96px; --s-128: 128px;
+
+  --space-section: var(--s-64);
+  --space-block: var(--s-32);
+  --space-item: var(--s-16);
+  --gutter: 20px;
+
+  --measure: 720px;
+  --container: 1200px;
+
+  /* Raio */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Sombra — só no CTA. Card não tem sombra, por direção de arte. */
+  --shadow-cta: 0 2px 12px rgba(100, 250, 106, 0.22);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --space-section: var(--s-128);
+    --space-block: var(--s-48);
+    --space-item: var(--s-24);
+    --gutter: 24px;
+  }
+}
+
+@media (max-width: 374px) {
+  :root { --gutter: 16px; }
+}
+
+/* --------------------------------------------------------------------------
+   2. RESET
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--mist);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+
+h1, h2, h3 { line-height: 1.1; text-wrap: balance; }
+p { text-wrap: pretty; }
+
+button { font: inherit; color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. FOCO — WCAG 2.2 (2.4.11). Nunca outline:none.
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 3px solid var(--teal-text);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--gutter);
+  z-index: 100;
+  padding: var(--s-12) var(--s-16);
+  background: var(--amber);
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+.skip-link:focus { top: var(--s-12); }
+
+/* --------------------------------------------------------------------------
+   4. LAYOUT
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Medida de leitura travada: nunca cresce em monitor grande. */
+.measure { max-width: var(--measure); margin-inline: auto; }
+
+.section { padding-block: var(--space-section); }
+
+/* Seções de decisão recebem respiro 1,5x para isolar a escolha. */
+.section--decision { padding-block: calc(var(--space-section) * 1.5); }
+
+/* Inversão para Névoa — marca virada de ritmo (blocos 09 e 16). */
+.section--light {
+  background: var(--mist);
+  color: var(--ink);
+}
+.section--light .section-title { color: var(--ink); }
+
+/* --------------------------------------------------------------------------
+   5. TIPOGRAFIA
+   -------------------------------------------------------------------------- */
+.display {
+  font-size: var(--fs-display);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.section-title {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-block);
+}
+
+.card-title {
+  font-size: var(--fs-subtitle);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.lead {
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.1875rem);
+  line-height: 1.55;
+  color: var(--gray);
+}
+
+.prose > * + * { margin-top: var(--s-24); }
+.prose strong { font-weight: 600; color: var(--mist); }
+
+.teal { color: var(--teal-text); }
+.amber { color: var(--amber); }
+.muted { color: var(--gray); }
+
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   6. BOTÕES
+   -------------------------------------------------------------------------- */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-8);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--s-16) var(--s-32);
+  /* Gradiente verde (#64FA6A como tom central). O ponto MAIS CLARO define o
+     contraste com o texto Tinta: #8CFB90 sobre #14140F fica acima de 12:1. */
+  background: linear-gradient(135deg, #8CFB90 0%, #64FA6A 55%, #38D544 100%);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: var(--fs-small);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: calc(var(--radius-sm) * 1.1); /* 4px + 10% */
+  box-shadow: var(--shadow-cta);
+  cursor: pointer;
+  transition: filter 160ms var(--ease), transform 160ms var(--ease),
+              box-shadow 160ms var(--ease);
+}
+.btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(100, 250, 106, 0.32);
+}
+.btn:active { filter: brightness(0.96); transform: translateY(0); box-shadow: var(--shadow-cta); }
+
+/* Fallback de alto contraste: em modo de contraste forçado o degradê some,
+   então o botão volta a ser chapado com borda visível. */
+@media (forced-colors: active) {
+  .btn { background: ButtonFace; color: ButtonText; border: 2px solid ButtonText; }
+}
+
+@media (min-width: 640px) {
+  .btn {
+    width: auto;
+    min-height: 60px;
+    margin-inline: auto;
+    font-size: 1rem;
+  }
+}
+
+.btn--major { min-height: 64px; font-size: 1rem; }
+
+.cta-group { margin-top: var(--space-block); text-align: center; }
+
+/* Em layout assimétrico o CTA acompanha a coluna de texto, não o centro da página. */
+@media (min-width: 640px) {
+  .cta-group--left { text-align: left; }
+  .cta-group--left .btn { margin-inline: 0; }
+}
+
+.cta-note {
+  margin-top: var(--s-12);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+/* --------------------------------------------------------------------------
+   7. CARDS
+   -------------------------------------------------------------------------- */
+.card {
+  padding: var(--s-24);
+  background: var(--surface);
+  border: 1px solid rgba(47, 158, 143, 0.15);
+  border-radius: var(--radius-md);
+}
+
+/* Ordem importa: a regra de 1024 precisa vir DEPOIS da de 640, senão a de 640
+   vence por ordem de cascata e o grid de 3 colunas nunca sai de 2 no desktop. */
+.grid { display: grid; gap: var(--s-16); }
+
+@media (min-width: 640px) {
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .grid { gap: var(--s-24); }
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* --------------------------------------------------------------------------
+   8. ÍCONES — outline, traço 1,5px, conforme regra de grafismo do manual
+   -------------------------------------------------------------------------- */
+.icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icon--lg { width: 24px; height: 24px; }
+
+/* --------------------------------------------------------------------------
+   9. MOLDURA DE IMAGEM — cantos de mira (grafismo funcional: "apontar")
+   -------------------------------------------------------------------------- */
+.frame { position: relative; }
+.frame img { width: 100%; border-radius: var(--radius-sm); }
+.frame::before,
+.frame::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--teal);
+  pointer-events: none;
+}
+.frame::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.frame::after { right: -1px; bottom: -1px; border-left: 0; border-top: 0; }
+
+.frame-caption {
+  margin-top: var(--s-12);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal-text);
+}
+
+/* --------------------------------------------------------------------------
+   10. ANIMAÇÃO DE ENTRADA — fade-up 8px / 240ms, uma vez por seção
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 240ms var(--ease), transform 240ms var(--ease);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   11. UTILITARIOS
+   -------------------------------------------------------------------------- */
+
+/* Visivel para leitor de tela, oculto visualmente.
+   Usado no H1 da variante de trafego, que nao exibe headline. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* CTA liberado por tempo (variante de trafego / VTurb).
+   Sem data-delay-seconds definido, aparece imediatamente. */
+.cta-group.is-delayed[data-delay-seconds] { display: none; }
+.cta-group.is-delayed.is-released { display: block; }
