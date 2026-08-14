@@ -48,7 +48,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="dns-prefetch" href="https://license.vturb.com">
 
 <style>
-  .esconder { display: none; }
+  /* !important porque este <style> vem antes de sections.css no head: sem ele
+     qualquer regra de display de la venceria e o elemento nao esconderia.
+     O reveal da VTurb usa inline "display:block !important", que ganha deste
+     mesmo assim (inline important > important de folha de estilo). */
+  .esconder { display: none !important; }
 </style>
 
 <script>
@@ -75,37 +79,90 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
   };
 
-  document.addEventListener('player:ready', function(event) {
-    if (alreadyInitialized) return;
+  /* Depois de liberar: as dobras entram ja em tela, entao empurra o reveal e a
+     barra sticky (ambos dependem de um evento de scroll para se acertar). */
+  var afterUnlock = function () {
+    window.dispatchEvent(new Event('scroll'));
+  };
 
-    var detail = event.detail || {};
-    var config = detail.config || {};
-    var player = detail.player || document.querySelector('vturb-smartplayer');
+  /* Liberacao. Tira a classe e limpa o inline "display:block !important" que o
+     displayHiddenElements injeta, para o display de cada bloco voltar a ser
+     decidido pelo CSS (incluindo as media queries). Idempotente: se nao ha mais
+     .esconder na pagina, sai sem fazer nada. */
+  var UNLOCK_KEY = 'pitchDone_l4-ab';
+  var unlock = function () {
+    var hidden = document.querySelectorAll('.esconder');
+    if (!hidden.length) return;
+    for (var i = 0; i < hidden.length; i++) {
+      hidden[i].style.removeProperty('display');
+      hidden[i].classList.remove('esconder');
+    }
+    try { localStorage.setItem(UNLOCK_KEY, 'true'); } catch (e) {}
+    afterUnlock();
+  };
+  /* Lead que ja passou do pitch volta com a pagina aberta. Este script roda no
+     <head>, quando o <body> ainda nao existe — sem esperar o DOM o unlock nao
+     encontraria nenhum .esconder e sairia sem fazer nada. */
+  var unlockWhenReady = function () {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', unlock);
+    } else {
+      unlock();
+    }
+  };
+  try { if (localStorage.getItem(UNLOCK_KEY) === 'true') unlockWhenReady(); } catch (e) {}
+
+  var watchAsBackup = function (seconds) {
+    var attempts = 0;
+    var tick = function () {
+      var sp = window.smartplayer;
+      if (!sp || !(sp.instances && sp.instances.length)) {
+        if (attempts++ >= 60) return;
+        return setTimeout(tick, 1000);
+      }
+      sp.instances[0].on('timeupdate', function () {
+        /* 5s de folga: se o displayHiddenElements ja agiu, o unlock acima limpou
+           tudo e esta chamada sai sem fazer nada. */
+        if (sp.instances[0].video.currentTime >= seconds + 5) unlock();
+      });
+    };
+    tick();
+  };
+
+  var armPitch = function (player) {
+    if (alreadyInitialized || !player) return;
+    /* O detail.config do player:ready e um snapshot montado ANTES do sorteio da
+       variante do teste A/B — vem sem id, e era por isso que o pitch nunca era
+       armado. O id confiavel da variante sorteada esta no config do elemento. */
+    var config = player.config || {};
     var playerId = config.id;
+    if (!playerId || typeof player.displayHiddenElements !== 'function') return;
     var pitchConfig = listPitch[playerId] || fallbackPitch;
-
-    if (!playerId) return;
 
     alreadyInitialized = true;
 
-    /* O gate desta pagina esconde CTA/dobras/rodape/sticky via body.is-gated
-       (regra em sections.css). Nao marcamos esses elementos com .esconder de
-       proposito: displayHiddenElements aplica inline "display:block !important"
-       nos elementos que casam, o que congelaria o display deles e venceria
-       qualquer media query do CSS. Entao usamos o callback para so remover a
-       classe do body e deixar o CSS original mandar. O persist:true da
-       VTurb (chave displayHiddenElements-<id da variante>) faz o retorno do
-       lead ja abrir liberado. */
     player.displayHiddenElements(pitchConfig.delay, ['.esconder'], {
       persist: true,
-      callback: function () {
-        document.body.classList.remove('is-gated');
-        /* Dobras entram ja em tela: dispara o reveal de quem ficou acima da dobra. */
-        window.dispatchEvent(new Event('scroll'));
-      }
+      callback: unlock
     });
+    watchAsBackup(pitchConfig.delay);
     //updateLinksWithUTM(pitchConfig.utm);
+  };
+
+  document.addEventListener('player:ready', function(event) {
+    var detail = event.detail || {};
+    armPitch(detail.player || document.querySelector('vturb-smartplayer'));
   });
+
+  /* Se o player:ready nao chegar ao document, ou chegar antes do config existir,
+     resolve pelo proprio elemento. */
+  (function () {
+    var tries = 0;
+    var poll = setInterval(function () {
+      if (!alreadyInitialized) armPitch(document.querySelector('vturb-smartplayer'));
+      if (alreadyInitialized || ++tries > 120) clearInterval(poll);
+    }, 1000);
+  })();
 </script>
 <!-- ===== fim VTurb A/B ===== -->
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/archivo_v25_k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLydOxI.woff2" crossorigin>
@@ -143,7 +200,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 </script>
 </head>
-<body class="is-gated" data-gate-external>
+<body>
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N44X97PK"
@@ -211,7 +268,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <div class="cta-group hero__cta">
+        <div class="cta-group hero__cta esconder">
           <a class="btn btn--major" href="https://pay.hotmart.com/G106785197K?off=geovk2yy&checkoutMode=10" data-cta="hero">
             Quero destravar minha autoridade agora
           </a>
@@ -223,7 +280,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 02 + 03 · DIAGNÓSTICO E HISTÓRIA (folha clara) ========= -->
-  <section class="sheet reveal" aria-labelledby="t-diagnostico">
+  <section class="sheet reveal esconder" aria-labelledby="t-diagnostico">
     <div class="container">
 
       <div class="measure" style="text-align:center">
@@ -325,7 +382,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 03b · A PROVA EM CAMPO (banda escura) ===================== -->
-  <section class="band band--glow reveal" aria-labelledby="t-provacampo">
+  <section class="band band--glow reveal esconder" aria-labelledby="t-provacampo">
     <div class="container">
       <div class="split">
         <div>
@@ -360,7 +417,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 04 · A SOLUÇÃO ===================== -->
-  <section class="band reveal" aria-labelledby="t-solucao">
+  <section class="band reveal esconder" aria-labelledby="t-solucao">
     <span class="watermark watermark--br" aria-hidden="true">PROTOCOLO</span>
     <div class="container measure" style="text-align:center">
       <h2 class="section-title" id="t-solucao">Apresentando o Protocolo Autoridade Magnética</h2>
@@ -393,7 +450,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 05 · PROVA SOCIAL (folha clara) ===================== -->
-  <section class="sheet reveal" aria-labelledby="t-prova">
+  <section class="sheet reveal esconder" aria-labelledby="t-prova">
     <div class="container">
       <div class="measure" style="text-align:center">
         <h2 class="section-title" id="t-prova">
@@ -452,7 +509,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 06 · DIFERENCIAÇÃO ===================== -->
-  <section class="band reveal" aria-labelledby="t-diferenca">
+  <section class="band reveal esconder" aria-labelledby="t-diferenca">
     <div class="container">
       <div class="measure" style="text-align:center">
         <h2 class="section-title" id="t-diferenca">
@@ -489,7 +546,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 07 · POR QUE FUNCIONA ===================== -->
-  <section class="band band--glow reveal" aria-labelledby="t-razoes">
+  <section class="band band--glow reveal esconder" aria-labelledby="t-razoes">
     <div class="container">
       <div class="split">
         <div>
@@ -545,7 +602,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 08 · OS TRÊS PILARES ===================== -->
-  <section class="band reveal" aria-labelledby="t-pilares">
+  <section class="band reveal esconder" aria-labelledby="t-pilares">
     <div class="container">
       <div class="measure" style="text-align:center">
         <h2 class="section-title" id="t-pilares">
@@ -597,7 +654,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 09 · OS TRÊS PASSOS (folha clara) ===================== -->
-  <section class="sheet reveal" aria-labelledby="t-passos">
+  <section class="sheet reveal esconder" aria-labelledby="t-passos">
     <div class="container">
       <div class="measure" style="text-align:center">
         <h2 class="section-title" id="t-passos">
@@ -628,7 +685,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 10 · QUALIFICAÇÃO ===================== -->
-  <section class="band reveal" aria-labelledby="t-qualifica">
+  <section class="band reveal esconder" aria-labelledby="t-qualifica">
     <div class="container">
       <div class="measure" style="text-align:center">
         <h2 class="section-title" id="t-qualifica">
@@ -662,7 +719,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 11 · MÓDULOS ===================== -->
-  <section class="band reveal" aria-labelledby="t-modulos">
+  <section class="band reveal esconder" aria-labelledby="t-modulos">
     <div class="container">
       <div class="measure" style="text-align:center">
         <h2 class="section-title" id="t-modulos">
@@ -681,7 +738,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 12 · BÔNUS ===================== -->
-  <section class="band band--glow band--warm reveal" aria-labelledby="t-bonus">
+  <section class="band band--glow band--warm reveal esconder" aria-labelledby="t-bonus">
     <div class="container">
       <div class="measure" style="text-align:center">
         <h2 class="section-title" id="t-bonus">
@@ -752,7 +809,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 13 · OFERTA ===================== -->
-  <section class="band band--glow band--warm reveal" aria-labelledby="t-oferta" data-offer
+  <section class="band band--glow band--warm reveal esconder" aria-labelledby="t-oferta" data-offer
            style="padding-block:calc(var(--space-section) * 1.4)">
     <div class="container">
       <div class="offer-card">
@@ -825,7 +882,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 14 · O MENTOR ===================== -->
-  <section class="band reveal" aria-labelledby="t-mentor">
+  <section class="band reveal esconder" aria-labelledby="t-mentor">
     <div class="container">
       <div class="split split--mentor">
         <div>
@@ -865,7 +922,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 15 · GARANTIA ===================== -->
-  <section class="band reveal" aria-labelledby="t-garantia">
+  <section class="band reveal esconder" aria-labelledby="t-garantia">
     <div class="container">
       <div class="guarantee-card">
         <img class="guarantee__seal" src="assets/img/19_selo-garantia-7dias.webp" width="520" height="448"
@@ -890,7 +947,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ===================== 16 · FAQ (banda escura, como a referencia) ========== -->
-  <section class="band reveal" aria-labelledby="t-faq">
+  <section class="band reveal esconder" aria-labelledby="t-faq">
     <div class="container measure">
       <h2 class="section-title" id="t-faq">Ainda tem dúvidas? Talvez elas estejam respondidas aqui!</h2>
 
@@ -941,20 +998,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </main>
 
 <!-- ===================== RODAPÉ ===================== -->
-<footer class="site-footer">
+<footer class="site-footer esconder">
   <div class="container">
     <p class="mono">Metaforando · Protocolo Autoridade Magnética</p>
   </div>
 </footer>
 
 <!-- ===================== BARRA STICKY ===================== -->
-<div class="sticky-bar" data-sticky-bar>
+<div class="sticky-bar esconder" data-sticky-bar>
   <div class="sticky-bar__inner">
     <p class="sticky-bar__label mono">Protocolo Autoridade Magnética · 7 dias de garantia</p>
     <a class="btn" href="https://pay.hotmart.com/G106785197K?off=geovk2yy&checkoutMode=10" data-cta="sticky">Liberar acesso agora</a>
   </div>
 </div>
 
-<script src="assets/js/main.js?v=20260814" defer></script>
+<script src="assets/js/main.js?v=20260811" defer></script>
 </body>
 </html>

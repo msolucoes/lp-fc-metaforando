@@ -243,20 +243,11 @@
 (function () {
   'use strict';
   if (!document.body.classList.contains('is-gated')) return;
-  /* Paginas de teste A/B delegam a liberacao ao pitch do proprio player
-     (listPitch no head, delay por variante). Sem isso teriamos dois gates
-     concorrentes e o mais curto venceria. */
-  if (document.body.hasAttribute('data-gate-external')) return;
 
   var SECONDS_TO_DISPLAY = 18 * 60 + 25; /* 18:25 */
-  /* Chave derivada do id do player: cada página/vídeo desbloqueia por si.
-     Em páginas de teste A/B o player.js troca o id do elemento pelo id da
-     variante sorteada — o que tornaria a chave instável e compartilhada com
-     as outras páginas. Nesses casos a página fixa a chave via
-     body[data-gate-key]. */
+  /* Chave derivada do id do player: cada página/vídeo desbloqueia por si. */
   var playerEl = document.querySelector('vturb-smartplayer');
-  var gateKey = document.body.getAttribute('data-gate-key');
-  var STORAGE_KEY = 'vslElsDisplayed_' + (gateKey || (playerEl ? playerEl.id : 'default'));
+  var STORAGE_KEY = 'vslElsDisplayed_' + (playerEl ? playerEl.id : 'default');
   var elsDisplayed = false;
   var attempts = 0;
 
