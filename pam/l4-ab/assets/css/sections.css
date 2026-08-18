@@ -878,7 +878,13 @@ body.is-gated .sticky-bar { display: none !important; }
   color: var(--amber);
 }
 .price-alt { font-size: var(--fs-subtitle); font-weight: 600; color: var(--mist); }
-.payment-flags { max-width: 320px; margin: var(--space-block) auto 0; }
+.payment-flags {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin: var(--space-block) auto 0;
+}
 
 /* --------------------------------------------------------------------------
    14 MENTOR — banda com retrato sangrando à direita
