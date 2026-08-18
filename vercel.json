@@ -56,6 +56,17 @@
       "permanent": false
     },
     {
+      "source": "/bio",
+      "has": [
+        {
+          "type": "host",
+          "value": "pam.metaforando.com.br"
+        }
+      ],
+      "destination": "/bio/",
+      "permanent": false
+    },
+    {
       "source": "/v6",
       "has": [
         {
