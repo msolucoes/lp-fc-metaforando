@@ -871,11 +871,18 @@ body.is-gated .sticky-bar { display: none !important; }
 .price-intro { margin-top: var(--s-8); color: var(--gray); }
 .price-main {
   margin-block: var(--s-8);
-  font-size: clamp(2.25rem, 1.6rem + 3.2vw, 3rem);
+  font-size: clamp(2.75rem, 1.85rem + 4.4vw, 3.75rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--amber);
+}
+/* "12x de" recuado para o valor da parcela dominar o card. */
+.price-main__label {
+  font-size: 0.4em;
+  font-weight: 600;
+  letter-spacing: 0;
+  vertical-align: 0.22em;
 }
 .price-alt { font-size: var(--fs-subtitle); font-weight: 600; color: var(--mist); }
 .payment-flags {
