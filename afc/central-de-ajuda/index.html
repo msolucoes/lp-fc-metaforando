@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central de Ajuda — Metaforando</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0f0f0f;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --amber: #d4a017;
+    --amber-dim: #a37a0f;
+    --amber-glow: rgba(212,160,23,0.08);
+    --text: #e8e8e8;
+    --text-dim: #888;
+    --text-muted: #555;
+    --sidebar-w: 280px;
+    --active-bar: #d4a017;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px;
+    height: 56px;
+  }
+  .topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .topbar-logo .logo-svg { height: 26px; width: auto; display: block; }
+
+  /* ── ICONS ── */
+  .icon-svg {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.15em;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+  .tip .icon-svg, .alert .icon-svg {
+    color: var(--amber);
+    margin-right: 6px;
+    vertical-align: -0.2em;
+  }
+  a .icon-svg { margin-right: 4px; vertical-align: -0.2em; }
+  .topbar-search {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 14px;
+    width: 220px;
+    cursor: text;
+    transition: border-color .15s;
+  }
+  .topbar-search:focus-within { border-color: var(--amber); }
+  .topbar-search input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 14px;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+  }
+  .topbar-search input::placeholder { color: var(--text-muted); }
+  .search-icon { color: var(--text-muted); font-size: 14px; }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: flex;
+    flex: 1;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-height: calc(100vh - 56px);
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+    padding: 20px 0;
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: 500;
+    transition: color .15s, background .15s;
+    border-radius: 0;
+    position: relative;
+    user-select: none;
+  }
+  .nav-item:hover { color: var(--text); background: var(--surface2); }
+  .nav-item.active {
+    color: var(--amber);
+    background: var(--amber-glow);
+  }
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--active-bar);
+    border-radius: 0 2px 2px 0;
+  }
+  .nav-item .icon { font-size: 16px; flex-shrink: 0; width: 18px; text-align: center; }
+  .nav-item .chevron {
+    margin-left: auto;
+    font-size: 11px;
+    transition: transform .2s;
+    color: var(--text-muted);
+  }
+  .nav-item.open .chevron { transform: rotate(180deg); }
+
+  .nav-section-title {
+    padding: 16px 20px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .nav-children {
+    display: none;
+    border-left: 1px solid var(--border);
+    margin-left: 28px;
+  }
+  .nav-children.open { display: block; }
+  .nav-child {
+    display: block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    transition: color .15s;
+    cursor: pointer;
+    line-height: 1.4;
+  }
+  .nav-child:hover { color: var(--text); }
+  .nav-child.active { color: var(--amber); font-weight: 500; }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    flex: 1;
+    max-width: 780px;
+    padding: 48px 56px;
+    min-height: calc(100vh - 56px);
+  }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .page-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  p { margin-bottom: 16px; color: var(--text); }
+
+  a { color: var(--amber); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  strong { font-weight: 600; color: var(--text); }
+
+  .intro-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 36px;
+  }
+  .intro-box p { margin-bottom: 0; color: var(--text-dim); }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 28px;
+  }
+  .card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .card:hover { border-color: var(--amber-dim); background: var(--surface); }
+  .card .card-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; color: var(--amber); }
+  .card-text .card-title { font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px; }
+  .card-text .card-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+  ol, ul { padding-left: 20px; margin-bottom: 16px; }
+  li { margin-bottom: 8px; }
+
+  .alert {
+    background: rgba(212,160,23,0.08);
+    border: 1px solid rgba(212,160,23,0.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+  .alert strong { color: var(--amber); }
+
+  .tip {
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid var(--amber);
+    padding: 12px 18px;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--text-dim);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+  .contact-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .contact-box .contact-icon { font-size: 40px; margin-bottom: 16px; color: var(--amber); }
+  .contact-box h2 { margin-top: 0; font-size: 20px; text-align: center; }
+  .contact-box p { color: var(--text-dim); max-width: 400px; margin: 0 auto 20px; }
+  .email-link {
+    display: inline-block;
+    background: var(--amber);
+    color: #000;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    text-decoration: none;
+    transition: opacity .15s;
+  }
+  .email-link:hover { opacity: 0.88; text-decoration: none; }
+
+  /* ── MOBILE TOGGLE ── */
+  .sidebar-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    margin-left: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed;
+      top: 56px;
+      left: -100%;
+      z-index: 200;
+      transition: left .25s;
+      width: 280px;
+      height: calc(100vh - 56px);
+    }
+    .sidebar.open { left: 0; }
+    .sidebar-toggle { display: block; }
+    .main { padding: 28px 20px; }
+    .card-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ICON SPRITE -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="icon-menu" viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></symbol>
+  <symbol id="icon-life-buoy" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><line x1="5.2" y1="5.2" x2="9" y2="9"/><line x1="15" y1="15" x2="18.8" y2="18.8"/><line x1="18.8" y1="5.2" x2="15" y2="9"/><line x1="9" y1="15" x2="5.2" y2="18.8"/></symbol>
+  <symbol id="icon-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polygon points="10,8 16,12 10,16"/></symbol>
+  <symbol id="icon-unlock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 7.6-1.8"/></symbol>
+  <symbol id="icon-headset" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M20 19v1a3 3 0 0 1-3 3h-3"/></symbol>
+  <symbol id="icon-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/></symbol>
+  <symbol id="icon-smartphone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></symbol>
+  <symbol id="icon-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="11" rx="2"/><line x1="12" y1="3" x2="12" y2="8"/><circle cx="12" cy="3" r="1.2" fill="currentColor"/><circle cx="9" cy="13.5" r="1.3" fill="currentColor"/><circle cx="15" cy="13.5" r="1.3" fill="currentColor"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></symbol>
+  <symbol id="icon-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.6"/><path d="M15.5 14.2c2.6.4 4.5 2.5 4.5 5.8"/></symbol>
+  <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12"/><polyline points="7,10 12,15 17,10"/><line x1="4" y1="20" x2="20" y2="20"/></symbol>
+  <symbol id="icon-tv" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="1.5"/><line x1="9" y1="22" x2="15" y2="22"/><line x1="12" y1="19" x2="12" y2="22"/></symbol>
+  <symbol id="icon-alert-triangle" viewBox="0 0 24 24"><path d="M12 4 22 20H2Z"/><line x1="12" y1="10" x2="12" y2="15"/><circle cx="12" cy="17.8" r="0.9" fill="currentColor"/></symbol>
+  <symbol id="icon-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5.5"/><polyline points="8.5,13 6,21 12,18 18,21 15.5,13"/></symbol>
+  <symbol id="icon-log-out" viewBox="0 0 24 24"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4"/><polyline points="14,8 18,12 14,16"/><line x1="18" y1="12" x2="9" y2="12"/></symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 16,14"/></symbol>
+  <symbol id="icon-key" viewBox="0 0 24 24"><circle cx="8" cy="8" r="4.5"/><line x1="11.3" y1="11.3" x2="20" y2="20"/><line x1="15.5" y1="15.8" x2="18.2" y2="13.1"/><line x1="17.7" y1="18" x2="20.3" y2="15.4"/></symbol>
+  <symbol id="icon-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3,7 12,13 21,7"/></symbol>
+  <symbol id="icon-lightbulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a6.5 6.5 0 0 0-4 11.6c.6.5 1 1.3 1 2.1v.3h6v-.3c0-.8.4-1.6 1-2.1A6.5 6.5 0 0 0 12 2Z"/></symbol>
+  <symbol id="icon-inbox" viewBox="0 0 24 24"><polyline points="4,12 8,12 10,15 14,15 16,12 20,12"/><path d="M5.5 5h13l1.7 7.2V18a1.8 1.8 0 0 1-1.8 1.8H5.6A1.8 1.8 0 0 1 3.8 18v-5.8Z"/></symbol>
+  <symbol id="icon-arrow-right" viewBox="0 0 24 24"><line x1="4" y1="12" x2="18" y2="12"/><polyline points="13,7 18,12 13,17"/></symbol>
+</svg>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <a class="topbar-logo" onclick="navigate('home')">
+    <svg class="logo-svg" width="825" height="161" viewBox="0 0 825 161" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M178.525 117.042L176.996 59.7494L189.528 59.415L207.077 100.613L207.484 100.602L222.811 58.5268L235.343 58.1924L236.872 115.485L228.002 115.721L226.862 73.002L226.537 73.0106L210.75 116.182L204.24 116.355L186.336 74.0834L186.011 74.0921L187.151 116.811L178.525 117.042Z" fill="#F1E6D4"/>
+<path d="M256.758 114.954L255.229 57.6617L292.5 56.6672L292.714 64.6614L264.638 65.4106L265.076 81.8155L289.327 81.1684L289.54 89.1626L265.289 89.8098L265.741 106.714L293.816 105.965L294.029 113.959L256.758 114.954Z" fill="#F1E6D4"/>
+<path d="M322.547 113.198L321.239 64.1502L304.231 64.6041L304.011 56.36L347.141 55.2091L347.361 63.4532L330.434 63.9049L331.743 112.953L322.547 113.198Z" fill="#F1E6D4"/>
+<path d="M353.012 112.385L371.502 54.559L383.546 54.2376L405.094 110.996L395.573 111.25L390.312 97.2235L366.713 97.8532L362.289 112.138L353.012 112.385ZM369.104 89.7895L387.414 89.3009L377.767 63.4751L377.36 63.486L369.104 89.7895Z" fill="#F1E6D4"/>
+<path d="M419.221 110.619L417.692 53.3265L453.335 52.3753L453.548 60.3696L427.101 61.0753L427.574 78.8126L451.011 78.1872L451.224 86.1814L427.787 86.8068L428.416 110.373L419.221 110.619Z" fill="#F1E6D4"/>
+<path d="M491.775 109.349C487.326 109.468 483.658 109.316 480.769 108.893C477.879 108.414 475.576 107.559 473.86 106.327C472.144 105.095 470.877 103.379 470.058 101.179C469.239 98.9784 468.677 96.2157 468.371 92.8905C468.064 89.5098 467.846 85.4323 467.719 80.658C467.591 75.8836 467.592 71.8281 467.72 68.4914C467.846 65.0991 468.26 62.2826 468.96 60.0417C469.66 57.8008 470.834 56.0194 472.482 54.6977C474.13 53.376 476.385 52.4269 479.247 51.8505C482.107 51.2187 485.762 50.8434 490.211 50.7247C494.659 50.6059 498.329 50.7858 501.219 51.2642C504.162 51.6857 506.491 52.5124 508.207 53.7444C509.923 54.9764 511.19 56.6926 512.009 58.8929C512.882 61.0918 513.472 63.8816 513.779 67.2623C514.085 70.5874 514.302 74.6372 514.429 79.4115C514.557 84.1859 514.557 88.2692 514.431 91.6614C514.302 94.9981 513.861 97.7877 513.107 100.03C512.406 102.271 511.232 104.052 509.585 105.374C507.937 106.696 505.656 107.673 502.741 108.307C499.879 108.883 496.224 109.23 491.775 109.349ZM491.562 101.355C494.274 101.283 496.496 101.14 498.228 100.927C500.014 100.713 501.386 100.259 502.345 99.5672C503.358 98.8735 504.088 97.7707 504.537 96.2587C504.983 94.6913 505.226 92.6015 505.265 89.9893C505.357 87.3202 505.346 83.8761 505.234 79.6569C505.121 75.4377 504.949 72.0257 504.716 69.4208C504.537 66.7589 504.183 64.685 503.655 63.1992C503.125 61.6577 502.336 60.5677 501.287 59.929C500.293 59.2889 498.898 58.9094 497.103 58.7907C495.363 58.6704 493.136 58.6465 490.424 58.7189C487.766 58.7898 485.571 58.9318 483.839 59.1446C482.107 59.3575 480.735 59.8108 479.722 60.5045C478.709 61.1982 477.979 62.3288 477.532 63.8962C477.138 65.4067 476.896 67.4965 476.804 70.1656C476.765 72.7778 476.802 76.1934 476.914 80.4126C477.027 84.6318 477.173 88.0723 477.353 90.7342C477.585 93.3391 477.939 95.4129 478.415 96.9558C478.943 98.4417 479.731 99.504 480.78 100.143C481.828 100.781 483.223 101.161 484.963 101.281C486.704 101.401 488.903 101.426 491.562 101.355Z" fill="#F1E6D4"/>
+<path d="M533.171 107.578L531.642 50.2857L557.765 49.5887C561.291 49.4946 564.15 49.8349 566.343 50.6097C568.535 51.3846 570.195 52.5625 571.323 54.1435C572.449 55.669 573.232 57.537 573.671 59.7474C574.109 61.9024 574.362 64.2845 574.432 66.8938C574.482 68.7813 574.348 70.8682 574.029 73.1545C573.763 75.3838 573.058 77.4581 571.915 79.3775C570.824 81.2399 569.043 82.6208 566.569 83.5201L576.383 106.425L566.617 106.685L557.041 83.5244L559.435 84.7105C559.059 84.8872 558.601 85.0105 558.06 85.0805C557.572 85.0936 556.975 85.1095 556.27 85.1283L541.785 85.5148L542.367 107.332L533.171 107.578ZM541.571 77.5206L554.592 77.1731C557.142 77.1051 559.144 76.885 560.6 76.5128C562.055 76.0851 563.124 75.4732 563.809 74.6772C564.493 73.8812 564.901 72.8703 565.031 71.6446C565.215 70.4175 565.284 68.9157 565.236 67.1392C565.187 65.3071 565.038 63.7834 564.789 62.5678C564.592 61.2953 564.158 60.3069 563.488 59.6025C562.816 58.8427 561.743 58.3158 560.27 58.0217C558.85 57.7263 556.893 57.6119 554.397 57.6785L541.051 58.0346L541.571 77.5206Z" fill="#F1E6D4"/>
+<path d="M587.589 106.126L606.079 48.2994L618.123 47.978L639.671 104.736L630.15 104.99L624.889 90.9638L601.29 91.5936L596.866 105.878L587.589 106.126ZM603.68 83.5298L621.99 83.0412L612.343 57.2155L611.936 57.2264L603.68 83.5298Z" fill="#F1E6D4"/>
+<path d="M653.797 104.359L652.269 47.0668L661.79 46.8128L688.481 85.7669L688.807 85.7582L687.749 46.12L696.538 45.8855L698.067 103.178L689.278 103.412L661.821 63.2285L661.495 63.2372L662.586 104.124L653.797 104.359Z" fill="#F1E6D4"/>
+<path d="M717.885 102.649L716.356 45.3567L734.666 44.8681C739.386 44.7421 743.245 44.8891 746.242 45.3092C749.292 45.6722 751.701 46.4413 753.47 47.6163C755.238 48.7913 756.531 50.4512 757.349 52.5961C758.22 54.7395 758.809 57.4737 759.115 60.7989C759.421 64.124 759.637 68.146 759.763 72.8648C759.889 77.5837 759.887 81.6115 759.759 84.9482C759.631 88.2849 759.189 91.0467 758.433 93.2335C757.731 95.4189 756.529 97.1454 754.825 98.4131C753.122 99.6808 750.758 100.605 747.733 101.186C744.761 101.709 740.915 102.034 736.195 102.16L717.885 102.649ZM726.868 94.4092L735.168 94.1877C738.206 94.1066 740.7 93.9845 742.65 93.8213C744.653 93.6012 746.216 93.1706 747.339 92.5296C748.461 91.833 749.273 90.7557 749.777 89.2979C750.281 87.84 750.553 85.805 750.592 83.1928C750.683 80.5237 750.675 77.1629 750.567 73.1102C750.459 69.0576 750.289 65.7288 750.056 63.1239C749.878 60.5176 749.471 58.5007 748.836 57.0732C748.254 55.5887 747.357 54.5571 746.148 53.9783C744.99 53.3425 743.434 52.9952 741.478 52.9362C739.52 52.8218 737.05 52.8044 734.066 52.884L725.765 53.1055L726.868 94.4092Z" fill="#F1E6D4"/>
+<path d="M799.976 101.125C795.527 101.244 791.859 101.092 788.97 100.669C786.08 100.19 783.777 99.335 782.061 98.103C780.345 96.871 779.078 95.1548 778.259 92.9545C777.44 90.7541 776.878 87.9914 776.572 84.6662C776.265 81.2855 776.047 77.208 775.92 72.4337C775.792 67.6594 775.793 63.6038 775.921 60.2671C776.047 56.8748 776.461 54.0583 777.161 51.8174C777.861 49.5765 779.035 47.7952 780.683 46.4734C782.331 45.1517 784.586 44.2026 787.448 43.6263C790.308 42.9944 793.963 42.6191 798.412 42.5004C802.86 42.3817 806.53 42.5615 809.42 43.0399C812.363 43.4614 814.692 44.2881 816.408 45.5201C818.124 46.7521 819.391 48.4683 820.21 50.6686C821.083 52.8675 821.673 55.6573 821.98 59.038C822.286 62.3631 822.503 66.4129 822.63 71.1872C822.758 75.9616 822.758 80.0449 822.632 83.4371C822.503 86.7739 822.062 89.5634 821.308 91.8057C820.607 94.0466 819.433 95.8279 817.786 97.1497C816.138 98.4714 813.857 99.449 810.942 100.082C808.08 100.659 804.425 101.006 799.976 101.125ZM799.763 93.1306C802.475 93.0583 804.697 92.9156 806.429 92.7028C808.215 92.4884 809.587 92.0352 810.546 91.3429C811.559 90.6492 812.289 89.5464 812.738 88.0344C813.184 86.467 813.427 84.3772 813.466 81.765C813.558 79.0959 813.547 75.6518 813.435 71.4326C813.322 67.2134 813.15 63.8014 812.917 61.1965C812.738 58.5346 812.384 56.4608 811.855 54.9749C811.326 53.4335 810.537 52.3434 809.488 51.7047C808.494 51.0646 807.099 50.6852 805.304 50.5664C803.564 50.4462 801.337 50.4222 798.625 50.4946C795.966 50.5656 793.772 50.7075 792.04 50.9203C790.308 51.1332 788.936 51.5865 787.923 52.2802C786.91 52.9739 786.18 54.1045 785.733 55.6719C785.339 57.1824 785.097 59.2722 785.005 61.9413C784.966 64.5535 785.003 67.9691 785.115 72.1883C785.228 76.4075 785.374 79.848 785.554 82.5099C785.786 85.1148 786.14 87.1887 786.616 88.7315C787.144 90.2174 787.932 91.2797 788.981 91.9184C790.029 92.5571 791.424 92.9365 793.164 93.0567C794.905 93.1769 797.104 93.2016 799.763 93.1306Z" fill="#F1E6D4"/>
+<path d="M60.71 20.2811L0.921872 56.4477L2.76562 125.541L64.3974 158.468L124.202 122.3L122.358 53.2072L60.71 20.2811ZM52.9412 56.544C52.3508 67.6602 71.1088 58.121 53.5444 42.1453C64.8066 43.3457 75.2534 54.7611 74.281 65.9864C72.1944 90.651 36.7586 76.0428 52.9412 56.544ZM89.8265 109.165L80.877 95.5324L72.6673 109.623L63.513 125.322L53.5344 110.133L44.5849 96.5008L36.3751 110.591L17.2255 111.102L34.5891 81.2963L53.7387 80.7853L62.6883 94.4178L70.898 80.3274L90.0476 79.8164L108.993 108.653L89.8265 109.165Z" fill="#F1E6D4"/>
+</svg>
+  </a>
+  <button class="sidebar-toggle" onclick="toggleSidebar()"><svg class="icon-svg"><use href="#icon-menu"/></svg> Menu</button>
+  <div class="topbar-search">
+    <span class="search-icon"><svg class="icon-svg"><use href="#icon-search"/></svg></span>
+    <input type="text" placeholder="Buscar na ajuda…" id="searchInput" oninput="handleSearch(this.value)">
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+
+    <a class="nav-item" onclick="navigate('home')">
+      <span class="icon"><svg class="icon-svg"><use href="#icon-life-buoy"/></svg></span> Suporte ao Aluno Metaforando
+    </a>
+
+    <div class="nav-section-title">Dúvidas Frequentes</div>
+
+    <!-- Área de Aula -->
+    <div class="nav-item" id="nav-area-aula" onclick="toggleSection('area-aula')">
+      <span class="icon"><svg class="icon-svg"><use href="#icon-play"/></svg></span> Área de Aula
+      <span class="chevron">▾</span>
+    </div>
+    <div class="nav-children" id="children-area-aula">
+      <a class="nav-child" onclick="navigate('navegar-area')">Como navegar na área do aluno?</a>
+      <a class="nav-child" onclick="navigate('aulas-celular')">Como assistir minhas aulas no celular?</a>
+      <a class="nav-child" onclick="navigate('watson')">Quem é e como usar o Watson?</a>
+      <a class="nav-child" onclick="navigate('comunidades')">O que são as Comunidades?</a>
+      <a class="nav-child" onclick="navigate('offline')">Posso baixar as aulas e assistir sem internet?</a>
+      <a class="nav-child" onclick="navigate('acessar-cursos')">Como acessar os cursos?</a>
+      <a class="nav-child" onclick="navigate('tv')">Como assistir meu curso pela TV?</a>
+      <a class="nav-child" onclick="navigate('video-nao-roda')">Meu vídeo não está rodando.</a>
+      <a class="nav-child" onclick="navigate('certificado')">Como acessar o meu certificado?</a>
+      <a class="nav-child" onclick="navigate('sair-comunidades')">Como sair das comunidades?</a>
+    </div>
+
+    <!-- Acesso e Segurança -->
+    <div class="nav-item" id="nav-acesso" onclick="toggleSection('acesso')">
+      <span class="icon"><svg class="icon-svg"><use href="#icon-unlock"/></svg></span> Acesso e Segurança
+      <span class="chevron">▾</span>
+    </div>
+    <div class="nav-children" id="children-acesso">
+      <a class="nav-child" onclick="navigate('tempo-acesso')">Quanto tempo de acesso tenho ao curso?</a>
+      <a class="nav-child" onclick="navigate('primeiro-acesso')">Como fazer o primeiro acesso na Hotmart?</a>
+      <a class="nav-child" onclick="navigate('senha')">Não sei minha senha de acesso.</a>
+      <a class="nav-child" onclick="navigate('erro-plataforma')">Mensagem de erro na plataforma?</a>
+      <a class="nav-child" onclick="navigate('alterar-email')">Como alterar o meu e-mail de acesso?</a>
+      <a class="nav-child" onclick="navigate('multiplas-pessoas')">Mais de uma pessoa pode acessar meu curso?</a>
+    </div>
+
+    <!-- Contato -->
+    <a class="nav-item" onclick="navigate('contato')">
+      <span class="icon"><svg class="icon-svg"><use href="#icon-headset"/></svg></span> Contato com o Suporte
+    </a>
+
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="page-eyebrow">Central de Ajuda</div>
+      <h1>Suporte ao Aluno Metaforando</h1>
+      <div class="intro-box">
+        <p>Este é o seu espaço exclusivo de <strong>aluno Metaforando</strong>! Aqui desvendamos as dúvidas mais comuns e te ajudamos com os problemas que podem surgir durante a sua jornada. Use o menu lateral para navegar ou clique em uma das categorias abaixo.</p>
+      </div>
+      <div class="card-grid">
+        <div class="card" onclick="navigate('area-aula-intro')">
+          <span class="card-icon"><svg class="icon-svg"><use href="#icon-play"/></svg></span>
+          <div class="card-text">
+            <div class="card-title">Área de Aula</div>
+            <div class="card-desc">Como navegar, assistir aulas, baixar offline, certificado e mais.</div>
+          </div>
+        </div>
+        <div class="card" onclick="navigate('acesso-intro')">
+          <span class="card-icon"><svg class="icon-svg"><use href="#icon-unlock"/></svg></span>
+          <div class="card-text">
+            <div class="card-title">Acesso e Segurança</div>
+            <div class="card-desc">Primeiro acesso, senha, e-mail, tempo de acesso e restrições.</div>
+          </div>
+        </div>
+        <div class="card" onclick="navigate('contato')">
+          <span class="card-icon"><svg class="icon-svg"><use href="#icon-headset"/></svg></span>
+          <div class="card-text">
+            <div class="card-title">Contato com o Suporte</div>
+            <div class="card-desc">Falar diretamente com nossa equipe de atendimento.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÁREA DE AULA INTRO -->
+    <div class="page" id="page-area-aula-intro">
+      <div class="page-eyebrow">Dúvidas Frequentes</div>
+      <h1>Área de Aula</h1>
+      <p>Aqui a gente te conta como acessar suas aulas no Metaforando pelo Hotmart Club. Com as dicas desse guia, você vai dominar a plataforma e explorar o conteúdo numa boa.</p>
+      <p><strong>Descubra como aproveitar ao máximo suas aulas!</strong></p>
+      <div class="card-grid" style="margin-top:24px;">
+        <div class="card" onclick="navigate('navegar-area')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-monitor"/></svg></span><div class="card-text"><div class="card-title">Como navegar na área do aluno?</div></div></div>
+        <div class="card" onclick="navigate('aulas-celular')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-smartphone"/></svg></span><div class="card-text"><div class="card-title">Como assistir minhas aulas no celular?</div></div></div>
+        <div class="card" onclick="navigate('watson')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-bot"/></svg></span><div class="card-text"><div class="card-title">Quem é e como usar o Watson?</div></div></div>
+        <div class="card" onclick="navigate('comunidades')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-users"/></svg></span><div class="card-text"><div class="card-title">O que são as Comunidades?</div></div></div>
+        <div class="card" onclick="navigate('offline')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-download"/></svg></span><div class="card-text"><div class="card-title">Posso baixar as aulas e assistir sem internet?</div></div></div>
+        <div class="card" onclick="navigate('acessar-cursos')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-play"/></svg></span><div class="card-text"><div class="card-title">Como acessar os cursos?</div></div></div>
+        <div class="card" onclick="navigate('tv')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-tv"/></svg></span><div class="card-text"><div class="card-title">Como assistir meu curso pela TV?</div></div></div>
+        <div class="card" onclick="navigate('video-nao-roda')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-alert-triangle"/></svg></span><div class="card-text"><div class="card-title">Meu vídeo não está rodando.</div></div></div>
+        <div class="card" onclick="navigate('certificado')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-award"/></svg></span><div class="card-text"><div class="card-title">Como acessar o meu certificado?</div></div></div>
+        <div class="card" onclick="navigate('sair-comunidades')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-log-out"/></svg></span><div class="card-text"><div class="card-title">Como sair das comunidades?</div></div></div>
+      </div>
+    </div>
+
+    <!-- ACESSO INTRO -->
+    <div class="page" id="page-acesso-intro">
+      <div class="page-eyebrow">Dúvidas Frequentes</div>
+      <h1>Acesso e Segurança</h1>
+      <p>Tudo sobre como acessar seu curso, recuperar senha, alterar e-mail e entender as regras de uso da plataforma Hotmart.</p>
+      <div class="card-grid" style="margin-top:24px;">
+        <div class="card" onclick="navigate('tempo-acesso')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-clock"/></svg></span><div class="card-text"><div class="card-title">Quanto tempo de acesso tenho ao curso?</div></div></div>
+        <div class="card" onclick="navigate('primeiro-acesso')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-monitor"/></svg></span><div class="card-text"><div class="card-title">Como fazer o primeiro acesso na Hotmart?</div></div></div>
+        <div class="card" onclick="navigate('senha')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-key"/></svg></span><div class="card-text"><div class="card-title">Não sei minha senha de acesso.</div></div></div>
+        <div class="card" onclick="navigate('erro-plataforma')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-alert-triangle"/></svg></span><div class="card-text"><div class="card-title">Mensagem de erro na plataforma?</div></div></div>
+        <div class="card" onclick="navigate('alterar-email')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-mail"/></svg></span><div class="card-text"><div class="card-title">Como alterar o meu e-mail de acesso?</div></div></div>
+        <div class="card" onclick="navigate('multiplas-pessoas')"><span class="card-icon"><svg class="icon-svg"><use href="#icon-users"/></svg></span><div class="card-text"><div class="card-title">Mais de uma pessoa pode acessar meu curso?</div></div></div>
+      </div>
+    </div>
+
+    <!-- NAVEGAR NA ÁREA -->
+    <div class="page" id="page-navegar-area">
+      <div class="page-eyebrow">Área de Aula</div>
+      <h1>Como navegar na área do aluno?</h1>
+      <p>A área do aluno do Metaforando fica dentro do <strong>Hotmart Club</strong>. Após o primeiro acesso, você verá todos os produtos que adquiriu listados na tela inicial.</p>
+      <p>Clique no curso desejado para abrí-lo. Dentro do curso, você encontrará:</p>
+      <ul>
+        <li><strong>Menu lateral</strong> com todos os módulos e aulas — clique nas setas para expandir cada módulo.</li>
+        <li><strong>Player de vídeo</strong> no centro da tela — controle velocidade, resolução e legendas.</li>
+        <li><strong>Marcação de concluído</strong> — marque cada aula ao terminar para acompanhar seu progresso.</li>
+        <li><strong>Comunidade e Watson</strong> — acesso rápido pelo menu superior do Club.</li>
+      </ul>
+      <div class="tip"><svg class="icon-svg"><use href="#icon-lightbulb"/></svg> Salve o link da sua área de membros nos favoritos do navegador para acessar rapidamente: <a href="https://hotmart.com/pt-br/club/metaforando/" target="_blank">hotmart.com/pt-br/club/metaforando/</a></div>
+    </div>
+
+    <!-- AULAS NO CELULAR -->
+    <div class="page" id="page-aulas-celular">
+      <div class="page-eyebrow">Área de Aula</div>
+      <h1>Como assistir minhas aulas no celular?</h1>
+      <p>Você tem duas formas de acessar suas aulas pelo celular:</p>
+      <h2>1. Pelo link recebido por e-mail</h2>
+      <ol>
+        <li>Abra seu e-mail no celular e procure a mensagem da Hotmart na caixa de entrada (verifique também o Spam).</li>
+        <li>O assunto do e-mail é: <strong>"Seu acesso ao produto…"</strong></li>
+        <li>Toque no link de acesso contido no e-mail.</li>
+        <li>Faça login com seu e-mail e senha (os mesmos usados na compra).</li>
+      </ol>
+      <h2>2. Pelo aplicativo da Hotmart</h2>
+      <ol>
+        <li>Baixe o aplicativo gratuito da Hotmart na <strong>App Store</strong> (iOS) ou <strong>Google Play</strong> (Android).</li>
+        <li>Faça login com o mesmo e-mail e senha da sua compra.</li>
+        <li>Acesse <strong>"Minhas compras"</strong> e toque no curso desejado.</li>
+      </ol>
+      <div class="tip"><svg class="icon-svg"><use href="#icon-lightbulb"/></svg> O app da Hotmart permite assistir mesmo com conexão instável e oferece modo de picture-in-picture.</div>
+    </div>
+
+    <!-- WATSON -->
+    <div class="page" id="page-watson">
+      <div class="page-eyebrow">Área de Aula</div>
+      <h1>Quem é e como usar o Watson?</h1>
+      <p>O <strong>Watson</strong> é o assistente de inteligência artificial integrado à área de membros do Hotmart Club. Ele foi treinado com o conteúdo das aulas do Metaforando e responde dúvidas sobre o material 24 horas por dia, 7 dias por semana — diretamente dentro da plataforma, sem precisar esperar pelo suporte humano.</p>
+      <h2>Como acessar o Watson</h2>
+      <ol>
+        <li>Acesse o seu curso em <a href="https://hotmart.com/pt-br/club/metaforando/" target="_blank">hotmart.com/pt-br/club/metaforando/</a>.</li>
+        <li>Procure o ícone de chat ou assistente no canto da tela.</li>
+        <li>Digite sua dúvida em linguagem natural — ele entende português.</li>
+      </ol>
+      <div class="alert"><strong>Atenção:</strong> o Watson responde sobre o conteúdo dos cursos. Para dúvidas sobre pagamento, acesso técnico ou problemas na plataforma, entre em contato com nosso suporte pelo e-mail <a href="mailto:contato@metaforando.co">contato@metaforando.co</a>.</div>
+    </div>
+
+    <!-- COMUNIDADES -->
+    <div class="page" id="page-comunidades">
+      <div class="page-eyebrow">Área de Aula</div>
+      <h1>O que são as Comunidades?</h1>
+      <p>As <strong>Comunidades</strong> são espaços de interação dentro do Hotmart Club onde alunos do Metaforando podem se conectar, trocar experiências, tirar dúvidas entre si e acompanhar novidades do curso.</p>
+      <p>Cada curso pode ter sua própria comunidade. Para acessá-la, basta entrar no curso e procurar a aba ou ícone de <strong>Comunidade</strong> no menu superior da plataforma.</p>
+      <div class="tip"><svg class="icon-svg"><use href="#icon-lightbulb"/></svg> As comunidades são moderadas. Mantenha o respeito e o foco no aprendizado para que o ambiente seja útil para todos.</div>
+    </div>
+
+    <!-- OFFLINE -->
+    <div class="page" id="page-offline">
+      <div class="page-eyebrow">Área de Aula</div>
+      <h1>Posso baixar as aulas e assistir sem internet?</h1>
+      <p>Sim! Pelo <strong>aplicativo da Hotmart</strong> (disponível para iOS e Android) você pode fazer o download de aulas para assistir offline.</p>
+      <h2>Como baixar uma aula</h2>
+      <ol>
+        <li>Abra o aplicativo da Hotmart e acesse o curso desejado.</li>
+        <li>Toque na aula que deseja baixar.</li>
+        <li>Procure o ícone de download (seta para baixo) ao lado do título da aula ou dentro do player.</li>
+        <li>Aguarde o download concluir — a aula ficará disponível na aba <strong>"Downloads"</strong> do app.</li>
+      </ol>
+      <div class="alert"><strong>Atenção:</strong> o download offline está disponível apenas pelo aplicativo móvel, não pelo navegador de computador. As aulas baixadas ficam disponíveis por um período limitado e precisam de conexão eventual para renovar o acesso.</div>
+    </div>
+
+    <!-- ACESSAR CURSOS -->
+    <div class="page" id="page-acessar-cursos">
+      <div class="page-eyebrow">Área de Aula</div>
+      <h1>Como acessar os cursos?</h1>
+      <p>A área de membros é o local onde você encontra o curso em que realizou sua matrícula.</p>
+      <p>Após a compra, você receberá automaticamente um e-mail para ativar sua conta e criar uma senha — esse processo leva apenas alguns cliques.</p>
+      <p>Em seguida, você será redirecionado à página do Hotmart Club do Metaforando, que também pode acessar pelo link abaixo:</p>
+      <p><a href="https://hotmart.com/pt-br/club/metaforando/" target="_blank"><svg class="icon-svg"><use href="#icon-arrow-right"/></svg> hotmart.com/pt-br/club/metaforando/</a></p>
+      <p>Um e-mail com o link de acesso também será enviado com as mesmas informações de login que você criou no primeiro acesso (e-mail e senha).</p>
+      <div class="tip"><svg class="icon-svg"><use href="#icon-lightbulb"/></svg> Salve esse e-mail e o link nos seus favoritos para não perder suas informações de acesso!</div>
+    </div>
+
+    <!-- TV -->
+    <div class="page" id="page-tv">
+      <div class="page-eyebrow">Área de Aula</div>
+      <h1>Como assistir meu curso pela TV?</h1>
+      <p>Você pode assistir suas aulas do Metaforando na TV de diferentes formas:</p>
+      <h2>Opção 1 — Espelhamento de tela</h2>
+      <p>Use o recurso de <strong>espelhamento</strong> (Miracast, AirPlay ou Chromecast) do seu celular ou notebook para transmitir o conteúdo da tela para a TV.</p>
+      <h2>Opção 2 — HDMI</h2>
+      <p>Conecte seu notebook ou computador diretamente à TV via cabo <strong>HDMI</strong> e acesse normalmente pelo navegador.</p>
+      <h2>Opção 3 — Navegador na Smart TV</h2>
+      <p>Se sua TV possui navegador integrado, acesse <a href="https://hotmart.com/pt-br/club/metaforando/" target="_blank">hotmart.com/pt-br/club/metaforando/</a>, faça login e navegue normalmente.</p>
+      <div class="alert"><strong>Atenção:</strong> a Hotmart não oferece aplicativo nativo para Smart TVs. As opções acima são as formas recomendadas.</div>
+    </div>
+
+    <!-- VIDEO NAO RODA -->
+    <div class="page" id="page-video-nao-roda">
+      <div class="page-eyebrow">Área de Aula</div>
+      <h1>Meu vídeo não está rodando.</h1>
+      <p>Se o vídeo da aula não carrega ou trava com frequência, tente as seguintes soluções em ordem:</p>
+      <ol>
+        <li><strong>Verifique sua conexão de internet</strong> — teste em outro site ou streaming para confirmar que está funcionando.</li>
+        <li><strong>Recarregue a página</strong> (F5 ou Ctrl+R) e tente dar play novamente.</li>
+        <li><strong>Limpe o cache do navegador</strong> — no Chrome: Ctrl+Shift+Del → marque "Imagens e arquivos em cache" → Limpar dados.</li>
+        <li><strong>Tente outro navegador</strong> — recomendamos Google Chrome ou Firefox atualizados.</li>
+        <li><strong>Desative extensões</strong> — bloqueadores de anúncio (AdBlock, uBlock) podem interferir no player. Desative-os para o domínio do Hotmart.</li>
+        <li><strong>Reduza a qualidade do vídeo</strong> — clique na engrenagem do player e escolha uma resolução menor (480p ou 360p).</li>
+        <li><strong>Tente pelo aplicativo da Hotmart</strong> — o app mobile costuma ter performance mais estável.</li>
+      </ol>
+      <p>Se nenhuma solução acima funcionar, entre em contato com nosso suporte em <a href="mailto:contato@metaforando.co">contato@metaforando.co</a> informando o nome do curso, aula e o erro que aparece na tela.</p>
+    </div>
+
+    <!-- CERTIFICADO -->
+    <div class="page" id="page-certificado">
+      <div class="page-eyebrow">Área de Aula</div>
+      <h1>Como acessar o meu certificado?</h1>
+      <p>Caso o curso que você adquiriu ofereça certificado, ele ficará disponível quando o progresso atingir <strong>100%</strong>. Para isso, todas as aulas obrigatórias devem estar marcadas como concluídas.</p>
+      <div class="alert"><strong>Atenção:</strong> Aulas de módulos extra, gratuitos, anúncios e lives são consideradas <strong>não-obrigatórias</strong> para emissão do certificado.</div>
+      <p>Basta acessar o curso que está completando e emitir o certificado, adicionando o nome que deseja que apareça nele.</p>
+      <h2>Pelo aplicativo da Hotmart</h2>
+      <ol>
+        <li>Abra o aplicativo Hotmart e vá em <strong>Minhas compras</strong>.</li>
+        <li>Escolha o curso que deseja emitir o certificado.</li>
+        <li>Na nova tela, selecione <strong>Certificado</strong> e depois <strong>Emitir certificado</strong>.</li>
+        <li>Preencha o nome que deseja utilizar no certificado.</li>
+        <li>Selecione <strong>Salvar e emitir certificado</strong>.</li>
+      </ol>
+    </div>
+
+    <!-- SAIR COMUNIDADES -->
+    <div class="page" id="page-sair-comunidades">
+      <div class="page-eyebrow">Área de Aula</div>
+      <h1>Como sair das comunidades?</h1>
+      <p>Para sair de uma comunidade no Hotmart Club, siga os passos abaixo:</p>
+      <ol>
+        <li>Acesse a comunidade da qual deseja sair.</li>
+        <li>Clique no menu de opções (geralmente um ícone de três pontos ou engrenagem).</li>
+        <li>Selecione a opção <strong>"Sair da comunidade"</strong> ou <strong>"Cancelar participação"</strong>.</li>
+        <li>Confirme a ação quando solicitado.</li>
+      </ol>
+      <div class="tip"><svg class="icon-svg"><use href="#icon-lightbulb"/></svg> Ao sair de uma comunidade, você perde o acesso ao histórico de posts e interações daquela comunidade. Caso queira voltar, será necessário entrar novamente, se disponível.</div>
+    </div>
+
+    <!-- TEMPO DE ACESSO -->
+    <div class="page" id="page-tempo-acesso">
+      <div class="page-eyebrow">Acesso e Segurança</div>
+      <h1>Quanto tempo de acesso tenho ao curso?</h1>
+      <p>No Metaforando, quando você se inscreve em um curso, é garantido o acesso por um período padrão de <strong>um ano</strong>. Durante esse período você pode assistir às aulas, fazer exercícios e aproveitar todos os recursos do curso.</p>
+      <p>Se sentir necessidade de mais tempo para absorver o conteúdo ou revisar as lições, não se preocupe! Você tem a opção de <strong>renovar o acesso por quantos anos adicionais desejar</strong>. Isso garante que você aprenda no seu próprio ritmo, sem se preocupar com prazos.</p>
+      <div class="tip"><svg class="icon-svg"><use href="#icon-lightbulb"/></svg> A renovação de acesso é feita diretamente pela plataforma Hotmart. Caso precise de ajuda, entre em contato com o nosso suporte.</div>
+    </div>
+
+    <!-- PRIMEIRO ACESSO -->
+    <div class="page" id="page-primeiro-acesso">
+      <div class="page-eyebrow">Acesso e Segurança</div>
+      <h1>Como fazer o primeiro acesso na Hotmart?</h1>
+      <p>Após a confirmação do pagamento, você receberá um e-mail automático da Hotmart com o link para ativar sua conta.</p>
+      <ol>
+        <li>Verifique sua caixa de entrada pelo e-mail usado na compra. Confira também as pastas de <strong>Spam</strong> e <strong>Promoções</strong>.</li>
+        <li>O assunto do e-mail será: <strong>"Seu acesso ao produto…"</strong></li>
+        <li>Clique no link contido no e-mail para ser redirecionado à Hotmart.</li>
+        <li>Crie sua senha de acesso.</li>
+        <li>Pronto! Você será redirecionado à sua área de membros.</li>
+      </ol>
+      <p>O link direto para sua área de membros é: <a href="https://hotmart.com/pt-br/club/metaforando/" target="_blank">hotmart.com/pt-br/club/metaforando/</a></p>
+      <div class="alert"><strong>Não recebeu o e-mail?</strong> Aguarde até 30 minutos. Se ainda não chegou, entre em contato: <a href="mailto:contato@metaforando.co">contato@metaforando.co</a></div>
+    </div>
+
+    <!-- SENHA -->
+    <div class="page" id="page-senha">
+      <div class="page-eyebrow">Acesso e Segurança</div>
+      <h1>Não sei minha senha de acesso.</h1>
+      <p>Se você esqueceu ou não sabe sua senha de acesso ao Hotmart Club, basta redefini-la pelo próprio site da Hotmart.</p>
+      <ol>
+        <li>Acesse <a href="https://hotmart.com/pt-br/club/metaforando/" target="_blank">hotmart.com/pt-br/club/metaforando/</a>.</li>
+        <li>Clique em <strong>"Entrar"</strong> e depois em <strong>"Esqueci minha senha"</strong>.</li>
+        <li>Informe o e-mail cadastrado na compra.</li>
+        <li>Você receberá um e-mail com o link para redefinir sua senha.</li>
+        <li>Clique no link, crie uma nova senha e acesse normalmente.</li>
+      </ol>
+      <div class="tip"><svg class="icon-svg"><use href="#icon-lightbulb"/></svg> O e-mail de redefinição pode demorar alguns minutos. Verifique também as pastas de Spam e Promoções.</div>
+      <p>Se o e-mail não chegar ou você não lembar qual e-mail usou na compra, entre em contato com nosso suporte em <a href="mailto:contato@metaforando.co">contato@metaforando.co</a>.</p>
+    </div>
+
+    <!-- ERRO PLATAFORMA -->
+    <div class="page" id="page-erro-plataforma">
+      <div class="page-eyebrow">Acesso e Segurança</div>
+      <h1>Mensagem de erro na plataforma?</h1>
+      <p>Se você está vendo uma mensagem de erro ao tentar acessar o Hotmart Club, tente as seguintes soluções:</p>
+      <ol>
+        <li><strong>Atualize a página</strong> (F5) e tente novamente.</li>
+        <li><strong>Limpe o cache e os cookies</strong> do seu navegador.</li>
+        <li><strong>Tente em outro navegador</strong> — recomendamos Chrome ou Firefox atualizados.</li>
+        <li><strong>Verifique se seu acesso ainda está ativo</strong> — o período de 1 ano pode ter expirado.</li>
+        <li><strong>Tente pelo aplicativo</strong> da Hotmart (iOS ou Android).</li>
+      </ol>
+      <p>Se o erro persistir, entre em contato conosco informando:</p>
+      <ul>
+        <li>O nome do curso que está tentando acessar</li>
+        <li>A mensagem de erro exata que aparece na tela</li>
+        <li>O navegador/dispositivo que está usando</li>
+      </ul>
+      <p><svg class="icon-svg"><use href="#icon-mail"/></svg> <a href="mailto:contato@metaforando.co">contato@metaforando.co</a></p>
+    </div>
+
+    <!-- ALTERAR EMAIL -->
+    <div class="page" id="page-alterar-email">
+      <div class="page-eyebrow">Acesso e Segurança</div>
+      <h1>Como alterar o meu e-mail de acesso?</h1>
+      <p>Essa alteração é feita pela <strong>Hotmart</strong>, empresa que cuida da segurança das transações e da área de aula.</p>
+      <p>Existem dois tipos de alteração:</p>
+      <ul>
+        <li><strong>E-mail da compra:</strong> o e-mail que você usa para acessar os produtos comprados na Hotmart.</li>
+        <li><strong>E-mail da conta:</strong> para quem deseja transferir todos os produtos de um e-mail para outro — normalmente por organização (separar e-mail profissional de lazer).</li>
+      </ul>
+      <p>Você pode fazer a alteração do <strong>e-mail da compra</strong> diretamente pelo Chatbot da Hotmart:</p>
+      <p><a href="https://hotmart.chat.blip.ai/?appKey=aG90bWFydGN4cm91dGVyOmM5NmY4NDJlLWZiNGEtNDEwZi05NzE4LTJmNjJkYWRjNjZkMg==" target="_blank"><svg class="icon-svg"><use href="#icon-arrow-right"/></svg> Acessar o Chatbot da Hotmart</a></p>
+      <div class="alert"><strong>Segurança importante:</strong> para sua proteção, terceiros não devem solicitar alterações por você. Somente o titular da compra ou o produtor do curso podem solicitar a alteração do e-mail.</div>
+    </div>
+
+    <!-- MULTIPLAS PESSOAS -->
+    <div class="page" id="page-multiplas-pessoas">
+      <div class="page-eyebrow">Acesso e Segurança</div>
+      <h1>Mais de uma pessoa pode acessar meu curso?</h1>
+      <p>Ao adquirir um curso na Hotmart, o(a) comprador(a) concorda integralmente com os <a href="https://hotmart.com/pt-br/legal/termos-de-compra" target="_blank">Termos de Compra</a>.</p>
+      <p>Após a confirmação do pagamento, os dados de acesso enviados pela Hotmart ou Metaforando são de <strong>responsabilidade e direito de uso exclusivo do(a) comprador(a)</strong> — o titular da compra.</p>
+      <div class="alert"><strong>Atenção:</strong> Compartilhar seus dados de acesso de um produto de uso individual pode comprometer a sua experiência na plataforma e violar os termos de uso.</div>
+    </div>
+
+    <!-- CONTATO -->
+    <div class="page" id="page-contato">
+      <div class="page-eyebrow">Suporte</div>
+      <h1>Contato com o Suporte</h1>
+      <p>Não encontrou o que precisava nas dúvidas frequentes? Nossa equipe está pronta para te ajudar.</p>
+      <div class="contact-box">
+        <div class="contact-icon"><svg class="icon-svg"><use href="#icon-inbox"/></svg></div>
+        <h2>Fale com o nosso time</h2>
+        <p>Envie sua dúvida para o e-mail de suporte ao aluno. Respondemos em até 24–48 horas úteis.</p>
+        <a class="email-link" href="mailto:contato@metaforando.co">contato@metaforando.co</a>
+      </div>
+      <hr class="divider">
+      <p style="color:var(--text-muted); font-size:13px;">Ao entrar em contato, informe o nome do curso, descreva o problema e, se possível, inclua prints da tela. Isso agiliza muito o atendimento.</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const pages = {
+    'home': 'page-home',
+    'area-aula-intro': 'page-area-aula-intro',
+    'acesso-intro': 'page-acesso-intro',
+    'navegar-area': 'page-navegar-area',
+    'aulas-celular': 'page-aulas-celular',
+    'watson': 'page-watson',
+    'comunidades': 'page-comunidades',
+    'offline': 'page-offline',
+    'acessar-cursos': 'page-acessar-cursos',
+    'tv': 'page-tv',
+    'video-nao-roda': 'page-video-nao-roda',
+    'certificado': 'page-certificado',
+    'sair-comunidades': 'page-sair-comunidades',
+    'tempo-acesso': 'page-tempo-acesso',
+    'primeiro-acesso': 'page-primeiro-acesso',
+    'senha': 'page-senha',
+    'erro-plataforma': 'page-erro-plataforma',
+    'alterar-email': 'page-alterar-email',
+    'multiplas-pessoas': 'page-multiplas-pessoas',
+    'contato': 'page-contato',
+  };
+
+  const areaAulaChildren = ['navegar-area','aulas-celular','watson','comunidades','offline','acessar-cursos','tv','video-nao-roda','certificado','sair-comunidades','area-aula-intro'];
+  const acessoChildren = ['tempo-acesso','primeiro-acesso','senha','erro-plataforma','alterar-email','multiplas-pessoas','acesso-intro'];
+
+  function navigate(id) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    // Show target
+    const el = document.getElementById(pages[id]);
+    if (el) el.classList.add('active');
+    // Update nav children active states
+    document.querySelectorAll('.nav-child').forEach(c => c.classList.remove('active'));
+    // Find matching child
+    document.querySelectorAll('.nav-child').forEach(c => {
+      if (c.getAttribute('onclick') === `navigate('${id}')`) c.classList.add('active');
+    });
+    // Auto-open sections
+    if (areaAulaChildren.includes(id)) {
+      openSection('area-aula');
+    }
+    if (acessoChildren.includes(id)) {
+      openSection('acesso');
+    }
+    // Close sidebar on mobile
+    if (window.innerWidth <= 768) {
+      document.getElementById('sidebar').classList.remove('open');
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function openSection(section) {
+    const children = document.getElementById('children-' + section);
+    const navItem = document.getElementById('nav-' + section);
+    if (children) children.classList.add('open');
+    if (navItem) navItem.classList.add('open');
+  }
+
+  function toggleSection(section) {
+    const children = document.getElementById('children-' + section);
+    const navItem = document.getElementById('nav-' + section);
+    if (children) {
+      children.classList.toggle('open');
+      navItem.classList.toggle('open');
+    }
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  function handleSearch(val) {
+    if (!val.trim()) return;
+    // Simple keyword match
+    const map = {
+      'celular': 'aulas-celular', 'phone': 'aulas-celular',
+      'certificado': 'certificado', 'certificate': 'certificado',
+      'senha': 'senha', 'password': 'senha',
+      'email': 'alterar-email', 'e-mail': 'alterar-email',
+      'watson': 'watson',
+      'offline': 'offline', 'internet': 'offline', 'baixar': 'offline',
+      'tv': 'tv', 'televisão': 'tv',
+      'vídeo': 'video-nao-roda', 'video': 'video-nao-roda', 'rodando': 'video-nao-roda',
+      'comunidade': 'comunidades', 'comunidades': 'comunidades',
+      'sair': 'sair-comunidades',
+      'tempo': 'tempo-acesso', 'acesso': 'tempo-acesso',
+      'primeiro': 'primeiro-acesso',
+      'erro': 'erro-plataforma',
+      'pessoa': 'multiplas-pessoas', 'compartilhar': 'multiplas-pessoas',
+      'suporte': 'contato', 'contato': 'contato', 'ajuda': 'contato',
+      'navegar': 'navegar-area', 'área': 'navegar-area',
+    };
+    const lower = val.toLowerCase();
+    for (const [key, page] of Object.entries(map)) {
+      if (lower.includes(key)) { navigate(page); return; }
+    }
+  }
+</script>
+</body>
+</html>

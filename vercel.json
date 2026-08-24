@@ -120,6 +120,17 @@
       ],
       "destination": "/v8-a2/",
       "permanent": false
+    },
+    {
+      "source": "/central-de-ajuda",
+      "has": [
+        {
+          "type": "host",
+          "value": "afc.metaforando.com.br"
+        }
+      ],
+      "destination": "/central-de-ajuda/",
+      "permanent": false
     }
   ],
   "rewrites": [
