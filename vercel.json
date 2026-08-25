@@ -34,6 +34,17 @@
       "permanent": false
     },
     {
+      "source": "/l235",
+      "has": [
+        {
+          "type": "host",
+          "value": "pam.metaforando.com.br"
+        }
+      ],
+      "destination": "/l235/",
+      "permanent": false
+    },
+    {
       "source": "/l4-ab",
       "has": [
         {
