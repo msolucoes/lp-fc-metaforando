@@ -226,6 +226,16 @@
       "destination": "/ca/$1"
     },
     {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "alh.metaforando.com.br"
+        }
+      ],
+      "destination": "/alh/$1"
+    },
+    {
       "source": "/",
       "destination": "/a1/index.html"
     }
