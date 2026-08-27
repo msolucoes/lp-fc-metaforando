@@ -216,6 +216,16 @@
       "destination": "/pam/$1"
     },
     {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "ca.metaforando.com.br"
+        }
+      ],
+      "destination": "/ca/$1"
+    },
+    {
       "source": "/",
       "destination": "/a1/index.html"
     }
