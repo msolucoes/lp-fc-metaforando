@@ -47,7 +47,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
   .esconder { display: none; }
@@ -62,8 +62,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --mist: #eceadf;
     --red: #b3261e;
     --red-dark: #8c1d17;
-    --lime: #a3d93e;
-    --lime-soft: rgba(163, 217, 62, 0.85);
+    --lime: #39d888;
+    --lime-soft: rgba(57, 216, 136, 0.85);
     --font-sans: "Maven Pro", system-ui, -apple-system, sans-serif;
     --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   }
@@ -81,9 +81,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position: relative;
     background-color: #060805;
     background-image:
-      radial-gradient(circle at 18% 12%, rgba(163, 217, 62, 0.16) 0%, transparent 42%),
-      radial-gradient(circle at 84% 78%, rgba(163, 217, 62, 0.14) 0%, transparent 45%),
-      radial-gradient(circle at 50% 100%, rgba(163, 217, 62, 0.08) 0%, transparent 55%),
+      radial-gradient(circle at 18% 12%, rgba(57, 216, 136, 0.16) 0%, transparent 42%),
+      radial-gradient(circle at 84% 78%, rgba(57, 216, 136, 0.14) 0%, transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(57, 216, 136, 0.08) 0%, transparent 55%),
       linear-gradient(180deg, #0a0d08 0%, #060805 55%, #020302 100%);
     background-size: auto, auto, auto, auto;
     background-position: 0 0, 0 0, 0 0, 0 0;
@@ -98,8 +98,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     z-index: 0;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(163, 217, 62, 0.10) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 35% at 100% 100%, rgba(163, 217, 62, 0.08) 0%, transparent 70%);
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(57, 216, 136, 0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 35% at 100% 100%, rgba(57, 216, 136, 0.08) 0%, transparent 70%);
   }
 
   main, .alert-bar, footer, header { position: relative; z-index: 1; }
@@ -171,8 +171,46 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     border-radius: 12px;
     overflow: hidden;
     background: #000;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(163,217,62,0.3), 0 0 60px rgba(163,217,62,0.08);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(57,216,136,0.3), 0 0 60px rgba(57,216,136,0.08);
   }
+
+  /* ===== Oferta pós-vídeo (upsell) ===== */
+  .pitch-offer {
+    max-width: 400px;
+    margin: 32px auto 0;
+    padding: 24px 20px;
+    border-radius: 14px;
+    border: 1px solid rgba(57, 216, 136, 0.35);
+    background: rgba(57, 216, 136, 0.06);
+    box-shadow: 0 0 40px rgba(57, 216, 136, 0.06);
+  }
+
+  .pitch-offer__text {
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--mist);
+    margin: 0 0 20px;
+  }
+
+  .pitch-offer__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: 999px;
+    background: var(--lime);
+    color: #0a0d08;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 1.0625rem;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(57, 216, 136, 0.28);
+    transition: transform 0.15s var(--ease, ease), box-shadow 0.15s ease;
+  }
+
+  .pitch-offer__btn:hover { transform: translateY(-1px); box-shadow: 0 10px 30px rgba(57, 216, 136, 0.36); }
 
   /* ===== Rodapé ===== */
   footer {
@@ -257,6 +295,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         s.src="https://scripts.converteai.net/eeb0f879-080b-4d00-b159-104ae5a6dd26/players/6a9075ca0d1e2103cbc0c889/v4/player.js",
         s.async=!0,document.head.appendChild(s);
       </script>
+    </div>
+
+    <!-- HOTMART - Sales Funnel Widget -->
+    <div id="hotmart-sales-funnel" class="esconder"></div>
+    <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
+    <script>
+      checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel')
+    </script>
+    <!-- HOTMART - Sales Funnel Widget -->
+
+    <div class="pitch-offer esconder">
+      <p class="pitch-offer__text">Comprou o Protocolo de Autoridade Magnética no PIX e quer parcelar o Arsenal de Leitura Humana no cartão?</p>
+      <a class="pitch-offer__btn" href="https://link.metaforando.com.br/alhpgupsell">Quero parcelar</a>
     </div>
   </div>
 </main>
