@@ -88,7 +88,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     background-size: auto, auto, auto, auto;
     background-position: 0 0, 0 0, 0 0, 0 0;
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-    background-attachment: fixed, fixed, fixed, fixed;
+    background-attachment: scroll, scroll, scroll, scroll;
   }
 
   body::before {
@@ -166,7 +166,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ===== Player ===== */
   .vsl {
     position: relative;
+    width: 100%;
     max-width: 400px;
+    aspect-ratio: 9 / 16;
     margin: 0 auto 28px;
     border-radius: 12px;
     overflow: hidden;

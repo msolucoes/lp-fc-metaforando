@@ -88,7 +88,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     background-size: auto, auto, auto, auto;
     background-position: 0 0, 0 0, 0 0, 0 0;
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-    background-attachment: fixed, fixed, fixed, fixed;
+    background-attachment: scroll, scroll, scroll, scroll;
   }
 
   body::before {
@@ -166,7 +166,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ===== Player ===== */
   .vsl {
     position: relative;
+    width: 100%;
     max-width: 400px;
+    aspect-ratio: 9 / 16;
     margin: 0 auto 28px;
     border-radius: 12px;
     overflow: hidden;
@@ -243,8 +245,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- Script de delay dos elementos ocultos -->
 <script>
   var delaySeconds = 562;
+
+  function loadHotmartWidget() {
+    if (window._hotmartWidgetLoaded) return;
+    window._hotmartWidgetLoaded = true;
+    var s = document.createElement("script");
+    s.src = "https://checkout.hotmart.com/lib/hotmart-checkout-elements.js";
+    s.onload = function () {
+      checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
+    };
+    document.head.appendChild(s);
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     var player = document.querySelector("vturb-smartplayer");
+    var hotmartEl = document.getElementById("hotmart-sales-funnel");
+
+    function isVisible(el) {
+      return window.getComputedStyle(el).display !== "none";
+    }
+
+    if (hotmartEl && isVisible(hotmartEl)) {
+      loadHotmartWidget();
+    } else if (hotmartEl) {
+      new MutationObserver(function (mutations, observer) {
+        if (isVisible(hotmartEl)) {
+          loadHotmartWidget();
+          observer.disconnect();
+        }
+      }).observe(hotmartEl, { attributes: true, attributeFilter: ["class", "style"] });
+    }
+
     player.addEventListener("player:ready", function() {
       player.displayHiddenElements(delaySeconds, [".esconder"], {
         persist: true
@@ -299,10 +330,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- HOTMART - Sales Funnel Widget -->
     <div id="hotmart-sales-funnel" class="esconder"></div>
-    <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
-    <script>
-      checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel')
-    </script>
     <!-- HOTMART - Sales Funnel Widget -->
 
     <div class="pitch-offer esconder">
