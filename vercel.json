@@ -233,7 +233,7 @@
           "value": "alh.metaforando.com.br"
         }
       ],
-      "destination": "/v2/"
+      "destination": "/alh-v2/"
     },
     {
       "source": "/v2/(.*)",
@@ -243,7 +243,7 @@
           "value": "alh.metaforando.com.br"
         }
       ],
-      "destination": "/v2/$1"
+      "destination": "/alh-v2/$1"
     },
     {
       "source": "/(.*)",
