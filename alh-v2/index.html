@@ -306,10 +306,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   document.querySelectorAll('a[data-cta]').forEach(applyUtms);
 
-  document.addEventListener('click', function (ev) {
+  /* O player VTurb reescreve o href no clique com o próprio sck de sessão.
+     Reaplicar em fase de bubble no window garante que essa escrita roda
+     por último — depois da do VTurb — sendo a que efetivamente navega. */
+  window.addEventListener('click', function (ev) {
     var a = ev.target && ev.target.closest ? ev.target.closest('a[data-cta]') : null;
     if (a) applyUtms(a);
-  }, true);
+  }, false);
 })();
 </script>
 
