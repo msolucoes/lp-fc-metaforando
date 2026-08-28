@@ -278,9 +278,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </main>
 
-<!-- UTMs → checkout: monta o sck posicional (campaign|source|medium|content|term)
-     a partir das utm_* da URL da página para o rastreio da Hotmart. Só o sck
-     vai pro checkout — os utm_* não são repassados soltos na URL. -->
+<!-- UTMs → checkout: repassa as utm_* da URL para o CTA e monta o sck
+     posicional (campaign|source|medium|content|term) para o rastreio da Hotmart.
+     Mesmo padrão usado nas outras páginas (ex.: PAM). -->
 <script>
 (function () {
   var params = new URLSearchParams(window.location.search);
@@ -290,22 +290,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var sck = [params.get('utm_campaign'), params.get('utm_source'), params.get('utm_medium'), params.get('utm_content'), params.get('utm_term')]
     .map(function (v) { return v || ''; }).join('|');
   while (sck.charAt(sck.length - 1) === '|') sck = sck.slice(0, -1);
-  if (!sck) return;
 
-  var applySck = function (a) {
+  var applyUtms = function (a) {
     try {
       var u = new URL(a.href);
       if (u.hostname.indexOf('hotmart.com') === -1) return;
-      u.searchParams.set('sck', sck);
+      UTMS.forEach(function (k) {
+        var v = params.get(k);
+        if (v) u.searchParams.set(k, v);
+      });
+      if (sck) u.searchParams.set('sck', sck);
       a.href = u.toString();
     } catch (e) { /* href inválido: deixa como está */ }
   };
 
-  document.querySelectorAll('a[data-cta]').forEach(applySck);
+  document.querySelectorAll('a[data-cta]').forEach(applyUtms);
 
   document.addEventListener('click', function (ev) {
     var a = ev.target && ev.target.closest ? ev.target.closest('a[data-cta]') : null;
-    if (a) applySck(a);
+    if (a) applyUtms(a);
   }, true);
 })();
 </script>
