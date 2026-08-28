@@ -273,49 +273,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="pitch-offer esconder">
-      <a class="pitch-offer__btn" href="https://pay.hotmart.com/Y107318332V?off=x4fbducg" data-cta="pitch">QUERO ACELERAR MEUS RESULTADOS</a>
+      <a class="pitch-offer__btn" href="https://pay.hotmart.com/Y107318332V?off=x4fbducg" data-cta="pitch" data-checkout-base="https://pay.hotmart.com/Y107318332V?off=x4fbducg">QUERO ACELERAR MEUS RESULTADOS</a>
+      <script>
+        /* O player VTurb reescreve o href deste link (com o sck de sessão dele)
+           assim que a página carrega — sobrescrever de volta na hora do clique
+           não funciona porque ele reage à própria mudança do atributo. Por
+           isso a navegação é feita à parte, sem depender do href do link:
+           intercepta o clique o mais cedo possível (direto no elemento, antes
+           do VTurb registrar o dele) e navega com a URL de checkout + UTMs +
+           sck montados a partir da query string da página. */
+        (function () {
+          var link = document.currentScript.previousElementSibling;
+          var baseUrl = link.getAttribute('data-checkout-base');
+
+          link.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+
+            var params = new URLSearchParams(window.location.search);
+            var UTMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+            var u = new URL(baseUrl);
+
+            UTMS.forEach(function (k) {
+              var v = params.get(k);
+              if (v) u.searchParams.set(k, v);
+            });
+
+            var sck = [params.get('utm_campaign'), params.get('utm_source'), params.get('utm_medium'), params.get('utm_content'), params.get('utm_term')]
+              .map(function (v) { return v || ''; }).join('|');
+            while (sck.charAt(sck.length - 1) === '|') sck = sck.slice(0, -1);
+            if (sck) u.searchParams.set('sck', sck);
+
+            window.location.href = u.toString();
+          }, true);
+        })();
+      </script>
     </div>
   </div>
 </main>
-
-<!-- UTMs → checkout: repassa as utm_* da URL para o CTA e monta o sck
-     posicional (campaign|source|medium|content|term) para o rastreio da Hotmart.
-     Mesmo padrão usado nas outras páginas (ex.: PAM). -->
-<script>
-(function () {
-  var params = new URLSearchParams(window.location.search);
-  var UTMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-  if (!UTMS.some(function (k) { return params.get(k); })) return;
-
-  var sck = [params.get('utm_campaign'), params.get('utm_source'), params.get('utm_medium'), params.get('utm_content'), params.get('utm_term')]
-    .map(function (v) { return v || ''; }).join('|');
-  while (sck.charAt(sck.length - 1) === '|') sck = sck.slice(0, -1);
-
-  var applyUtms = function (a) {
-    try {
-      var u = new URL(a.href);
-      if (u.hostname.indexOf('hotmart.com') === -1) return;
-      UTMS.forEach(function (k) {
-        var v = params.get(k);
-        if (v) u.searchParams.set(k, v);
-      });
-      if (sck) u.searchParams.set('sck', sck);
-      a.href = u.toString();
-    } catch (e) { /* href inválido: deixa como está */ }
-  };
-
-  document.querySelectorAll('a[data-cta]').forEach(applyUtms);
-
-  /* O player da VTurb reescreve os links depois do load e injeta o sck de
-     sessão dele (v3_..._s-1). Reaplicar no clique, em fase de captura,
-     garante que nosso sck (montado das UTMs) é a última escrita antes da
-     navegação — mesmo padrão do PAM. */
-  document.addEventListener('click', function (ev) {
-    var a = ev.target && ev.target.closest ? ev.target.closest('a[data-cta]') : null;
-    if (a) applyUtms(a);
-  }, true);
-})();
-</script>
 
 <footer>
   <div class="container">
