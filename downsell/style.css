@@ -226,3 +226,7 @@ html{scroll-padding-top:64px}
 @media(prefers-reduced-motion:reduce){
   .reveal,.reveal-item{opacity:1;transform:none;transition:none}
 }
+
+@media(min-width:360px) and (max-width:759px){
+  .product-title{font-size:calc(clamp(36px,7.4vw,87px) + 4px)}
+}
