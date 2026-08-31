@@ -8,9 +8,19 @@ const checkoutNotice = document.querySelector('.checkout-notice');
 let noticeTimer;
 
 checkoutLinks.forEach((link) => {
-  link.setAttribute('href', CHECKOUT_URL);
+  // Os CTAs fora da oferta apontam para o widget do Hotmart (âncora);
+  // só o link com href real de checkout deve virar a URL de pagamento.
+  const isAnchor = link.getAttribute('href').startsWith('#');
+  if (!isAnchor) link.setAttribute('href', CHECKOUT_URL);
+
   link.addEventListener('click', (event) => {
-    if (CHECKOUT_URL === '#') {
+    if (isAnchor) {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        event.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    } else if (CHECKOUT_URL === '#') {
       event.preventDefault();
       // Mensagem funcional apenas na prévia, sem simular uma compra.
       checkoutNotice.hidden = false;

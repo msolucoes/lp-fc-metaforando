@@ -230,3 +230,5 @@ html{scroll-padding-top:64px}
 @media(min-width:360px) and (max-width:759px){
   .product-title{font-size:calc(clamp(36px,7.4vw,87px) + 4px)}
 }
+
+#hotmart-sales-funnel{width:100%;margin-top:24px}
