@@ -73,13 +73,16 @@ p+p{margin-top:18px}
 .scan-mobile{display:block;margin-top:20px}
 .scan-mobile img{display:block;width:min(100%,320px);height:auto;aspect-ratio:1;object-fit:contain}
 @media(min-width:760px){.scan-mobile{display:none}}
-/* Grade editorial: coluna de leitura centralizada no container, texto alinhado à esquerda dentro dela. */
+/* Grade editorial: coluna de leitura centralizada no container quando não há título irmão
+   fora dela; quando o título da dobra fica fora do .reading (produto, caminhos), o corpo
+   de texto fica no mesmo eixo do título em vez de centralizar sozinho. */
 :root{--reading-width:740px}
 .reading{max-width:var(--reading-width)}
-.letter-layout>.reading,.product-intro{margin-inline:auto}
-.paths-close,.scenario,.final-copy{margin-left:auto;margin-right:auto;max-width:var(--reading-width)}
+.letter-layout>.reading{margin-inline:auto}
+.product-intro,.lessons,.scenario,.paths-close{margin-inline:0}
+.final-copy{margin-inline:auto}
 .offer-description{min-width:0;margin-inline:auto}
-.lessons,.final h2{margin-inline:auto}
+.final h2{margin-inline:auto}
 .course-logo{display:block;width:min(100%,360px);height:auto;margin-bottom:24px}
 .brand-logo{display:block;width:210px;max-width:65%;height:auto}
 .footer-inner{align-items:center;gap:20px}
@@ -105,7 +108,7 @@ p+p{margin-top:18px}
  .course-logo{width:360px;margin-bottom:28px}
  .offer .price-block{padding:30px;border:1px solid #565b43;background:#15161380}
  .offer .price-value{font-size:76px}
- .guarantee-grid{max-width:1100px;grid-template-columns:minmax(0,740px) 1fr;gap:40px;align-items:center}
+ .guarantee-grid{max-width:820px;margin-inline:auto;grid-template-columns:minmax(0,590px) auto;gap:32px;align-items:center}
  .guarantee-grid>div:last-child{grid-column:1;grid-row:1}
  .guarantee-grid>.seven{grid-column:2;grid-row:1;justify-content:center}
  .guarantee p{max-width:var(--reading-width)}
@@ -144,9 +147,9 @@ p+p{margin-top:18px}
  .offer-grid{grid-template-columns:240px minmax(0,1fr);column-gap:48px;row-gap:32px}
  .offer-art{align-self:center}
  .offer-art img{max-width:240px}
- .offer .price-block{width:100%;max-width:680px;padding:32px}
- .guarantee-grid{grid-template-columns:minmax(0,740px) 1fr;gap:40px}
- .guarantee-seal{grid-column:2;grid-row:1;justify-self:center;width:190px;gap:12px}
+ .offer .price-block{width:100%;max-width:440px;padding:32px}
+ .guarantee-grid{grid-template-columns:minmax(0,590px) auto;gap:32px}
+ .guarantee-seal{grid-column:2;grid-row:1;justify-self:center;width:170px;gap:12px}
  .seal-label{font-size:11px}.seal-number{font-size:86px}.seal-number>span{font-size:20px}.seal-bottom{font-size:9px}
 }
 /* Selo PNG com canal alfa: sem disco de fundo ou moldura CSS adicional. */
