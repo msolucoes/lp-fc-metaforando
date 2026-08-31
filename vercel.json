@@ -142,6 +142,17 @@
       ],
       "destination": "/central-de-ajuda/",
       "permanent": false
+    },
+    {
+      "source": "/downsell",
+      "has": [
+        {
+          "type": "host",
+          "value": "alh.metaforando.com.br"
+        }
+      ],
+      "destination": "/downsell/",
+      "permanent": false
     }
   ],
   "rewrites": [
@@ -244,16 +255,6 @@
         }
       ],
       "destination": "/alh-v2/$1"
-    },
-    {
-      "source": "/downsell",
-      "has": [
-        {
-          "type": "host",
-          "value": "alh.metaforando.com.br"
-        }
-      ],
-      "destination": "/downsell/"
     },
     {
       "source": "/downsell/(.*)",
