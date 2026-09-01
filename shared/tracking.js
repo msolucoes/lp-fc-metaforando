@@ -1,7 +1,19 @@
 // ═══════════════════════════════════════════════════════════
-// TRACKING — GTM + Meta Pixel + Hotmart
+// TRACKING — Vercel Analytics + GTM + Meta Pixel + Hotmart
 // Substituir os IDs placeholder pelos reais antes do deploy
 // ═══════════════════════════════════════════════════════════
+
+// Vercel Web Analytics
+// Initialize queue for analytics events before script loads
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+
+// Load Vercel Analytics script
+(function() {
+  var script = document.createElement('script');
+  script.defer = true;
+  script.src = '/_vercel/insights/script.js';
+  document.head.appendChild(script);
+})();
 
 // Google Tag Manager (async)
 // (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -25,4 +37,4 @@
 // Hotmart
 // Inserir scripts do Hotmart aqui quando disponíveis
 
-console.log('[Tracking] Scripts placeholder carregados. Substitua pelos IDs reais antes do deploy.');
+console.log('[Tracking] Vercel Analytics + placeholder scripts carregados. Substitua os IDs reais antes do deploy.');
