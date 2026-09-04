@@ -89,6 +89,17 @@
       "permanent": false
     },
     {
+      "source": "/yt",
+      "has": [
+        {
+          "type": "host",
+          "value": "pam.metaforando.com.br"
+        }
+      ],
+      "destination": "/yt/",
+      "permanent": false
+    },
+    {
       "source": "/v6",
       "has": [
         {
