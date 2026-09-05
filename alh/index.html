@@ -284,6 +284,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   });
 </script>
 
+<script>
+(function(){
+  try{
+    var u = new URL(location.href), q = u.searchParams;
+    if (q.get('vk_source')) return;                 // já veio pronto
+    var sck = q.get('sck'); if (!sck) return;       // nada a fazer
+    var segs = sck.split('|'), m = {}, adId = null;
+    segs.forEach(function(p, i){
+      var k = p.indexOf('=');
+      if (k > 0) {
+        m[p.slice(0,k)] = p.slice(k+1);
+        if (p.slice(0,k) === 'co' && /^\d{10,}$/.test(segs[i+1] || '')) adId = segs[i+1];
+      }
+    });
+    if ((m['s']||'').toLowerCase() === 'fb') u.searchParams.set('vk_source','paid_metaads');
+    if (adId) u.searchParams.set('vk_ad_id', adId);
+    history.replaceState(null, '', u.toString());
+  }catch(e){}
+})();
+</script>
+
 <!-- VK Pixel -->
 <script>
 !function(w,d,c,u){
