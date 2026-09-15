@@ -164,6 +164,17 @@
       ],
       "destination": "/downsell/",
       "permanent": false
+    },
+    {
+      "source": "/downsell-v2",
+      "has": [
+        {
+          "type": "host",
+          "value": "alh.metaforando.com.br"
+        }
+      ],
+      "destination": "/downsell-v2/",
+      "permanent": false
     }
   ],
   "rewrites": [
@@ -276,6 +287,16 @@
         }
       ],
       "destination": "/downsell/$1"
+    },
+    {
+      "source": "/downsell-v2/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "alh.metaforando.com.br"
+        }
+      ],
+      "destination": "/downsell-v2/$1"
     },
     {
       "source": "/(.*)",
