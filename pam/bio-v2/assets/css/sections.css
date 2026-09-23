@@ -1132,3 +1132,51 @@ body.is-gated .sticky-bar { display: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .urgency-bar__track { animation: none; }
 }
+
+/* ==========================================================================
+   HERO NO MOBILE: COPY + VIDEO DENTRO DA PRIMEIRA TELA
+   O grid do hero recebe a altura da tela menos o que vem antes dele (barra de
+   urgencia + padding do topo); o player vira item flexivel do bloco de midia e
+   absorve a folga que sobra do texto. Com a altura vindo do flex e width:auto,
+   a aspect-ratio 9/16 deriva a largura sozinha.
+   svh (e nao vh) porque no Chrome/Safari mobile 100vh ignora a barra de
+   endereco visivel e cortaria justamente o rodape do video. A linha com vh
+   fica antes so como fallback de navegador antigo.
+
+   --video-escala deixa o player 12% menor que o maximo que caberia. Ela age
+   nos dois gargalos ao mesmo tempo, porque conforme a largura da tela um ou
+   outro e que manda: em telas estreitas quem limita e a largura (max-width);
+   em telas largas e a altura que sobra da copy, e essa so encolhe tirando do
+   orcamento do grid (dai 91.5svh no lugar de 100svh).
+   ========================================================================== */
+:root { --barra-urgencia: 41px; --cta-altura: 117px; --video-escala: 0.88; }
+
+@media (max-width: 899px) {
+  .hero__title { font-size: 22px; line-height: 1.05; }
+  .hero__sub { font-size: 16px; line-height: 1.15; }
+
+  .hero__grid {
+    min-height: calc(91.5vh - var(--barra-urgencia) - var(--s-24));
+    min-height: calc(91.5svh - var(--barra-urgencia) - var(--s-24));
+  }
+  /* Com o CTA em tela o orçamento cresce exatamente o tamanho dele, e o vídeo
+     mantém a altura em vez de ser espremido pelo botão. Vale para dois casos:
+     em /l1/ quando o JS abre o gate (o player não encolhe na frente de quem
+     está assistindo) e em /bio/ e /bio-v2/, que nascem sem gate e teriam o
+     vídeo reduzido a ~215px de largura sem esta linha. O botão fica logo
+     abaixo da dobra, como já ficava antes. */
+  body:not(.is-gated) .hero__grid {
+    min-height: calc(91.5vh - var(--barra-urgencia) - var(--s-24) + var(--cta-altura) + var(--s-24));
+    min-height: calc(91.5svh - var(--barra-urgencia) - var(--s-24) + var(--cta-altura) + var(--s-24));
+  }
+  .hero__media { flex: 1 1 auto; min-height: 0; }
+  .hero .vsl {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: auto;
+    max-width: calc((100vw - 48px) * var(--video-escala));
+    /* Teto de altura: o mesmo limite de largura convertido pela 9/16. */
+    max-height: calc((100vw - 48px) * var(--video-escala) * 16 / 9);
+    margin-bottom: 0;
+  }
+}
