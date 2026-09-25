@@ -845,6 +845,19 @@
     .mx-auto { margin-left: auto; margin-right: auto; }
     .mt-2 { margin-top: 2rem; }
     .mb-1 { margin-bottom: 1rem; }
+  
+    /* Inscrições encerradas: botão inerte */
+    .cta-button.cta-encerrado,
+    .cta-button.cta-encerrado:hover,
+    .cta-button.cta-encerrado:active {
+      background: #5f5f5f !important;
+      color: #ffffff !important;
+      box-shadow: none !important;
+      transform: none !important;
+      cursor: not-allowed;
+      pointer-events: none;
+      animation: none !important;
+    }
   </style>
 </head>
 <body>
@@ -875,9 +888,7 @@
 
         <p class="hero__lastro">1.617 profissionais descreveram o mesmo padrão. Um especialista em comportamento forense identificou a causa. No workshop ao vivo, você aprende o protocolo para interceptar a trava <span class="bold">antes</span> que ela aconteça.</p>
 
-        <a href="#preco" class="cta-button cta-scroll">
-          <span data-config="cta.texto">Quero parar de travar — R$27</span>
-        </a>
+        <a class="cta-button cta-encerrado" role="link" aria-disabled="true">Inscrições encerradas</a>
 
         <div class="scarcity-bar">
           <div class="scarcity-bar__track">
@@ -1111,9 +1122,7 @@
         <div class="price-big" data-config="lote.preco">R$ 27</div>
         <p class="muted" style="font-size:1rem;">Vinte e sete reais. Menos que um almoço. Pra resolver algo que te custa oportunidades, promoções e o respeito de quem deveria te ouvir há anos.</p>
 
-        <a href="#" class="cta-button cta-modal" onclick="event.preventDefault();" data-config="cta.texto">
-          Quero parar de travar — R$27
-        </a>
+        <a class="cta-button cta-encerrado" role="link" aria-disabled="true">Inscrições encerradas</a>
 
         <div class="scarcity-bar" style="margin: 1.5rem auto;">
           <div class="scarcity-bar__track">
@@ -1179,7 +1188,7 @@
 
         <p class="bold">Os R$27 voltam pra você se não funcionar. O que não volta são as oportunidades que você perde cada vez que trava.</p>
 
-        <a href="#preco" class="cta-button cta-scroll" style="margin-top:1.5rem;">Quero entrar sem risco, R$27</a>
+        <a class="cta-button cta-encerrado" role="link" aria-disabled="true" style="margin-top:1.5rem;">Inscrições encerradas</a>
 
         <p class="guarantee-quote">"O valor que ele gerou na minha vida, eu pagaria até o dobro do preço desse curso, tanta diferença que fez." — Aluno da turma anterior</p>
       </div>
@@ -1194,7 +1203,7 @@
       <p style="font-size:1rem; color: var(--text-primary); margin-bottom:0.75rem; max-width:none;">As vagas são limitadas porque o workshop é ao vivo.</p>
       <p style="font-size:0.9375rem; color: var(--text-secondary); margin-bottom:0.75rem; max-width:none;">Não é curso gravado. É treino com feedback em tempo real e isso só funciona com um número limitado de participantes.</p>
       <p style="font-size:0.9375rem; color: var(--urgency); font-weight:600; margin-bottom:1.5rem; max-width:none;"><span data-config="barra_vendas.percentual">63</span>% das vagas já foram preenchidas. Quando acabar, acabou.</p>
-      <a href="#preco" class="cta-button cta-modal mx-auto" onclick="event.preventDefault();">Garantir minha vaga, R$27</a>
+      <a class="cta-button mx-auto cta-encerrado" role="link" aria-disabled="true">Inscrições encerradas</a>
     </div>
   </section>
 
@@ -1255,9 +1264,7 @@
       <p class="mx-auto" style="max-width: var(--max-text); margin-bottom:0.75rem;">A mesma de sempre: o peito aperta, a mente vai a branco, e depois você sai pensando "eu deveria ter dito aquilo."</p>
       <p class="mx-auto" style="max-width: var(--max-text); margin-bottom:0.75rem;">Ou a nova: você intercepta o padrão nos 3 segundos antes, mantém a clareza, e leva seu ponto adiante.</p>
       <p class="mx-auto bold" style="max-width: var(--max-text); margin-bottom:2rem;">A diferença entre uma e outra custa R$27 e um sábado.</p>
-      <a href="#preco" class="cta-button cta-scroll">
-        Quero a segunda opção, R$27
-      </a>
+      <a class="cta-button cta-encerrado" role="link" aria-disabled="true">Inscrições encerradas</a>
     </div>
   </section>
 
@@ -1289,9 +1296,7 @@
   <!-- STICKY CTA -->
   <div class="sticky-cta" id="stickyCta">
     <span class="sticky-cta__text" data-config="barra_vendas.texto">Lote Promocional com vagas limitadas</span>
-    <a href="#preco" class="cta-button cta-scroll">
-      Garantir meu lugar,&nbsp;<span data-config="lote.preco">R$ 27</span>
-    </a>
+    <a class="cta-button cta-encerrado" role="link" aria-disabled="true">Inscrições encerradas</a>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
