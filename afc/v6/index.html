@@ -770,6 +770,19 @@
     .modal__input::placeholder { color: var(--text-secondary); }
     .modal__input:focus { border-color: var(--highlight); }
     .modal__form .cta-button { width: 100%; max-width: none; margin-top: 0.5rem; }
+  
+    /* Inscrições encerradas: botão inerte */
+    .cta-button.cta-encerrado,
+    .cta-button.cta-encerrado:hover,
+    .cta-button.cta-encerrado:active {
+      background: #5f5f5f !important;
+      color: #ffffff !important;
+      box-shadow: none !important;
+      transform: none !important;
+      cursor: not-allowed;
+      pointer-events: none;
+      animation: none !important;
+    }
   </style>
 </head>
 <body>
@@ -813,7 +826,7 @@
             comunicar com confiança e nunca mais trave, mesmo sob pressão.
           </p>
 
-          <a href="#preco" class="cta-button" data-cta="hero">Quero destravar minha comunicação</a>
+          <a class="cta-button cta-encerrado" role="link" aria-disabled="true" data-cta="hero">Inscrições encerradas</a>
 
           <div class="scarcity-bar">
             <div class="scarcity-bar__track" role="progressbar"
@@ -1133,7 +1146,7 @@
             Menos que um almoço. Para resolver algo que te custa oportunidades há anos.
           </p>
 
-          <a href="#" class="cta-button cta-modal" data-cta="preco">Quero destravar — <span data-preco>R$ 37</span></a>
+          <a class="cta-button cta-encerrado" role="link" aria-disabled="true" data-cta="preco">Inscrições encerradas</a>
 
           <div class="scarcity-bar">
             <div class="scarcity-bar__track" role="progressbar"
@@ -1187,7 +1200,7 @@
             <em>Você perde se não estiver lá.</em>
           </p>
 
-          <a href="#preco" class="cta-button" data-cta="garantia">Quero entrar sem risco — <span data-preco>R$ 37</span></a>
+          <a class="cta-button cta-encerrado" role="link" aria-disabled="true" data-cta="garantia">Inscrições encerradas</a>
 
         </div>
       </div>
@@ -1326,7 +1339,7 @@
           <strong>A pessoa que sabe — e faz o outro sentir isso.</strong>
         </p>
 
-        <a href="#" class="cta-button cta-modal" data-cta="final">Quero destravar — <span data-preco>R$ 37</span></a>
+        <a class="cta-button cta-encerrado" role="link" aria-disabled="true" data-cta="final">Inscrições encerradas</a>
       </div>
     </section>
 
@@ -1366,7 +1379,7 @@
     <p class="sticky-cta__info">
       Lote promocional — <b><span class="tnum" data-vagas-text>63%</span> das vagas preenchidas</b>
     </p>
-    <a href="#preco" class="cta-button" data-cta="sticky">Quero destravar — <span data-preco>R$ 37</span></a>
+    <a class="cta-button cta-encerrado" role="link" aria-disabled="true" data-cta="sticky">Inscrições encerradas</a>
   </div>
 
   <script>
